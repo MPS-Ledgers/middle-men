@@ -10,6 +10,7 @@ contract Record{
     mapping (address=>bool) public users;
     mapping (address=>mapping(address=>bool)) public user_insure_relation;
     mapping (address=>mapping(address=>bool)) public grant_Write_Access_to_Insurance;
+    mapping (address=>mapping(address=>bool)) public grant_View_Acess_To_Hospital;
     constructor() public{
         administrator=msg.sender;
     }
@@ -34,12 +35,14 @@ contract Record{
     //function to grant access to Insurance
     function grantWriteAccesstoInsurance(address insure) payable public{
         require(insurance[insure]);
+        require(users[msg.sender]);
         grant_Write_Access_to_Insurance[msg.sender][insure]=true;
     }
 
     //Creating User Insurance Relation 
-    function getInsurance(address cust) payable public{
+    function userInsurance(address cust) payable public{
         require(insurance[msg.sender]);
+        require(users[cust]);
         require(grant_Write_Access_to_Insurance[cust][msg.sender]);
         user_insure_relation[cust][msg.sender]=true;
     }
@@ -47,7 +50,21 @@ contract Record{
     //Insurance Company adding AADHAR of User
     function addAadhar(address cust) payable public{
         require(insurance[msg.sender]);
+        require(users[cust]);
         require(user_insure_relation[cust][msg.sender]);
         //Code to add AADHAR
+    }
+
+    //Grant access to hospital for viewing user insurance
+    function grantViewAcessToHospital(address cust) payable public{
+        require(hospital[msg.sender]);
+        require(users[cust]);
+        grant_View_Acess_To_Hospital[msg.sender][cust]=true;
+    }
+
+    //Hospital send Aadhar and discharge summary to Insurance
+    function HospitalToInsurance(address insure) payable public{
+        require(insurance[insure]);
+        require(hospital[msg.sender]);
     }
 }
