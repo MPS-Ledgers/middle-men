@@ -7,6 +7,7 @@ import Hospital from './pages/Hospital';
 import forgotPassword from './pages/ForgotPswd';
 import Signup from './pages/Signup';
 import Chat from "./pages/chat";
+import MoneyGrant from './pages/MoneyGrant';
 function App() {
   return (
     <BrowserRouter>
@@ -16,7 +17,8 @@ function App() {
       <Route path='/Hospital' exact component={Hospital} />
       <Route path="/forgotpassword" exact component={forgotPassword} />
       <Route path="/signup" exact component={Signup} />
-      <Route path="/chat" exact component ={Chat}/>
+      <Route path="/chat" exact component={Chat} />
+      <Route path="/approvetransfer" exact component={MoneyGrant}/>
     </BrowserRouter>
   );
 }
