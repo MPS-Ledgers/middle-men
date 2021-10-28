@@ -14,7 +14,6 @@ import SignOut from './utils/SignOut';
 const App = () => {
   return (
     <>
-      <SignOut />
       <Router history={history}>
         <Route path='/' exact component={LoginPage} />
         <Route path='/user' exact component={User} />
@@ -23,7 +22,7 @@ const App = () => {
         <Route path="/forgotpassword" exact component={forgotPassword} />
         <Route path="/signup" exact component={Signup} />
         <Route path="/chat" exact component={Chat} />
-        <Routr path="/grant" exact component={MoneyGrant}/>
+        <Route path="/insurancegrant" exact component={MoneyGrant}/>
       </Router></>
   );
 }
