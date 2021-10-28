@@ -66,7 +66,6 @@ const Signup = () => {
                             </a>
                         </div>
                     </div>
-
                     <div class="text-white mt-6">
                         Already have an account?
                         <Link class="ml-2 no-underline border-b border-blue text-white" to="/">

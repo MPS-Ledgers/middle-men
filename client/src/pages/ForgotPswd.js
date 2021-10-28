@@ -39,7 +39,7 @@ const forgotPassword = () => {
                                 <div className="text-center">
                                     <Link
                                         className="inline-block text-sm text-white align-baseline hover:text-red-500"
-                                        to="./register.html"
+                                        to="/signup"
                                     >
                                         Create an Account!
                                     </Link>
