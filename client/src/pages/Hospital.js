@@ -1,9 +1,12 @@
 import React from "react";
-import { Link } from 'react-router-dom';
-import { FaSearch } from 'react-icons/fa'
+import { BsChatFill } from "react-icons/bs"
+import {Link} from "react-router-dom"
 const Hospital = () => {
     return (
         <div className="h-screen w-screen text-white font-serif">
+            <div className="inline float-right">
+                <Link to="/chat"><BsChatFill className="inline text-3xl mt-2 mr-10"/></Link>
+            </div>
             <div className="flex justify-center content-center">
                 <h1 className="text-5xl font-serif mt-10">Welcome to Middlemen</h1>
             </div>
@@ -22,7 +25,7 @@ const Hospital = () => {
                             </div>
                             <form className="px-8 pt-6 pb-8 mb-4 rounded">
                                 <div className="mb-4">
-                                    <label className="block mb-2 text-sm font-bold text-white" for="email">
+                                    <label className="block mb-2 text-sm font-bold text-white" for="AADHAR">
                                         AADHAR
                                     </label>
                                     <input

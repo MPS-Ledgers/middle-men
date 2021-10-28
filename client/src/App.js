@@ -6,6 +6,7 @@ import Insurance from './pages/Insurance';
 import Hospital from './pages/Hospital';
 import forgotPassword from './pages/ForgotPswd';
 import Signup from './pages/Signup';
+import Chat from "./pages/chat";
 function App() {
   return (
     <BrowserRouter>
@@ -14,7 +15,8 @@ function App() {
       <Route path='/insurance' exact component={Insurance} />
       <Route path='/Hospital' exact component={Hospital} />
       <Route path="/forgotpassword" exact component={forgotPassword} />
-      <Route path="/signup" exact component={Signup}/>
+      <Route path="/signup" exact component={Signup} />
+      <Route path="/chat" exact component ={Chat}/>
     </BrowserRouter>
   );
 }

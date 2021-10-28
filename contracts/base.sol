@@ -60,16 +60,15 @@ contract Record{
     }
 
     //Grant access to hospital for viewing user insurance
-    function grantViewAcessToHospital(address cust) payable public{
-        require(hospital[msg.sender]);
-        require(users[cust]);
-        grant_View_Acess_To_Hospital[msg.sender][cust]=true;
+    function grantViewAcessToHospital(address hosp) payable public{
+        require(hospital[hosp]);
+        require(users[msg.sender]);
+        grant_View_Acess_To_Hospital[hosp][msg.sender]=true;
     }
 
     //Hospital send Aadhar and discharge summary to Insurance
     function HospitalToInsurance(address insure,uint prize) payable public{
         require(insurance[insure]);
         require(hospital[msg.sender]);
-        
     }
 }
