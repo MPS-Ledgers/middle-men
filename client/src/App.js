@@ -23,7 +23,7 @@ const App = () => {
         <Route path="/forgotpassword" exact component={forgotPassword} />
         <Route path="/signup" exact component={Signup} />
         <Route path="/chat" exact component={Chat} />
-        <Routr path="/grant" exact component={MoneyGrant}/>
+        <Route path="/grant" exact component={MoneyGrant} />
       </Router></>
   );
 }
