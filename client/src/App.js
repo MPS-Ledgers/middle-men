@@ -10,11 +10,12 @@ import Chat from "./pages/chat";
 import MoneyGrant from './pages/MoneyGrant';
 import { history } from './history'
 import SignOut from './utils/SignOut';
+import Userinsaccept from './pages/Userinsaccept';
 
 const App = () => {
   return (
     <>
-      <SignOut/>
+      
       <Router history={history}>
         <Route path='/' exact component={LoginPage} />
         <Route path='/user' exact component={User} />
@@ -24,6 +25,7 @@ const App = () => {
         <Route path="/signup" exact component={Signup} />
         <Route path="/chat" exact component={Chat} />
         <Route path="/insurancegrant" exact component={MoneyGrant}/>
+        <Route path="/user/accept" exact component={Userinsaccept}/>
       </Router>
     </>
   );
