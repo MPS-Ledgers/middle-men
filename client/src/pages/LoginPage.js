@@ -5,20 +5,16 @@ import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { history } from '../history';
 import redirectUser from '../utils/redirectUser'
 
-
 const LoginPage = (props) => {
 	redirectUser()
-
 	const [email, setEmail] = useState();
 	const [loaderShow, setLoaderShow] = useState(false);
 	const [password, setPassword] = useState();
 	const [loginError, setLoginError] = useState(false)
 
-
 	const loginHandler = async (event) => {
 		event.preventDefault();
 		setLoaderShow(true);
-
 		const auth = getAuth();
 		try {
 			const userCredential = await signInWithEmailAndPassword(auth, email, password)

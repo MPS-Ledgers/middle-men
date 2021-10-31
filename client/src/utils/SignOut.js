@@ -14,8 +14,8 @@ const SignOut = () => {
     }
   }
   return (
-    <div className="flex justify-end m-4 mt-2">
-         <button className="bg-transparent text-gray-200 p-2 rounded border border-gray-300 hover:bg-gray-100 hover:text-gray-700 " onClick={signOutUser}>Log Out</button>
+    <div className="float-right mt-2 mr-2">
+         <button className="bg-transparent text-gray-200 p-2 rounded border border-gray-300 hover:bg-gray-100 hover:text-gray-700" onClick={signOutUser}>Log Out</button>
     </div>
   );
 };

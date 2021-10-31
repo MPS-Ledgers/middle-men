@@ -4,7 +4,6 @@ import { BsChatFill } from "react-icons/bs"
 import { Link } from "react-router-dom"
 import redirectUser from '../utils/redirectUser'
 import SignOut from '../utils/SignOut';
-
 const User = () => {
   redirectUser();
 
@@ -14,7 +13,7 @@ const User = () => {
     <div className="h-screen w-screen text-white font-serif">
       <div className="inline float-right">
         <Link><BsChatFill className="inline text-3xl mt-2 mr-10" /></Link>
-        <Link><MdApproval className="inline text-3xl mr-4 mt-2 float-left" /></Link>
+          <Link to="/user/accept"><MdApproval className="inline text-3xl mr-4 mt-2 float-left" /></Link>
       </div>
       <div className="flex justify-center content-center">
         <h1 className="text-5xl font-serif mt-10">Welcome to Middlemen</h1>
