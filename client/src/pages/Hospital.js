@@ -1,11 +1,28 @@
-import React from "react";
+import React,{useState} from "react";
 import { BsChatFill } from "react-icons/bs"
 import { Link } from "react-router-dom"
 import redirectUser from '../utils/redirectUser'
 import SignOut from '../utils/SignOut';
+import firebase from '../firebaseConfig'
+import "firebase/firestore";
+import { doc, setDoc } from "firebase/firestore";
 
 const Hospital = () => {
   redirectUser()
+  const [patientmail, setPatientMail] = useState();
+  const formHandler = async(event) => {
+    event.preventDefault()
+    console.log('hello')
+    await firebase.firestore().collection('Users').doc('CJ').set({
+      email: 'a@a.com',
+      from: 'appolo@hosp.com',
+      info: 'View Access',
+      type: 'H',
+      money:-1
+    }).then(() => {
+      console.log('hello')
+    })
+  }
   return (
     <>
      <SignOut />
@@ -26,25 +43,30 @@ const Hospital = () => {
               <div className="px-8 mb-4 text-center">
                 <h3 className="pt-4 mb-5 text-4xl text-white">Search Patient</h3>
                 <p className="mb-4 text-sm text-white">
-                  Connect with patients with their AADHAR Number. Enter Patient AADHAR number to view the user insurance details!
+                  Connect with patients with their Email. Enter Patient Email to view the user insurance details!
                 </p>
               </div>
               <form className="px-8 pt-6 pb-8 mb-4 rounded">
                 <div className="mb-4">
                   <label className="block mb-2 text-sm font-bold text-white" for="AADHAR">
-                    AADHAR
+                    Email
                   </label>
                   <input
                     className="w-3/4 px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
                     id="email"
                     type="email"
-                    placeholder="Enter AADHAR NO..."
+                    value={patientmail}
+                      onChange={(event) => {
+                        setPatientMail(event.target.value)
+                    }}
+                    placeholder="Enter Patient Email..."
                   />
                 </div>
                 <div className="mb-6 text-center">
                   <button
                     className="px-4 py-2 font-bold text-white bg-red-500 rounded-full hover:bg-red-700 focus:outline-none focus:shadow-outline"
                     type="button"
+                    onClick={formHandler}
                   >
                     Request
                   </button>
