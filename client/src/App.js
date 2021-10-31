@@ -15,7 +15,6 @@ import Userinsaccept from './pages/Userinsaccept';
 const App = () => {
   return (
     <>
-      
       <Router history={history}>
         <Route path='/' exact component={LoginPage} />
         <Route path='/user' exact component={User} />
@@ -24,8 +23,8 @@ const App = () => {
         <Route path="/forgotpassword" exact component={forgotPassword} />
         <Route path="/signup" exact component={Signup} />
         <Route path="/chat" exact component={Chat} />
-        <Route path="/insurancegrant" exact component={MoneyGrant}/>
-        <Route path="/user/accept" exact component={Userinsaccept}/>
+        <Route path="/insurancegrant" exact component={MoneyGrant} />
+        <Route path="/user/accept" exact component={Userinsaccept} />
       </Router>
     </>
   );
