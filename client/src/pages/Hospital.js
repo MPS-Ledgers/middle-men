@@ -5,7 +5,7 @@ import redirectUser from '../utils/redirectUser'
 import SignOut from '../utils/SignOut';
 
 const Hospital = () => {
-  // redirectUser()
+  redirectUser()
   return (
     <>
      <SignOut />

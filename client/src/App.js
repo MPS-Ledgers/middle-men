@@ -9,7 +9,6 @@ import Signup from './pages/Signup';
 import Chat from "./pages/chat";
 import MoneyGrant from './pages/MoneyGrant';
 import { history } from './history'
-import SignOut from './utils/SignOut';
 import Userinsaccept from './pages/Userinsaccept';
 
 const App = () => {

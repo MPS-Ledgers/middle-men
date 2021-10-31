@@ -8,12 +8,16 @@ import firebase from '../firebaseConfig'
 import "firebase/firestore";
 const Userinsaccept = () => {
   const [Requ, setRequ] = useState([])
+  let id = 0;
   useEffect(() => {
     let reqs = []
     const doOnSnapShot = (querySnapshot) => {
       querySnapshot.forEach((doc) => {
-        console.log(doc.data())
-        reqs.push(doc.data());
+        console.log(doc.id)
+        reqs.push({
+          'id': doc.id,
+          'data':doc.data()
+        });
       })
       setRequ(reqs)
     }
@@ -22,7 +26,7 @@ const Userinsaccept = () => {
       ref.onSnapshot(doOnSnapShot)
     }
     getdata()
-  }, [])
+  }, [Requ])
   return (
     <>
       <SignOut />
@@ -48,8 +52,8 @@ const Userinsaccept = () => {
             </div>
           </li>
           {Requ.map((grant) => {
-            console.log(grant)
-            return <ListGrant1 grants={grant} />
+            id++;
+            return <ListGrant1 key={id} grants={grant} />
           })}
         </ul>
       </div>

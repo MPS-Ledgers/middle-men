@@ -2,13 +2,10 @@ import React from 'react';
 import { TiTick } from "react-icons/ti"
 import { ImCross} from "react-icons/im"
 const ListGrant = (props) => {
-  let accept;
   const tickClick = () => {
-    accept = true
     //Element should be removed
   }
   const wrongClick = () => {
-    accept = false
     //Element should be removed
   }
   return (

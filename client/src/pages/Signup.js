@@ -58,12 +58,12 @@ const Signup = () => {
                         >Create Account</button>
                         <div className="text-center text-sm text-white mt-4">
                             By signing up, you agree to the 
-                            <a className="ml-2 no-underline border-b border-grey-dark text-white" href="#">
+                            <Link className="ml-2 no-underline border-b border-grey-dark text-white" to="#">
                                 Terms of Service 
-                            </a> and
-                            <a className="ml-2 no-underline border-b border-grey-dark text-white" href="#">
+                            </Link> and
+                            <Link className="ml-2 no-underline border-b border-grey-dark text-white" to="#">
                                 Privacy Policy
-                            </a>
+                            </Link>
                         </div>
                     </div>
                     <div class="text-white mt-6">

@@ -6,7 +6,7 @@ import redirectUser from '../utils/redirectUser'
 import SignOut from '../utils/SignOut';
 
 const Insurance = () => {
-    // redirectUser()
+    redirectUser()
     return (
         <>
          <SignOut />
