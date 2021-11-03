@@ -4,12 +4,12 @@ import { ImCross } from "react-icons/im"
 import firebase from '../firebaseConfig'
 import "firebase/firestore";
 const ListGrant1 = (props) => {
-  const tickClick = () => {
+  const tickClick = async() => {
     console.log(props.grants.data.from);
-    firebase.firestore().collection('Users').doc(props.grants.id).delete()
+    await firebase.firestore().collection('Users').doc(props.grants.id).delete()
   }
-  const wrongClick = () => {
-    firebase.firestore().collection('Users').doc(props.grants.id).delete()
+  const wrongClick = async() => {
+    await firebase.firestore().collection('Users').doc(props.grants.id).delete()
   }
   return (
       <li>

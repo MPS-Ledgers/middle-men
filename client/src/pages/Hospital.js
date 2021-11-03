@@ -5,30 +5,28 @@ import redirectUser from '../utils/redirectUser'
 import SignOut from '../utils/SignOut';
 import firebase from '../firebaseConfig'
 import "firebase/firestore";
-import { doc, setDoc } from "firebase/firestore";
-
+import { CgProfile } from "react-icons/cg";
 const Hospital = () => {
   redirectUser()
   const [patientmail, setPatientMail] = useState();
   const formHandler = async(event) => {
     event.preventDefault()
-    console.log('hello')
-    await firebase.firestore().collection('Users').doc('CJ').set({
-      email: 'a@a.com',
+    await firebase.firestore().collection('Users').doc().set({
+      email: patientmail,
       from: 'appolo@hosp.com',
       info: 'View Access',
       type: 'H',
       money:-1
     }).then(() => {
-      console.log('hello')
     })
   }
   return (
     <>
      <SignOut />
     <div className="h-screen w-screen text-white font-serif">
-      <div className="inline float-right">
-        <Link to="/chat"><BsChatFill className="inline text-3xl mt-2 mr-10" /></Link>
+        <div className="inline float-right">
+          <Link to="/hospital/profile"><CgProfile className="inline text-3xl mt-2 mr-5" /></Link>
+          <Link to="/chat"><BsChatFill className="inline text-3xl mt-2 mr-10" /></Link>
       </div>
       <div className="flex justify-center content-center">
         <h1 className="text-5xl font-serif mt-10">Welcome to Middlemen</h1>

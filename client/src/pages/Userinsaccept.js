@@ -21,7 +21,7 @@ const Userinsaccept = () => {
       })
       setRequ(reqs)
     }
-    const getdata = () => {
+    const getdata = async() => {
       const ref = firebase.firestore().collection("Users");
       ref.onSnapshot(doOnSnapShot)
     }
@@ -39,7 +39,7 @@ const Userinsaccept = () => {
           <h1 className="text-5xl font-serif mt-10">Welcome to Middlemen</h1>
         </div>
         <div className="flex justify-center content-center">
-          <p className="text-3xl mt-5 font-serif">You have {Requ.length} Request/Requests</p>
+          <p className="text-3xl mt-5 font-serif">You have {Requ.length} Request </p>
         </div>
         <ul className="mt-10">
           <li>

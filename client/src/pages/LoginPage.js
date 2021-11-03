@@ -33,13 +33,13 @@ const LoginPage = (props) => {
 		<>
 			<Loader show={loaderShow} />
 			<div class="w-screen h-screen px-8 py-2">
-				<nav class="flex items-center justify-between">
+				<div class="flex items-center justify-between">
 					<h2 class="text-gray-200 font-bold text-2xl ">MPS LEDGERS</h2>
 					<div class="auth flex items-center">
 						<Link to="/"><button class="bg-transparent text-gray-200  p-2 rounded border border-gray-300 mr-4 hover:bg-gray-100 hover:text-gray-700">Log in</button></Link>
 						<Link to="/signup"><button class="bg-gray-900 text-gray-200  py-2 px-3 rounded  hover:bg-white hover:text-black">Sign up</button></Link>
 					</div>
-				</nav>
+				</div>
 				<div class="mt-20 mx-8">
 					<div class="md:flex items-center justify-between">
 						<div class="w-full md:w-1/2 max-w-md mr-auto p-8" style={{ "background": "linear-gradient(rgba(0,0,0,0.7),rgba(0,0,0,0.7))" }}>
