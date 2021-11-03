@@ -12,6 +12,7 @@ import { history } from './history'
 import Userinsaccept from './pages/Userinsaccept';
 import insProfile from './pages/insprofile';
 import hospProfile from './pages/hospprofile';
+import insTrans from './pages/insTransaction';
 import Web3 from 'web3';
 
 const App = () => {
@@ -35,7 +36,8 @@ const App = () => {
         <Route path="/insurance/grant" exact component={MoneyGrant} />
         <Route path="/user/accept" exact component={Userinsaccept} />
         <Route path="/insurance/profile" exact component={insProfile} />
-        <Route path="/hospital/profile" exact component={hospProfile}/>
+        <Route path="/hospital/profile" exact component={hospProfile} />
+        <Route path="/insurance/transactions" exact component={insTrans}/>
       </Router>
     </>
   );

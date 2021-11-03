@@ -21,7 +21,7 @@ const insProfile = () => {
                     <div className="flex justify-center">
                         <div className="justify-center align-center my-7">
                             <h1 className="text-white text-3xl my-5">Balance : 10000 Rs</h1>
-                            <Link to="/insurance/grant"><h1 className="text-white text-3xl my-2 my-5">Your Transactions</h1></Link>
+                            <Link to="/insurance/transactions"><h1 className="text-white text-3xl my-2 my-5">Your Transactions</h1></Link>
                             <Link to="/insurance/grant"><h1 className="text-white text-3xl ml-12 my-5">Approvals</h1></Link>
                             <Link><h1 className="text-white text-3xl ml-20 my-5">Chat</h1></Link>
                         </div>

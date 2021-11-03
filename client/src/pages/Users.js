@@ -9,7 +9,7 @@ const User = () => {
   redirectUser();
   return (
     <>
-     <SignOut />
+    <SignOut />
     <div className="h-screen w-screen text-white font-serif">
       <div className="inline float-right">
         <Link><BsChatFill className="inline text-3xl mt-2 mr-10" /></Link>
