@@ -15,6 +15,7 @@ import hospProfile from './pages/hospprofile';
 import insTrans from './pages/insTransaction';
 import hospTrans from './pages/hospTransaction';
 import HosIns from './pages/hospitalins';
+import InsuranceBill from './pages/insurancebill';
 import Web3 from 'web3';
 
 const App = () => {
@@ -42,6 +43,7 @@ const App = () => {
         <Route path="/insurance/transactions" exact component={insTrans} />
         <Route path="/hospital/transactions" exact component={hospTrans} />
         <Route path="/hospital/bill" exact component={HosIns} />
+        <Route path="/insurance/bill" exact path="/insurance/bill" component={InsuranceBill}/>
       </Router>
     </>
   );

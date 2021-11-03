@@ -1,30 +1,18 @@
 import React,{useState} from "react";
-import SignOut from "../utils/SignOut";
 import { Link } from "react-router-dom"
-import firebase from '../firebaseConfig'
-import "firebase/firestore";
+import { GiTakeMyMoney } from "react-icons/gi";
 import { CgProfile } from "react-icons/cg";
-import { GiTakeMyMoney } from "react-icons/gi"
 import { BsChatFill } from "react-icons/bs";
-const HosIns = () => {
-    const [insMail, setInsMail] = useState()
-    const [aadhar, setAadhar] = useState()
-    const[money,setMoney]=useState()
-    const formHandler = async (event) => {
-        event.preventDefault()
-        await firebase.firestore().collection('insurance').doc().set({
-            email: insMail,
-            from: 'appolo@hosp.com',
-            aadhar: aadhar,
-            discharge:'abc',
-            money: money
-        }).then(() => {
-        })
+const InsuranceBill = () => {
+    const formHandler = () => {
+        
     }
+    const [custmail, setCustmail] = useState()
+    const [hospmail, setHospmail] = useState()
+    const [money,setMoney]=useState()
     return (
         <>
-            <SignOut/>
-            <div className="h-screen w-screen text-white" style={{ "background": "linear-gradient(rgba(0,0,0,0.7),rgba(0,0,0,0.7))" }}>
+            <div className="h-screen w-screen">
                 <div className="inline float-right">
                     <Link to="/hospital/profile"><CgProfile className="inline text-3xl mt-2 mr-5" /></Link>
                     <Link to="/hospital/bill"><GiTakeMyMoney className="inline text-white text-3xl mt-2 mr-4" /></Link>
@@ -49,28 +37,28 @@ const HosIns = () => {
                                 <form className="px-8 pt-6 pb-8 mb-4 rounded">
                                     <div className="mb-4">
                                         <label className="block mb-2 text-sm font-bold text-white" for="email">
-                                            Email
+                                            Customer Email
                                         </label>
                                         <input
                                             className="w-3/4 px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
                                             id="email"
                                             type="email"
-                                            value={insMail}
+                                            value={custmail}
                                             onChange={(event) => {
-                                                setInsMail(event.target.value)
+                                                setCustmail(event.target.value)
                                             }}
                                             placeholder="Enter Insurance Email..."
                                         />
                                         <label className="block mb-2 text-sm font-bold text-white" for="aadhar">
-                                            Patient AADHAR
+                                            Hospital email
                                         </label>
                                         <input
                                             className="w-3/4 px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
                                             id="aadhar"
                                             type="text"
-                                            value={aadhar}
+                                            value={hospmail}
                                             onChange={(event) => {
-                                                setAadhar(event.target.value)
+                                                setHospmail(event.target.value)
                                             }}
                                             placeholder="Enter Patient Aadhar..."
                                         />
@@ -87,15 +75,6 @@ const HosIns = () => {
                                             }}
                                             placeholder="Enter Bill Amount..."
                                         />
-                                        <label className="block mb-2 text-sm font-bold text-white" for="money">
-                                            Discharge Summary
-                                        </label>
-                                        <input
-                                            className="w-3/4 px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-                                            id="discharge"
-                                            type="file"
-                                            placeholder="Upload Discharge Summary..."
-                                        />
                                     </div>
                                     <div className="mb-6 text-center">
                                         <button
@@ -111,10 +90,10 @@ const HosIns = () => {
                             </div>
                         </div>
                     </div>
-                    </div>
+                </div>
             </div>
         </>
     )
 }
 
-export default HosIns;
+export default InsuranceBill;

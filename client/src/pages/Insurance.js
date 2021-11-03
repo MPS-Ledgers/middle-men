@@ -3,14 +3,26 @@ import { MdApproval } from "react-icons/md"
 import { BsChatFill } from "react-icons/bs"
 import { CgProfile} from "react-icons/cg"
 import { Link } from "react-router-dom"
+import { GiTakeMyMoney } from "react-icons/gi";
 import redirectUser from '../utils/redirectUser'
 import SignOut from '../utils/SignOut';
+import firebase from '../firebaseConfig'
+import "firebase/firestore";
 
 const Insurance = () => {
     redirectUser()
     const [customer, setCustomer] = useState()
-    const formHandler = (event) => {
+    const formHandler = async(event) => {
         event.preventDefault()
+        await firebase.firestore().collection('customers').doc().set({
+            email: customer,
+            from: 'insura@a.com',
+            info: 'Write Access',
+            type: 'I',
+            money: -1
+        }).then(() => {
+            console.log('hij')
+        })
     }
     return (
         <>
@@ -18,7 +30,8 @@ const Insurance = () => {
             <div className="h-screen w-screen text-white font-serif">
                 <div className="inline float-right">
                     <Link to="/insurance/profile"><CgProfile className="inline text-3xl mt-2 mr-5" /></Link>
-                    <Link><BsChatFill className="inline text-3xl mt-2 mr-10" /></Link>
+                    <Link><BsChatFill className="inline text-3xl mt-2 mr-5" /></Link>
+                    <Link to="/insurance/bill"><GiTakeMyMoney className="inline text-white text-3xl mt-2 mr-4" /></Link>
                     <Link to="/insurance/grant"><MdApproval className="inline text-3xl mr-4 mt-2 float-left" /></Link>
                 </div>
                 <div className="flex justify-center content-center">

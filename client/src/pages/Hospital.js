@@ -14,11 +14,12 @@ const Hospital = () => {
     event.preventDefault()
     await firebase.firestore().collection('customers').doc().set({
       email: patientmail,
-      from: 'appolo@hosp.com',
-      info: 'View Access',
-      type: 'H',
+      from: 'appolo@a.com',
+      info: 'Read Access',
+      type: 'I',
       money:-1
     }).then(() => {
+      console.log('hij')
     })
   }
   return (
