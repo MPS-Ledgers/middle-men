@@ -2,9 +2,11 @@ import React from "react";
 import { GiTakeMyMoney} from "react-icons/gi"
 import { Link } from "react-router-dom"
 import inspro from "../images/inspro.webp"
+import SignOut from "../utils/SignOut";
 const insProfile = () => {
     return (
         <>
+            <SignOut/>
             <div className="h-screen w-screen" style={{ "background": "linear-gradient(rgba(0,0,0,0.7),rgba(0,0,0,0.7))" }}>
                 <div class="w-full justify-center items-center">
                     <div class="flex relative h-60 justify-center">
