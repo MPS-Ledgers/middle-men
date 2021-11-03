@@ -6,12 +6,13 @@ import SignOut from '../utils/SignOut';
 import firebase from '../firebaseConfig'
 import "firebase/firestore";
 import { CgProfile } from "react-icons/cg";
+import { GiTakeMyMoney} from "react-icons/gi"
 const Hospital = () => {
   redirectUser()
   const [patientmail, setPatientMail] = useState();
   const formHandler = async(event) => {
     event.preventDefault()
-    await firebase.firestore().collection('Users').doc().set({
+    await firebase.firestore().collection('customers').doc().set({
       email: patientmail,
       from: 'appolo@hosp.com',
       info: 'View Access',
@@ -26,6 +27,7 @@ const Hospital = () => {
     <div className="h-screen w-screen text-white font-serif">
         <div className="inline float-right">
           <Link to="/hospital/profile"><CgProfile className="inline text-3xl mt-2 mr-5" /></Link>
+          <Link to="/hospital/bill"><GiTakeMyMoney className="inline text-white text-3xl mt-2 mr-4"/></Link>
           <Link to="/chat"><BsChatFill className="inline text-3xl mt-2 mr-10" /></Link>
       </div>
       <div className="flex justify-center content-center">

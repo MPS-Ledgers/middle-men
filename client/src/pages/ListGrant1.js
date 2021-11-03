@@ -6,10 +6,10 @@ import "firebase/firestore";
 const ListGrant1 = (props) => {
   const tickClick = async() => {
     console.log(props.grants.data.from);
-    await firebase.firestore().collection('Users').doc(props.grants.id).delete()
+    await firebase.firestore().collection('customers').doc(props.grants.id).delete()
   }
   const wrongClick = async() => {
-    await firebase.firestore().collection('Users').doc(props.grants.id).delete()
+    await firebase.firestore().collection('customers').doc(props.grants.id).delete()
   }
   return (
       <li>

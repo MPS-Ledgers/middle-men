@@ -1,22 +1,32 @@
-import React from "react";
+import React,{useEffect,useState} from "react";
 import ListGrant from "./ListGrant";
 import { BsChatFill } from "react-icons/bs";
 import { MdApproval } from "react-icons/md";
 import { Link } from "react-router-dom";
+import firebase from '../firebaseConfig'
+import "firebase/firestore";
 import SignOut from '../utils/SignOut';
 const MoneyGrant = () => {
-    const Requests = [
-        {
-            aadhar: "123456781234",
-            discharge: "file_hash",
-            req_money: 50000
-        },
-        {
-            aadhar: "176778781234",
-            discharge: "file_hash",
-            req_money: 75000
-        }
-    ]
+  const [Requ, setRequ] = useState([])
+  let id = 0;
+  useEffect(() => {
+    let reqs = []
+    const doOnSnapShot = (querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        console.log(doc.id)
+        reqs.push({
+          'id': doc.id,
+          'data': doc.data()
+        });
+      })
+      setRequ(reqs)
+    }
+    const getdata = async () => {
+      const ref = firebase.firestore().collection("insurance");
+      ref.onSnapshot(doOnSnapShot)
+    }
+    getdata()
+  }, [Requ])
     return (
         <>
         <SignOut />
@@ -29,7 +39,7 @@ const MoneyGrant = () => {
             <h1 className="text-5xl font-serif mt-10">Welcome to Middlemen</h1>
           </div>
           <div className="flex justify-center content-center">
-            <p className="text-3xl mt-5 font-serif">You have some Requests</p>
+            <p className="text-3xl mt-5 font-serif">You have {Requ.length} Requests</p>
           </div>
           <ul className="mt-10">
             <li>
@@ -41,8 +51,9 @@ const MoneyGrant = () => {
                 <h1 class="text-white text-2xl">Reject</h1>
               </div>
             </li>
-            {Requests.map((grant) => {
-                return <ListGrant grants={grant}/>
+            {Requ.map((grant) => {
+              id++
+              return <ListGrant key={id} grants={grant}/>
               })}
             </ul>
           </div>

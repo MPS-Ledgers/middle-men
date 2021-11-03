@@ -22,7 +22,7 @@ const Userinsaccept = () => {
       setRequ(reqs)
     }
     const getdata = async() => {
-      const ref = firebase.firestore().collection("Users");
+      const ref = firebase.firestore().collection("customers");
       ref.onSnapshot(doOnSnapShot)
     }
     getdata()
