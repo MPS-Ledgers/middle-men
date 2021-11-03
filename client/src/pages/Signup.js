@@ -1,6 +1,28 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import {useState} from "react";
+import { Redirect } from "react-router-dom";
+import firebaseConfig from "../firebaseConfig";
 const Signup = () => {
+    const [CurrentUser,setCurrentUser] = useState(null);    
+  const handleSubmit = (e) => {
+    e.preventDefault();    
+    const { email, password } = e.target.elements;
+    try {
+      firebaseConfig.auth().createUserWithEmailAndPassword(email.value, password.value).then((userCredential)=>{
+        // send verification mail.
+      userCredential.user.sendEmailVerification();
+      //auth().signOut();
+      alert("Email sent");})
+     
+      setCurrentUser(true);
+    } catch (error) {
+      alert(error);
+    }
+  };
+  if (CurrentUser) {
+    return <Redirect to="/user" />;
+}
     return (
         <>
             <div>
@@ -8,6 +30,7 @@ const Signup = () => {
                 <div className="container max-w-xl mx-auto flex-1 flex flex-col items-center justify-center px-2">
                         <div className="px-6 py-8 rounded shadow-md text-black w-full" style={{ "background": "linear-gradient(rgba(0,0,0,0.7),rgba(0,0,0,0.7))" }}>
                         <h1 className="mb-8 text-3xl text-center text-white">Sign up</h1>
+                        <form onSubmit={handleSubmit}>
                         <input
                             type="text"
                             className="block border border-grey-light w-full p-3 rounded mb-4"
@@ -56,6 +79,7 @@ const Signup = () => {
                             type="submit"
                                 className="mt-3 justify-center content-center align-center text-center px-4 py-2 font-bold text-white bg-red-500 rounded-full hover:bg-red-700 focus:outline-none focus:shadow-outline"
                         >Create Account</button>
+                        </form>
                         <div className="text-center text-sm text-white mt-4">
                             By signing up, you agree to the 
                             <Link className="ml-2 no-underline border-b border-grey-dark text-white" to="#">
