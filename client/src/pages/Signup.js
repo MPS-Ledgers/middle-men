@@ -7,15 +7,19 @@ const Signup = () => {
     const [CurrentUser,setCurrentUser] = useState(null);    
   const handleSubmit = (e) => {
     e.preventDefault();    
-    const { email, password } = e.target.elements;
+    const { email, password ,Phone,radio} = e.target.elements;
     try {
       firebaseConfig.auth().createUserWithEmailAndPassword(email.value, password.value).then((userCredential)=>{
         // send verification mail.
       userCredential.user.sendEmailVerification();
       //auth().signOut();
       alert("Email sent");})
-     
-      setCurrentUser(true);
+      //setCurrentUser(true);
+        firebaseConfig.firestore().collection('users').add({
+            email: email.value,
+            phone: Phone.value,
+            type: radio.value
+        })
     } catch (error) {
       alert(error);
     }

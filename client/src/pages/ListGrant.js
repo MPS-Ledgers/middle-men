@@ -33,7 +33,7 @@ const ListGrant = (props) => {
     myHeaders.append("Authorization", "617bf1c8245383001100f7de");
     var raw = JSON.stringify({
       "phone": "+916381801176",
-      "text": "a@a.com has rejected your " + props.grants.data.info + " request"
+      "text": "a@a.com has rejected your Grant Money: " + props.grants.data.money + " request"
     });
     var requestOptions = {
       method: 'POST',

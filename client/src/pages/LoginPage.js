@@ -3,15 +3,20 @@ import Loader from '../components/Loader';
 import { Link } from 'react-router-dom';
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { history } from '../history';
+import { useSelector, useDispatch } from "react-redux";
+import { collection, query, where, getDocs } from "firebase/firestore";
+import { getFirestore } from "firebase/firestore";
+import firebase from "../firebaseConfig";
 import redirectUser from '../utils/redirectUser'
 
 const LoginPage = (props) => {
-	redirectUser()
+	//redirectUser()
 	const [email, setEmail] = useState();
 	const [loaderShow, setLoaderShow] = useState(false);
 	const [password, setPassword] = useState();
 	const [loginError, setLoginError] = useState(false)
-
+	const dispatch = useDispatch();
+	const db = getFirestore();
 	const loginHandler = async (event) => {
 		event.preventDefault();
 		setLoaderShow(true);
@@ -19,8 +24,26 @@ const LoginPage = (props) => {
 		try {
 			const userCredential = await signInWithEmailAndPassword(auth, email, password)
 			const user = userCredential.user;
-			console.log(user);
-			history.replace('/user')
+			const usersRef = collection(db, "users");
+			const q = query(usersRef, where("email", "==", email));
+			const querySnapshot = await getDocs(q);
+			let type = -1;
+			querySnapshot.forEach((doc) => {
+				console.log(doc.id, " => ", doc.data());
+				if (doc.data().email == email) {
+					type = doc.data().type;
+				}
+			});
+			console.log(type)
+			dispatch({ type: "SIGN_IN", payload: { user:userCredential.user,type:type } });
+			switch (type) {
+				case '1':
+					history.replace('/user')
+				case '2':
+					history.replace('/insurance')
+				case '3':
+					history.replace('/hospital')
+			}
 		} catch (error) {
 			const errorCode = error.code;
 			const errorMessage = error.message;
