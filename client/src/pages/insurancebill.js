@@ -3,16 +3,26 @@ import { Link } from "react-router-dom"
 import { GiTakeMyMoney } from "react-icons/gi";
 import { CgProfile } from "react-icons/cg";
 import { BsChatFill } from "react-icons/bs";
+import firebase from '../firebaseConfig'
+import "firebase/firestore";
 const InsuranceBill = () => {
-    const formHandler = () => {
-        
+    const formHandler = async(event) => {
+        event.preventDefault()
+        await firebase.firestore().collection('customers').doc().set({
+            email: custmail,
+            from: 'insu@a.com',
+            info: 'Grant Money: '+money+" Rs",
+            type: 'I',
+            money: money
+        }).then(() => {
+        })
     }
     const [custmail, setCustmail] = useState()
     const [hospmail, setHospmail] = useState()
     const [money,setMoney]=useState()
     return (
         <>
-            <div className="h-screen w-screen">
+            <div className="h-screen w-screen text-white" style={{ "background": "linear-gradient(rgba(0,0,0,0.7),rgba(0,0,0,0.7))" }}>
                 <div className="inline float-right">
                     <Link to="/hospital/profile"><CgProfile className="inline text-3xl mt-2 mr-5" /></Link>
                     <Link to="/hospital/bill"><GiTakeMyMoney className="inline text-white text-3xl mt-2 mr-4" /></Link>
@@ -26,12 +36,12 @@ const InsuranceBill = () => {
                 </div>
                 <div className="mx-auto">
                     <div className="flex justify-center px-6">
-                        <div className="flex" style={{ "background": "linear-gradient(rgba(0,0,0,0.7),rgba(0,0,0,0.7))" }}>
+                        <div className="flex">
                             <div className="p-10 rounded-lg lg:rounded-l-none">
                                 <div className="px-8 mb-4 text-center">
-                                    <h3 className="pt-4 mb-5 text-4xl text-white">Search Patient</h3>
+                                    <h3 className="pt-4 mb-5 text-4xl text-white">Customer Bill</h3>
                                     <p className="mb-4 text-sm text-white">
-                                        Connect with patients with their Email. Enter Patient Email to view the user insurance details!
+                                        Enter customer mail and bill details! Get their approval for granting money
                                     </p>
                                 </div>
                                 <form className="px-8 pt-6 pb-8 mb-4 rounded">

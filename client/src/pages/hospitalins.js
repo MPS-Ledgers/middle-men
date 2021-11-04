@@ -38,7 +38,7 @@ const HosIns = () => {
                 </div>
                 <div className="mx-auto">
                     <div className="flex justify-center px-6">
-                        <div className="flex" style={{ "background": "linear-gradient(rgba(0,0,0,0.7),rgba(0,0,0,0.7))" }}>
+                        <div className="flex">
                             <div className="p-10 rounded-lg lg:rounded-l-none">
                                 <div className="px-8 mb-4 text-center">
                                     <h3 className="pt-4 mb-5 text-4xl text-white">Search Patient</h3>

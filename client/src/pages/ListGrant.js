@@ -6,11 +6,46 @@ import "firebase/firestore";
 const ListGrant = (props) => {
   const tickClick = async() => {
     await firebase.firestore().collection('insurance').doc(props.grants.id).delete()
-    //Element should be removed
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Authorization", "617bf1c8245383001100f7de");
+    var raw = JSON.stringify({
+      "phone": "+916381801176",
+      "text": "a@a.com has accepted your " + props.grants.data.info + " request"
+    });
+    var requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: raw,
+      redirect: 'follow'
+    };
+
+    fetch("https://rapidapi.rmlconnect.net/wbm/v1/message", requestOptions)
+      .then(response => response.text())
+      .then(result => console.log(result))
+      .catch(error => console.log('error', error));
   }
   const wrongClick = async() => {
     await firebase.firestore().collection('insurance').doc(props.grants.id).delete()
-    //Element should be removed
+    await firebase.firestore().collection('customers').doc(props.grants.id).delete()
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Authorization", "617bf1c8245383001100f7de");
+    var raw = JSON.stringify({
+      "phone": "+916381801176",
+      "text": "a@a.com has rejected your " + props.grants.data.info + " request"
+    });
+    var requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: raw,
+      redirect: 'follow'
+    };
+
+    fetch("https://rapidapi.rmlconnect.net/wbm/v1/message", requestOptions)
+      .then(response => response.text())
+      .then(result => console.log(result))
+      .catch(error => console.log('error', error));
   }
   console.log(props)
   return (

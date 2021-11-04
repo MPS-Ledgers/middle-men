@@ -45,7 +45,7 @@ const MoneyGrant = () => {
             <li>
               <div className="ml-10 grid grid-cols-5 mb-10">
                 <h1 className="text-white text-2xl">AADHAR NO</h1>
-                <h1 className="text-white text-2xl">Amountt</h1>
+                <h1 className="text-white text-2xl">Amount</h1>
                 <h1 className="text-white text-2xl">Discharge Summary</h1>
                 <h1 class="text-white text-2xl">Accept</h1>
                 <h1 class="text-white text-2xl">Reject</h1>
