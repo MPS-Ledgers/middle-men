@@ -26,7 +26,7 @@ const Userinsaccept = () => {
       ref.onSnapshot(doOnSnapShot)
     }
     getdata()
-  }, [])
+  }, [Requ])
   return (
     <>
       <SignOut />

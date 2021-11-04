@@ -3,26 +3,23 @@ import { Link } from 'react-router-dom';
 import {useState} from "react";
 import { Redirect } from "react-router-dom";
 import firebaseConfig from "../firebaseConfig";
-import { PhoneMultiFactorInfo } from 'firebase-admin/lib/auth/user-record';
 const Signup = () => {
     const [CurrentUser,setCurrentUser] = useState(null);    
   const handleSubmit = (e) => {
     e.preventDefault();    
-    const { email, password,Phone,radio } = e.target.elements;
+    const { email, password ,Phone,radio} = e.target.elements;
     try {
       firebaseConfig.auth().createUserWithEmailAndPassword(email.value, password.value).then((userCredential)=>{
         // send verification mail.
       userCredential.user.sendEmailVerification();
       //auth().signOut();
       alert("Email sent");})
-      firebaseConfig.firestore().collection('users').add({
-        email: email.value,
-        phone: Phone.value,
-        type: radio.value
-
-      })
-     
       //setCurrentUser(true);
+        firebaseConfig.firestore().collection('users').add({
+            email: email.value,
+            phone: Phone.value,
+            type: radio.value
+        })
     } catch (error) {
       alert(error);
     }
