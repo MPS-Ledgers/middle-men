@@ -24,7 +24,7 @@ const User = () => {
     <SignOut />
       <div className="h-screen w-screen text-white font-serif" style={{ "background": "linear-gradient(rgba(0,0,0,0.7),rgba(0,0,0,0.7))" }}>
       <div className="inline float-right">
-        <Link><BsChatFill className="inline text-3xl mt-2 mr-10" /></Link>
+        <Link to="/chat"><BsChatFill className="inline text-3xl mt-2 mr-10" /></Link>
           <Link to="/user/accept"><MdApproval className="inline text-3xl mr-4 mt-2 float-left" /></Link>
       </div>
       <div className="flex justify-center content-center">

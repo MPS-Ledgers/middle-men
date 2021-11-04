@@ -1,15 +1,15 @@
-import React from "react";
-import redirectUser from '../utils/redirectUser'
-
-const Chat = () => {
-    // redirectUser()
+import React from 'react';
+import { ChatEngine } from 'react-chat-engine';
+import './chat.css'
+const Chat=()=> {
     return (
-        <>
-            <div className="h-screen w-screen">
-                <h1 className="text-5xl text-white">Chat page should come here</h1>
-            </div>
-        </>
-    )
+        <ChatEngine
+            height='100vh'
+            userName='abc@x.com'
+            userSecret='123456'
+            projectID='3a749869-1abb-4bd5-8a4a-9d34ba95e983'
+        />
+    );
 }
 
-export default Chat;
+export default Chat
