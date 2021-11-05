@@ -61,7 +61,8 @@ const User = () => {
               </li>
             )
           })}
-      </ul>
+        </ul>
+        <Link to="/report"><button className="bg-red-500 h-20 w-20 rounded-full float-right mr-20">Report</button></Link>
     </div>
     </>
   )

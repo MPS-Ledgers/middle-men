@@ -23,18 +23,16 @@ import Record from "./ethereum/build/Record.json";
 import { contractAddress } from "./ethereum/contractAddress";
 import InsAadhar from "./pages/insAadhar";
 import HospView from "./pages/hospView";
+import Report from "./pages/Report";
 const App = () => {
   const dispatch = useDispatch();
   const [type, setType] = useState();
-
   const state = useSelector((state) => state.auth);
   console.log(state.type);
   useEffect(() => {
     setType(state.type);
     console.log(state.type);
   }, [state]);
-
-
   useEffect(() => {
     const getContract = async () => {
       const provider = new Web3.providers.HttpProvider("http://127.0.0.1:7545");
@@ -44,7 +42,6 @@ const App = () => {
         JSON.parse(Record.interface),
         contractAddress
       );
-
       let accounts = await web3.eth.getAccounts();
       dispatch({ type: "WEB3", payload: web3 });
       dispatch({ type: "ALL_ACCOUNTS", payload: accounts });
@@ -134,6 +131,7 @@ const App = () => {
         ) : (
           <Redirect path="/" />
         )}
+        <Route path="/report" exact component={Report}/>
       </Router>
       <Footer />
     </>
