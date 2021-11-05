@@ -22,10 +22,8 @@ describe("Record", () => {
     });
     it("adds a user", async () => {
         await record.methods.addUser(accounts[1]).send({ from: accounts[0] });
-        let user = await record.methods.customer_count().call();
-        console.log(user);
     });
-    it("adds a ds", async () => {
+    it("adds aadhaar", async () => {
         const asciiArray = [
             81,
             109,
@@ -84,9 +82,21 @@ describe("Record", () => {
         await record.methods
             .addAadhar(accounts[1], asciiArray)
             .send({ from: accounts[2], gas: "6100000" });
-        let arr = await record.methods
-            .getAadhar(accounts[1])
-            .call({ from: accounts[2] });
-        console.log(arr);
+    });
+    it("send money", async () => {
+        await record.methods.addUser(accounts[1]).send({ from: accounts[0] });
+        await record.methods
+            .addInsurance(accounts[2])
+            .send({ from: accounts[0] });
+        await record.methods
+            .addHospitals(accounts[3])
+            .send({ from: accounts[0] });
+        await record.methods.addMoneyToInsurance(accounts[2]).send({
+            from: accounts[1],
+            value: web3.utils.toWei("10", "ether"),
+        });
+        await record.methods
+            .transferMoney(accounts[3])
+            .send({ from: accounts[2], value: web3.utils.toWei("5", "ether") });
     });
 });

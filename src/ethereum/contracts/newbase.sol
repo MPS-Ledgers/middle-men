@@ -68,13 +68,15 @@ contract Record {
     require(users[msg.sender]);
     require(insurance[insu]);
 
+    insurance_balance[insu] += msg.value;
     insu.transfer(msg.value);
   }
 
   function transferMoney(address hosp) public payable {
     require(insurance[msg.sender]);
     require(hospital[hosp]);
-
+    
+    insurance_balance[msg.sender] -= msg.value;
     hosp.transfer(msg.value);
   }
 }
