@@ -2,17 +2,30 @@ import React from "react";
 import { TiTick } from "react-icons/ti";
 import { ImCross } from "react-icons/im";
 import firebase from "../firebaseConfig";
+import { useSelector } from "react-redux";
 import "firebase/firestore";
 
 const ListGrant = (props) => {
-  const downloadDS = async () => {
-    const cid = "QmQGK3pfbFNkRYUrRebdaKYnzh7gVdoHjingrYjJ3P4oWP";
-    const url = `https://ipfs.io/ipfs/${cid}`;
+  const { contract, accounts } = useSelector((state) => state);
 
-    // const url = window.URL.createObjectURL(new Blob([arr]));
+  const convertToString = (asciiArray) => {
+    let res = "";
+    for (let ele of asciiArray) {
+      res += String.fromCharCode(parseInt(ele));
+    }
+    return res
+  };
+
+  const downloadDS = async () => {
+    let asciiArray = await contract.methods
+      .getDS(accounts[1])
+      .call({ from: accounts[3] });
+    const cid = convertToString(asciiArray);
+    const url = `https://ipfs.io/ipfs/${cid}`;
     const link = document.createElement("a");
     link.href = url;
-    link.setAttribute("download", "file.pdf"); //or any other extension
+    link.target = "_blank";
+    link.setAttribute("download", "file.pdf"); 
     document.body.appendChild(link);
     link.click();
   };
@@ -23,14 +36,14 @@ const ListGrant = (props) => {
       .collection("insurance")
       .doc(props.grants.id)
       .delete();
-    var myHeaders = new Headers();
+    let myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
     myHeaders.append("Authorization", "617bf1c8245383001100f7de");
-    var raw = JSON.stringify({
+    let raw = JSON.stringify({
       phone: "+916381801176",
       text: "a@a.com has accepted your " + props.grants.data.info + " request",
     });
-    var requestOptions = {
+    let requestOptions = {
       method: "POST",
       headers: myHeaders,
       body: raw,
@@ -53,17 +66,17 @@ const ListGrant = (props) => {
       .collection("customers")
       .doc(props.grants.id)
       .delete();
-    var myHeaders = new Headers();
+    let myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
     myHeaders.append("Authorization", "617bf1c8245383001100f7de");
-    var raw = JSON.stringify({
+    let raw = JSON.stringify({
       phone: "+916381801176",
       text:
         "a@a.com has rejected your Grant Money: " +
         props.grants.data.money +
         " request",
     });
-    var requestOptions = {
+    let requestOptions = {
       method: "POST",
       headers: myHeaders,
       body: raw,

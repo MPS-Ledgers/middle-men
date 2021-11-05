@@ -33,6 +33,7 @@ const App = () => {
     console.log(state.type);
   }, [state]);
 
+
   useEffect(() => {
     const getContract = async () => {
       const provider = new Web3.providers.HttpProvider("http://127.0.0.1:7545");
