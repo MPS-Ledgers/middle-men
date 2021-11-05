@@ -7,9 +7,10 @@ import "firebase/firestore";
 import axios from "axios";
 
 const ListGrant = (props) => {
-    const { contract, accounts } = useSelector((state) => state);
+    const { contract, accounts, web3 } = useSelector((state) => state);
     const auth = useSelector((state) => state.auth);
-    console.log(auth.user.email)
+
+    console.log(auth.user.email);
     const convertToString = (asciiArray) => {
         let res = "";
         for (let ele of asciiArray) {
@@ -45,9 +46,24 @@ const ListGrant = (props) => {
         document.body.appendChild(link);
         link.click();
     };
+
     const tickClick = async () => {
-        const response = await axios.get('https://min-api.cryptocompare.com/data/price?fsym=INR&tsyms=ETH')
-        console.log(props.grants.data.money * response.data.ETH * 1000000000000000000)
+        const response = await axios.get(
+            "https://min-api.cryptocompare.com/data/price?fsym=INR&tsyms=ETH"
+        );
+        console.log(
+            props.grants.data.money * response.data.ETH * 1000000000000000000,
+            response.data.ETH
+        );
+        await contract.methods
+            .transferMoney(accounts[3])
+            .send({
+                from: accounts[2],
+                value: web3.utils.toWei(
+                    (props.grants.data.money * response.data.ETH).toString(),
+                    "ether"
+                ),
+            });
         await firebase
             .firestore()
             .collection("insurance")
@@ -59,10 +75,11 @@ const ListGrant = (props) => {
         let raw = JSON.stringify({
             phone: "+916381801176",
             text:
-                auth.user.email+" has accepted your " +
+                auth.user.email +
+                " has accepted your " +
                 props.grants.data.info +
                 " request",
-        }); 
+        });
         let requestOptions = {
             method: "POST",
             headers: myHeaders,
@@ -75,8 +92,9 @@ const ListGrant = (props) => {
             .then((result) => console.log(result))
             .catch((error) => console.log("error", error));
     };
+
     const wrongClick = async () => {
-        console.log(auth.user.email)
+        console.log(auth.user.email);
         await firebase
             .firestore()
             .collection("insurance")
@@ -93,7 +111,8 @@ const ListGrant = (props) => {
         let raw = JSON.stringify({
             phone: "+916381801176",
             text:
-                auth.user.email+" has rejected your Grant Money: " +
+                auth.user.email +
+                " has rejected your Grant Money: " +
                 props.grants.data.money +
                 " request",
         });
