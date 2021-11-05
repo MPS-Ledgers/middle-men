@@ -19,6 +19,7 @@ import HosIns from "./pages/hospitalins";
 import InsuranceBill from "./pages/insurancebill";
 import Web3 from "web3";
 import { getFirestore } from "firebase/firestore";
+import Admin from "./pages/Admin";
 import Footer from "./components/Footer";
 
 const App = () => {
