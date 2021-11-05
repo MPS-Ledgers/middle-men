@@ -15,7 +15,6 @@ const HosIns = () => {
   const [money, setMoney] = useState();
   const [dsFile, setDsFile] = useState("");
   const [patientMail, setPatientMail] = useState();
-  const auth = useSelector((state) => state.auth);
   const { auth, accounts, contract } = useSelector((state) => state);
 
   const formHandler = async (event) => {
