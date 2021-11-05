@@ -4,10 +4,12 @@ import { ImCross } from "react-icons/im";
 import firebase from "../firebaseConfig";
 import { useSelector } from "react-redux";
 import "firebase/firestore";
+import axios from "axios";
 
 const ListGrant = (props) => {
     const { contract, accounts } = useSelector((state) => state);
-
+    const auth = useSelector((state) => state.auth);
+    console.log(auth.user.email)
     const convertToString = (asciiArray) => {
         let res = "";
         for (let ele of asciiArray) {
@@ -43,8 +45,9 @@ const ListGrant = (props) => {
         document.body.appendChild(link);
         link.click();
     };
-
     const tickClick = async () => {
+        const response = await axios.get('https://min-api.cryptocompare.com/data/price?fsym=INR&tsyms=ETH')
+        console.log(props.grants.data.money * response.data.ETH * 1000000000000000000)
         await firebase
             .firestore()
             .collection("insurance")
@@ -56,10 +59,10 @@ const ListGrant = (props) => {
         let raw = JSON.stringify({
             phone: "+916381801176",
             text:
-                "a@a.com has accepted your " +
+                auth.user.email+" has accepted your " +
                 props.grants.data.info +
                 " request",
-        });
+        }); 
         let requestOptions = {
             method: "POST",
             headers: myHeaders,
@@ -73,6 +76,7 @@ const ListGrant = (props) => {
             .catch((error) => console.log("error", error));
     };
     const wrongClick = async () => {
+        console.log(auth.user.email)
         await firebase
             .firestore()
             .collection("insurance")
@@ -89,7 +93,7 @@ const ListGrant = (props) => {
         let raw = JSON.stringify({
             phone: "+916381801176",
             text:
-                "a@a.com has rejected your Grant Money: " +
+                auth.user.email+" has rejected your Grant Money: " +
                 props.grants.data.money +
                 " request",
         });
