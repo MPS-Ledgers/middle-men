@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import { BsChatFill } from "react-icons/bs";
 import { Link } from "react-router-dom";
-import redirectUser from "../utils/redirectUser";
 import SignOut from "../utils/SignOut";
 import firebase from "../firebaseConfig";
 import "firebase/firestore";
 import { CgProfile } from "react-icons/cg";
 import { GiTakeMyMoney } from "react-icons/gi";
+import { useSelector } from "react-redux";
 const Hospital = () => {
+  const auth = useSelector((state) => state.auth);
   const [patientmail, setPatientMail] = useState();
   const formHandler = async (event) => {
     event.preventDefault();
@@ -17,13 +18,12 @@ const Hospital = () => {
       .doc()
       .set({
         email: patientmail,
-        from: "appolo@a.com",
+        from: auth.user.email,
         info: "Read Access",
-        type: "I",
+        type: "H",
         money: -1,
       })
       .then(() => {
-        console.log("hij");
       });
   };
   return (

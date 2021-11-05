@@ -12,7 +12,7 @@ contract Record{
     mapping (address=>uint[]) public user_ds;
     mapping (address=>uint) public insurance_balance;
     
-    function Record() public {
+    constructor() {
         administrator=msg.sender;
     }
 

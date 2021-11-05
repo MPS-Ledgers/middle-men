@@ -5,13 +5,18 @@ import { CgProfile } from "react-icons/cg";
 import { BsChatFill } from "react-icons/bs";
 import firebase from '../firebaseConfig'
 import "firebase/firestore";
+import { useSelector } from "react-redux";
+import SignOut from "../utils/SignOut";
+import { MdApproval } from "react-icons/md";
 const InsuranceBill = () => {
+    const auth = useSelector((state) => state.auth);
     const formHandler = async(event) => {
         event.preventDefault()
         await firebase.firestore().collection('customers').doc().set({
             email: custmail,
-            from: 'insu@a.com',
-            info: 'Grant Money: '+money+" Rs",
+            from: auth.user.email,
+            hosp: hospmail,
+            info: 'Grant Money: '+money+" Rs to "+hospmail,
             type: 'I',
             money: money
         }).then(() => {
@@ -22,11 +27,13 @@ const InsuranceBill = () => {
     const [money,setMoney]=useState()
     return (
         <>
+            <SignOut/>
             <div className="h-screen w-screen text-white" style={{ "background": "linear-gradient(rgba(0,0,0,0.7),rgba(0,0,0,0.7))" }}>
                 <div className="inline float-right">
-                    <Link to="/hospital/profile"><CgProfile className="inline text-3xl mt-2 mr-5" /></Link>
-                    <Link to="/hospital/bill"><GiTakeMyMoney className="inline text-white text-3xl mt-2 mr-4" /></Link>
+                    <Link to="/insurance/profile"><CgProfile className="inline text-3xl mt-2 mr-5" /></Link>
+                    <Link to="/insurance/bill"><GiTakeMyMoney className="inline text-white text-3xl mt-2 mr-4" /></Link>
                     <Link to="/chat"><BsChatFill className="inline text-3xl mt-2 mr-10" /></Link>
+                    <Link to="/insurance/grant"><MdApproval className="inline text-3xl mr-4 mt-2 float-left" /></Link>
                 </div>
                 <div className="flex justify-center content-center">
                     <h1 className="text-5xl font-serif mt-10">Welcome to Middlemen</h1>

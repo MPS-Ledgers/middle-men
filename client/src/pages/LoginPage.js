@@ -7,10 +7,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { getFirestore } from "firebase/firestore";
 import firebase from "../firebaseConfig";
-import redirectUser from "../utils/redirectUser";
 
 const LoginPage = (props) => {
-  //redirectUser()
   const [email, setEmail] = useState();
   const [loaderShow, setLoaderShow] = useState(false);
   const [password, setPassword] = useState();
