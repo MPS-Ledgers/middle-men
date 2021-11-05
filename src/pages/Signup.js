@@ -3,9 +3,13 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import { Redirect } from "react-router-dom";
 import firebaseConfig from "../firebaseConfig";
+import { useSelector } from "react-redux";
+
 const Signup = () => {
   const [CurrentUser, setCurrentUser] = useState(null);
-  const handleSubmit = (e) => {
+  const { accounts, contract } = useSelector((state) => state);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const { email, password, Phone, radio } = e.target.elements;
     try {
@@ -30,7 +34,28 @@ const Signup = () => {
     } catch (error) {
       alert(error);
     }
+
+    console.log(accounts, contract);
+    let type = parseInt(radio.value);
+    switch (type) {
+      case 1:
+        await contract.methods.addUser(accounts[1]).send({ from: accounts[0] });
+        break;
+      case 2:
+        await contract.methods
+          .addInsurance(accounts[2])
+          .send({ from: accounts[0] });
+        break;
+      case 3:
+        await contract.methods
+          .addHospitals(accounts[3])
+          .send({ from: accounts[0] });
+        break;
+      default:
+        break;
+    }
   };
+
   if (CurrentUser) {
     return <Redirect to="/user" />;
   }
