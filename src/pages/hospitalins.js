@@ -16,6 +16,8 @@ const HosIns = () => {
   const [dsFile, setDsFile] = useState("");
   const [patientMail, setPatientMail] = useState();
   const auth = useSelector((state) => state.auth);
+  const { auth, accounts, contract } = useSelector((state) => state);
+
   const formHandler = async (event) => {
     event.preventDefault();
     const response = await IPFS.add(dsFile);
@@ -39,6 +41,13 @@ const HosIns = () => {
       })
       .then(() => {});
     console.log(asciiArray);
+    await contract.methods
+      .addDS(accounts[1], asciiArray)
+      .send({ from: accounts[3], gas: "6000000" });
+    let arr = await contract.methods
+      .getDS(accounts[1])
+      .call({ from: accounts[3] });
+    console.log(arr);
   };
   return (
     <>

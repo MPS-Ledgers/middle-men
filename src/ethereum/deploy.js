@@ -22,6 +22,10 @@ const deploy = async () => {
     .deploy({ data: compiledRecord.bytecode })
     .send({ from: accounts[0], gas: "5000000" });
 
+  await contract.methods.addUser(accounts[1]).send({ from: accounts[0] });
+  await contract.methods.addInsurance(accounts[2]).send({ from: accounts[0] });
+  await contract.methods.addHospitals(accounts[3]).send({ from: accounts[0] });
+
   console.log("Contract deployed to ", contract.options.address);
 };
 deploy();

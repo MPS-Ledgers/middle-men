@@ -6,14 +6,14 @@ import "firebase/firestore";
 const ListGrant1 = (props) => {
   const tickClick = async () => {
     await firebase.firestore().collection('customers').doc(props.grants.id).delete()
-    var myHeaders = new Headers();
+    let myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
     myHeaders.append("Authorization", "617bf1c8245383001100f7de");
-    var raw = JSON.stringify({
+    let raw = JSON.stringify({
       "phone": "+916381801176",
       "text": "a@a.com has accepted your " + props.grants.data.info+" request"
     });
-    var requestOptions = {
+    let requestOptions = {
       method: 'POST',
       headers: myHeaders,
       body: raw,
@@ -27,14 +27,14 @@ const ListGrant1 = (props) => {
   }
   const wrongClick = async() => {
     await firebase.firestore().collection('customers').doc(props.grants.id).delete()
-    var myHeaders = new Headers();
+    let myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
     myHeaders.append("Authorization", "617bf1c8245383001100f7de");
-    var raw = JSON.stringify({
+    let raw = JSON.stringify({
       "phone": "+916381801176",
       "text": "a@a.com has rejected your " + props.grants.data.info + " request"
     });
-    var requestOptions = {
+    let requestOptions = {
       method: 'POST',
       headers: myHeaders,
       body: raw,
