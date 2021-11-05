@@ -3,7 +3,9 @@ import { TiTick } from "react-icons/ti"
 import { ImCross } from "react-icons/im"
 import firebase from '../firebaseConfig'
 import "firebase/firestore";
+import { useSelector } from "react-redux";
 const ListGrant1 = (props) => {
+  const auth = useSelector((state) => state.auth);
   const tickClick = async () => {
     await firebase.firestore().collection('customers').doc(props.grants.id).delete()
     let myHeaders = new Headers();
@@ -11,7 +13,7 @@ const ListGrant1 = (props) => {
     myHeaders.append("Authorization", "617bf1c8245383001100f7de");
     let raw = JSON.stringify({
       "phone": "+916381801176",
-      "text": "a@a.com has accepted your " + props.grants.data.info+" request"
+      "text": auth.user.email+" has accepted your " + props.grants.data.info+" request"
     });
     let requestOptions = {
       method: 'POST',
@@ -32,7 +34,7 @@ const ListGrant1 = (props) => {
     myHeaders.append("Authorization", "617bf1c8245383001100f7de");
     let raw = JSON.stringify({
       "phone": "+916381801176",
-      "text": "a@a.com has rejected your " + props.grants.data.info + " request"
+      "text": auth.user.email+" has rejected your " + props.grants.data.info + " request"
     });
     let requestOptions = {
       method: 'POST',
