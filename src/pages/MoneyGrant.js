@@ -62,7 +62,6 @@ const MoneyGrant = () => {
               })}
             </ul>
           </div>
-          
         </>
     )
 }

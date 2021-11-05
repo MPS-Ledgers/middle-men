@@ -14,6 +14,7 @@ const HosIns = () => {
   const [aadhar, setAadhar] = useState();
   const [money, setMoney] = useState();
   const [dsFile, setDsFile] = useState("");
+  const [patientMail, setPatientMail] = useState();
   const auth = useSelector((state) => state.auth);
   const formHandler = async (event) => {
     event.preventDefault();
@@ -33,7 +34,7 @@ const HosIns = () => {
         email: insMail,
         from: auth.user.email,
         aadhar: aadhar,
-        discharge: "abc",
+        patient: patientMail,
         money: money,
       })
       .then(() => {});
@@ -71,10 +72,10 @@ const HosIns = () => {
               <div className="p-10 rounded-lg lg:rounded-l-none">
                 <div className="px-8 mb-4 text-center">
                   <h3 className="pt-4 mb-5 text-4xl text-white">
-                    Search Patient
+                    Insurance Policy
                   </h3>
                   <p className="mb-4 text-sm text-white">
-                    Connect with patients with their Email. Enter Patient Email
+                    Connect with Insurance with their Email. Enter Patient Email Aadhar
                     to view the user insurance details!
                   </p>
                 </div>
@@ -84,7 +85,7 @@ const HosIns = () => {
                       className="block mb-2 text-sm font-bold text-white"
                       for="email"
                     >
-                      Email
+                      Insurance Email
                     </label>
                     <input
                       className="w-3/4 px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
@@ -95,6 +96,22 @@ const HosIns = () => {
                         setInsMail(event.target.value);
                       }}
                       placeholder="Enter Insurance Email..."
+                    />
+                    <label
+                      className="block mb-2 text-sm font-bold text-white"
+                      for="email"
+                    >
+                      Patient Email
+                    </label>
+                    <input
+                      className="w-3/4 px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                      id="email"
+                      type="email"
+                      value={patientMail}
+                      onChange={(event) => {
+                        setPatientMail(event.target.value);
+                      }}
+                      placeholder="Enter Patient Email..."
                     />
                     <label
                       className="block mb-2 text-sm font-bold text-white"

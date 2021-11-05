@@ -1,22 +1,30 @@
-import React from "react";
+import React,{useEffect,useState} from "react";
 import { MdApproval } from "react-icons/md"
 import { BsChatFill } from "react-icons/bs"
 import { Link } from "react-router-dom"
 import SignOut from '../utils/SignOut';
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+import { collection, query, where, getDocs } from "firebase/firestore";
+import { getFirestore } from "firebase/firestore";
 const User = () => {
-  const Requests = [
-    {
-      hosp: "appolo@a.com",
-      ins: "oneindia@a.com",
-      money: 50000
-    },
-    {
-      hosp: "mgm@x.com",
-      ins: "lic@a.com",
-      money: 75000
-    }
-  ]
+  const auth = useSelector((state) => state.auth);
+  const [Requ, setRequ] = useState([])
+  let id = 0;
+  useEffect(async () => {
+    let reqs = []
+    const db = getFirestore();
+    const usersRef = collection(db, "insurance");
+    const q = query(usersRef, where("email", "==", auth.user.email));
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      console.log(doc.id)
+      reqs.push({
+        'id': doc.id,
+        'data': doc.data()
+      });
+    })
+    setRequ(reqs)
+  }, [])
   return (
     <>
     <SignOut />
@@ -42,7 +50,7 @@ const User = () => {
               <h1 className="text-white text-2xl">Amount</h1>
             </div>
           </li>
-          {Requests.map((grant) => {
+          {Requ.map((grant) => {
             return (
               <li>
                 <div className="ml-10 grid grid-cols-3 mb-5">
