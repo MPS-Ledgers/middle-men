@@ -5,27 +5,55 @@ import firebase from '../firebaseConfig'
 import "firebase/firestore";
 import { useSelector } from "react-redux";
 const ListGrant1 = (props) => {
+  console.log(props.grants.data.type)
+  console.log(props)
   const auth = useSelector((state) => state.auth);
   const tickClick = async () => {
-    await firebase.firestore().collection('customers').doc(props.grants.id).delete()
-    let myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
-    myHeaders.append("Authorization", "617bf1c8245383001100f7de");
-    let raw = JSON.stringify({
-      "phone": "+916381801176",
-      "text": auth.user.email+" has accepted your " + props.grants.data.info+" request"
-    });
-    let requestOptions = {
-      method: 'POST',
-      headers: myHeaders,
-      body: raw,
-      redirect: 'follow'
-    };
+    console.log('hello')
+    if (props.grants.data.type == 'H') {
+      await firebase
+        .firestore()
+        .collection("HospitalRead")
+        .doc()
+        .set({
+          email: props.grants.data.email,
+          from: props.grants.data.from,
+        })
+        .then(() => {
+        });
+    }
+    else if (props.grants.data.type == 'I' && props.grants.data.money < 0) {
+      console.log('hello')
+      await firebase
+        .firestore()
+        .collection("InsuranceWrite")
+        .doc()
+        .set({
+          email: props.grants.data.email,
+          from: props.grants.data.from,
+        })
+        .then(() => {
+        });
+    }
+  //   await firebase.firestore().collection('customers').doc(props.grants.id).delete()
+  //   let myHeaders = new Headers();
+  //   myHeaders.append("Content-Type", "application/json");
+  //   myHeaders.append("Authorization", "617bf1c8245383001100f7de");
+  //   let raw = JSON.stringify({
+  //     "phone": "+916381801176",
+  //     "text": auth.user.email+" has accepted your " + props.grants.data.info+" request"
+  //   });
+  //   let requestOptions = {
+  //     method: 'POST',
+  //     headers: myHeaders,
+  //     body: raw,
+  //     redirect: 'follow'
+  //   };
 
-  fetch("https://rapidapi.rmlconnect.net/wbm/v1/message", requestOptions)
-      .then(response => response.text())
-      .then(result => console.log(result))
-      .catch(error => console.log('error', error));
+  // fetch("https://rapidapi.rmlconnect.net/wbm/v1/message", requestOptions)
+  //     .then(response => response.text())
+  //     .then(result => console.log(result))
+  //     .catch(error => console.log('error', error));
   }
   const wrongClick = async() => {
     await firebase.firestore().collection('customers').doc(props.grants.id).delete()

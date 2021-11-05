@@ -95,6 +95,9 @@ const Hospital = () => {
                   </div>
                   <hr className="mb-6 border-t" />
                 </form>
+                <div className="flex justify-center">
+                  <Link to="/hospital/view" className="text-xl">View Insurance of Accepted Users </Link>
+                </div>
               </div>
             </div>
           </div>

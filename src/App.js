@@ -22,6 +22,7 @@ import Footer from "./components/Footer";
 import Record from "./ethereum/build/Record.json";
 import { contractAddress } from "./ethereum/contractAddress";
 import InsAadhar from "./pages/insAadhar";
+import HospView from "./pages/hospView";
 const App = () => {
   const dispatch = useDispatch();
   const [type, setType] = useState();
@@ -128,6 +129,11 @@ const App = () => {
         ) :
           <Redirect path="/"/>
         }
+        {type == "3" ? (
+          <Route path="/hospital/view" exact component={HospView} />
+        ) : (
+          <Redirect path="/" />
+        )}
       </Router>
       <Footer />
     </>
