@@ -11,9 +11,11 @@ contract Record{
     mapping (address=>mapping(address=>uint[])) public user_aadhar;
     mapping (address=>mapping(address=>uint[])) public treatment_summaries;
     mapping (address=>mapping(address=>bool)) public user_insure_relation;
+    mapping (address=>address[]) public user_insurances;
     mapping (address=>mapping(address=>bool)) public grant_Write_Access_to_Insurance;
     mapping (address=>mapping(address=>bool)) public grant_View_Acess_To_Hospital;
-    constructor() public{
+    
+    constructor() {
         administrator=msg.sender;
     }
 
@@ -40,13 +42,21 @@ contract Record{
         require(users[msg.sender]);
         grant_Write_Access_to_Insurance[msg.sender][insure]=true;
     }
+    
+    //Grant access to hospital for viewing user insurance
+    function grantViewAcessToHospital(address hosp) payable public{
+        require(hospital[hosp]);
+        require(users[msg.sender]);
+        grant_View_Acess_To_Hospital[hosp][msg.sender]=true;
+    }
 
     //Creating User Insurance Relation 
-    function userInsurance(address cust) payable public{
+    function addUserToInsurance(address cust) payable public{
         require(insurance[msg.sender]);
         require(users[cust]);
         require(grant_Write_Access_to_Insurance[cust][msg.sender]);
         user_insure_relation[cust][msg.sender]=true;
+        
     }
 
     //Insurance Company adding AADHAR of User
@@ -59,16 +69,28 @@ contract Record{
         }
     }
 
-    //Grant access to hospital for viewing user insurance
-    function grantViewAcessToHospital(address hosp) payable public{
-        require(hospital[hosp]);
-        require(users[msg.sender]);
-        grant_View_Acess_To_Hospital[hosp][msg.sender]=true;
+    function getAadhar(address cust) public view returns(uint[] memory) {
+        require(insurance[msg.sender]);
+        require(users[cust]);
+        require(user_insure_relation[cust][msg.sender]);
+        
+        return user_aadhar[msg.sender][cust];
     }
-
-    //Hospital send Aadhar and discharge summary to Insurance
-    function HospitalToInsurance(address insure,uint prize) payable public{
-        require(insurance[insure]);
+    
+    function userInsurances(address user) public view returns(address[] memory) {
         require(hospital[msg.sender]);
+        require(users[user]);
+        
+        return user_insurances[user];
     }
+    
+    // mapping(address(user)=>aadhaar)
+    // mapping(address(user)=>DS)
+    // for sending money, send directly after approving from firebase
+    
+    // mapping(address(hosp)=> map(address(user)=>uint[])) // add discharfge summary
+    // map(add(user)=>map(add(insu)=>mapp(hosp)=>bool)) approval for money grant from user to insu
+    // return insus for user to hosp
+    // xchange money from insu to hosp
+    // return aadhaar to insu DONE
 }

@@ -4,24 +4,23 @@ import { BsChatFill } from "react-icons/bs"
 import { CgProfile} from "react-icons/cg"
 import { Link } from "react-router-dom"
 import { GiTakeMyMoney } from "react-icons/gi";
-import redirectUser from '../utils/redirectUser'
 import SignOut from '../utils/SignOut';
 import firebase from '../firebaseConfig'
+import { useSelector } from "react-redux";
 import "firebase/firestore";
 
 const Insurance = () => {
-    redirectUser()
+    const auth = useSelector((state) => state.auth);
     const [customer, setCustomer] = useState()
     const formHandler = async(event) => {
         event.preventDefault()
         await firebase.firestore().collection('customers').doc().set({
             email: customer,
-            from: 'insura@a.com',
+            from: auth.user.email,
             info: 'Write Access',
             type: 'I',
             money: -1
         }).then(() => {
-            console.log('hij')
         })
     }
     return (
@@ -30,7 +29,7 @@ const Insurance = () => {
             <div className="h-screen w-screen text-white font-serif">
                 <div className="inline float-right">
                     <Link to="/insurance/profile"><CgProfile className="inline text-3xl mt-2 mr-5" /></Link>
-                    <Link><BsChatFill className="inline text-3xl mt-2 mr-5" /></Link>
+                    <Link to="/chat"><BsChatFill className="inline text-3xl mt-2 mr-5" /></Link>
                     <Link to="/insurance/bill"><GiTakeMyMoney className="inline text-white text-3xl mt-2 mr-4" /></Link>
                     <Link to="/insurance/grant"><MdApproval className="inline text-3xl mr-4 mt-2 float-left" /></Link>
                 </div>
@@ -66,6 +65,16 @@ const Insurance = () => {
                                             placeholder="Enter Customer Email..."
                                         />
                                     </div>
+                                    <label className="block mb-2 text-sm font-bold text-white" for="money">
+                                        User AADHAR
+                                    </label>
+                                    <input
+                                        className="w-3/4 px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                                        id="discharge"
+                                        type="file"
+                                        placeholder="Upload User Aadhar..."
+                                    />
+                                    <hr className="mt-3 mb-6 border-t" />
                                     <div className="mb-6 text-center">
                                         <button
                                             className="px-4 py-2 font-bold text-white bg-green-500 rounded-full hover:bg-red-700 focus:outline-none focus:shadow-outline"
@@ -75,7 +84,6 @@ const Insurance = () => {
                                             Add User
                                         </button>
                                     </div>
-                                    <hr className="mb-6 border-t" />
                                 </form>
                             </div>
                         </div>

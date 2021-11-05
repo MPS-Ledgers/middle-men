@@ -6,6 +6,8 @@ import { Link } from "react-router-dom";
 import firebase from '../firebaseConfig'
 import "firebase/firestore";
 import SignOut from '../utils/SignOut';
+import { GiTakeMyMoney } from "react-icons/gi";
+import { CgProfile } from "react-icons/cg";
 const MoneyGrant = () => {
   const [Requ, setRequ] = useState([])
   let id = 0;
@@ -32,8 +34,10 @@ const MoneyGrant = () => {
         <SignOut />
         <div className="h-screen w-screen text-white" style={{ "background": "linear-gradient(rgba(0,0,0,0.7),rgba(0,0,0,0.7))" }}>
           <div className="inline float-right">
-            <Link><BsChatFill className="inline text-3xl mt-2 mr-10"/></Link>
-            <Link to="/insurancegrant"><MdApproval className="inline text-3xl mr-4 mt-2 float-left" /></Link>
+            <Link to="/insurance/profile"><CgProfile className="inline text-3xl mt-2 mr-5" /></Link>
+            <Link to="/chat"><BsChatFill className="inline text-3xl mt-2 mr-10"/></Link>
+            <Link to="/insurance/bill"><GiTakeMyMoney className="inline text-white text-3xl mt-2 mr-4" /></Link>
+            <Link to="/insurance/grant"><MdApproval className="inline text-3xl mr-4 mt-2 float-left" /></Link>
           </div>
           <div className="flex justify-center content-center">
             <h1 className="text-5xl font-serif mt-10">Welcome to Middlemen</h1>

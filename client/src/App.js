@@ -19,7 +19,7 @@ import HosIns from "./pages/hospitalins";
 import InsuranceBill from "./pages/insurancebill";
 import Web3 from "web3";
 import { getFirestore } from "firebase/firestore";
-import Admin from "./pages/Admin";
+import Footer from "./components/Footer";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -39,11 +39,6 @@ const App = () => {
     <>
       <Router history={history}>
         <Route path="/" exact component={LoginPage} />
-        {type == "0" ? (
-          <Route path="/admin" exact component={Admin} />
-        ) : (
-          <Redirect path="/" />
-        )}
         {type == "1" ? (
           <Route path="/user" exact component={User} />
         ) : (
@@ -109,6 +104,7 @@ const App = () => {
           <Redirect path="/" />
         )}
       </Router>
+      <Footer/>
     </>
   );
 };

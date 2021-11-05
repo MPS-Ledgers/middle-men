@@ -6,7 +6,10 @@ import "firebase/firestore";
 import { CgProfile } from "react-icons/cg";
 import { GiTakeMyMoney } from "react-icons/gi"
 import { BsChatFill } from "react-icons/bs";
+import { ChatEngine } from "react-chat-engine";
+import { useSelector } from "react-redux";
 const HosIns = () => {
+    const auth = useSelector((state) => state.auth);
     const [insMail, setInsMail] = useState()
     const [aadhar, setAadhar] = useState()
     const[money,setMoney]=useState()
@@ -14,7 +17,7 @@ const HosIns = () => {
         event.preventDefault()
         await firebase.firestore().collection('insurance').doc().set({
             email: insMail,
-            from: 'appolo@hosp.com',
+            from: auth.user.email,
             aadhar: aadhar,
             discharge:'abc',
             money: money
