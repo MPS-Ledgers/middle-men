@@ -1,9 +1,13 @@
-import web3 from "./web3";
-import Record from "./build/Record.json";
+const Record = require("./build/Record.json");
+const Web3 = require("web3");
+const contractAddress = require("./contractAddress");
+
+const provider = new Web3.providers.HttpProvider("http://127.0.0.1:7545");
+const web3 = new Web3(provider);
 
 const instance = new web3.eth.Contract(
   JSON.parse(Record.interface),
-  "0x691254Ab7050248e8a83C3c456895A92eE9E84E7"
+  contractAddress
 );
 
 export default instance;

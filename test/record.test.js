@@ -20,4 +20,9 @@ describe("Record", () => {
   it("deploys a record and a campaign", () => {
     assert.ok(record.options.address);
   });
+  it("adds a user", async () => {
+    await record.methods.addUser(accounts[1]).send({ from: accounts[0] });
+    let user = await record.methods.customer_count().call();
+    console.log(user);
+  });
 });

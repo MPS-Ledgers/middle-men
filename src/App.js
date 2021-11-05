@@ -18,12 +18,12 @@ import hospTrans from "./pages/hospTransaction";
 import HosIns from "./pages/hospitalins";
 import InsuranceBill from "./pages/insurancebill";
 import Web3 from "web3";
-import { getFirestore } from "firebase/firestore";
 import Footer from "./components/Footer";
+import Record from "./ethereum/build/Record.json";
+import { contractAddress } from "./ethereum/contractAddress";
 
 const App = () => {
   const dispatch = useDispatch();
-  const db = getFirestore();
   const [type, setType] = useState();
 
   const state = useSelector((state) => state.auth);
@@ -31,10 +31,26 @@ const App = () => {
   useEffect(() => {
     setType(state.type);
     console.log(state.type);
-    // const provider = new Web3.providers.HttpProvider("http://172.26.48.1:7545");
-    // const web3 = new Web3(provider);
-    // let accounts = await web3.eth.getAccounts();
   }, [state]);
+
+  useEffect(() => {
+    const getContract = async () => {
+      const provider = new Web3.providers.HttpProvider("http://127.0.0.1:7545");
+      const web3 = new Web3(provider);
+
+      const instance = new web3.eth.Contract(
+        JSON.parse(Record.interface),
+        contractAddress
+      );
+
+      let accounts = await web3.eth.getAccounts();
+      dispatch({ type: "WEB3", payload: web3 });
+      dispatch({ type: "ALL_ACCOUNTS", payload: accounts });
+      dispatch({ type: "CONTRACT", payload: instance });
+    };
+    getContract();
+  }, []);
+
   return (
     <>
       <Router history={history}>
@@ -104,7 +120,7 @@ const App = () => {
           <Redirect path="/" />
         )}
       </Router>
-      <Footer/>
+      <Footer />
     </>
   );
 };
