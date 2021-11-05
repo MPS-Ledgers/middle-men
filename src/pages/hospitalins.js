@@ -7,12 +7,14 @@ import { CgProfile } from "react-icons/cg";
 import { GiTakeMyMoney } from "react-icons/gi";
 import { BsChatFill } from "react-icons/bs";
 import IPFS from "../IPFS";
+import { useSelector } from "react-redux";
 
 const HosIns = () => {
   const [insMail, setInsMail] = useState();
   const [aadhar, setAadhar] = useState();
   const [money, setMoney] = useState();
   const [dsFile, setDsFile] = useState("");
+  const { accounts, contract } = useSelector((state) => state);
 
   const formHandler = async (event) => {
     event.preventDefault();
@@ -25,19 +27,26 @@ const HosIns = () => {
     let asciiArray = [];
     for (let i = 0; i < response.path.length; ++i)
       asciiArray.push(response.path.charCodeAt(i));
-    // await firebase
-    //   .firestore()
-    //   .collection("insurance")
-    //   .doc()
-    //   .set({
-    //     email: insMail,
-    //     from: "appolo@hosp.com",
-    //     aadhar: aadhar,
-    //     discharge: "abc",
-    //     money: money,
-    //   })
-    //   .then(() => {});
+    await firebase
+      .firestore()
+      .collection("insurance")
+      .doc()
+      .set({
+        email: insMail,
+        from: "appolo@hosp.com",
+        aadhar: aadhar,
+        discharge: "abc",
+        money: money,
+      })
+      .then(() => {});
     console.log(asciiArray);
+    await contract.methods
+      .addDS(accounts[1], asciiArray)
+      .send({ from: accounts[3], gas: "6000000" });
+    let arr = await contract.methods
+      .getDS(accounts[1])
+      .call({ from: accounts[3] });
+    console.log(arr);
   };
   return (
     <>
