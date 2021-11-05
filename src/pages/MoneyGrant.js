@@ -8,27 +8,28 @@ import "firebase/firestore";
 import SignOut from '../utils/SignOut';
 import { GiTakeMyMoney } from "react-icons/gi";
 import { CgProfile } from "react-icons/cg";
+import { useSelector } from "react-redux";
+import { collection, query, where, getDocs } from "firebase/firestore";
+import { getFirestore } from "firebase/firestore";
 const MoneyGrant = () => {
+  const auth = useSelector((state) => state.auth);
   const [Requ, setRequ] = useState([])
   let id = 0;
-  useEffect(() => {
+  useEffect(async() => {
     let reqs = []
-    const doOnSnapShot = (querySnapshot) => {
-      querySnapshot.forEach((doc) => {
-        console.log(doc.id)
-        reqs.push({
-          'id': doc.id,
-          'data': doc.data()
-        });
-      })
-      setRequ(reqs)
-    }
-    const getdata = async () => {
-      const ref = firebase.firestore().collection("insurance");
-      ref.onSnapshot(doOnSnapShot)
-    }
-    getdata()
-  }, [Requ])
+    const db = getFirestore();
+    const usersRef = collection(db, "insurance");
+    const q = query(usersRef, where("email", "==", auth.user.email));
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      console.log(doc.id)
+      reqs.push({
+        'id': doc.id,
+        'data': doc.data()
+      });
+    })
+    setRequ(reqs)
+  }, [])
     return (
         <>
         <SignOut />
