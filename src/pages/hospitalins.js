@@ -14,11 +14,10 @@ const HosIns = () => {
   const [aadhar, setAadhar] = useState();
   const [money, setMoney] = useState();
   const [dsFile, setDsFile] = useState("");
-  const { accounts, contract } = useSelector((state) => state);
+  const { auth, accounts, contract } = useSelector((state) => state);
 
   const formHandler = async (event) => {
     event.preventDefault();
-
     const response = await IPFS.add(dsFile);
     console.log(response.path);
 
@@ -33,7 +32,7 @@ const HosIns = () => {
       .doc()
       .set({
         email: insMail,
-        from: "appolo@hosp.com",
+        from: auth.user.email,
         aadhar: aadhar,
         discharge: "abc",
         money: money,
