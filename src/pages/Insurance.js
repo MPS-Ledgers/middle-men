@@ -66,15 +66,6 @@ const Insurance = () => {
                                             placeholder="Enter Customer Email..."
                                         />
                                     </div>
-                                    <label className="block mb-2 text-sm font-bold text-white" for="money">
-                                        User AADHAR
-                                    </label>
-                                    <input
-                                        className="w-3/4 px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-                                        id="discharge"
-                                        type="file"
-                                        placeholder="Upload User Aadhar..."
-                                    />
                                     <hr className="mt-3 mb-6 border-t" />
                                     <div className="mb-6 text-center">
                                         <button

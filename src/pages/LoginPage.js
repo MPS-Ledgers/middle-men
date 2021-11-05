@@ -126,7 +126,7 @@ const LoginPage = (props) => {
                     }}
                     type="text"
                     class="rounded px-4 w-full py-1 bg-gray-200  border border-gray-400 mb-6 text-gray-700 placeholder-gray-700 focus:bg-white focus:outline-none"
-                    placeholder="Email Number"
+                    placeholder="Email id"
                   />
                   <input
                     onChange={(event) => {
