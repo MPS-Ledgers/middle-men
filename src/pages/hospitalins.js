@@ -20,7 +20,6 @@ const HosIns = () => {
   const formHandler = async (event) => {
     event.preventDefault();
     const response = await IPFS.add(dsFile);
-    console.log(response.path);
 
     // let encrypted = AES.encrypt(response.path, currentUser);
     // let encryptedString = encrypted.toString();
@@ -39,7 +38,6 @@ const HosIns = () => {
         money: money,
       })
       .then(() => {});
-    console.log(asciiArray);
     await contract.methods
       .addDS(accounts[1], asciiArray)
       .send({ from: accounts[3], gas: "6000000" });

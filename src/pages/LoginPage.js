@@ -31,7 +31,6 @@ const LoginPage = (props) => {
       const querySnapshot = await getDocs(q);
       let type = -1;
       querySnapshot.forEach((doc) => {
-        console.log(doc.id, " => ", doc.data());
         if (doc.data().email == email) {
           type = doc.data().type;
         }
