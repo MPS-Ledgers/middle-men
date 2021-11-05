@@ -17,6 +17,7 @@ const ListGrant = (props) => {
   };
 
   const downloadDS = async () => {
+    console.log('hello')
     let asciiArray = await contract.methods
       .getDS(accounts[1])
       .call({ from: accounts[3] });

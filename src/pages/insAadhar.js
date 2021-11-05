@@ -1,31 +1,19 @@
 import React,{useState} from "react";
-import { MdApproval } from "react-icons/md"
-import { BsChatFill } from "react-icons/bs"
-import { CgProfile} from "react-icons/cg"
-import { Link } from "react-router-dom"
+import { CgProfile } from "react-icons/cg";
+import { BsChatFill } from "react-icons/bs";
 import { GiTakeMyMoney } from "react-icons/gi";
-import SignOut from '../utils/SignOut';
-import firebase from '../firebaseConfig'
-import { useSelector } from "react-redux";
-import "firebase/firestore";
-import { GrAdd } from "react-icons/gr";
-const Insurance = () => {
-    const auth = useSelector((state) => state.auth);
+import { MdApproval } from "react-icons/md";
+import { GrAdd } from "react-icons/gr"
+import { Link } from "react-router-dom"
+import SignOut from "../utils/SignOut"; 
+const InsAadhar = () => {
     const [customer, setCustomer] = useState()
-    const formHandler = async(event) => {
+    const formHandler = (event) => {
         event.preventDefault()
-        await firebase.firestore().collection('customers').doc().set({
-            email: customer,
-            from: auth.user.email,
-            info: 'Write Access',
-            type: 'I',
-            money: -1
-        }).then(() => {
-        })
     }
     return (
         <>
-         <SignOut />
+            <SignOut />
             <div className="h-screen w-screen text-white font-serif">
                 <div className="inline float-right">
                     <Link to="/insurance/profile"><CgProfile className="inline text-3xl mt-2 mr-5" /></Link>
@@ -45,9 +33,9 @@ const Insurance = () => {
                         <div className="flex" style={{ "background": "linear-gradient(rgba(0,0,0,0.7),rgba(0,0,0,0.7))" }}>
                             <div className="p-10 rounded-lg lg:rounded-l-none">
                                 <div className="px-8 mb-4 text-center">
-                                    <h3 className="pt-4 mb-5 text-4xl text-white">Add Customers</h3>
+                                    <h3 className="pt-4 mb-5 text-4xl text-white">Add Aadhar</h3>
                                     <p className="mb-4 text-sm text-white">
-                                        Connect with Customers with their Email. Enter Customer mail and add them to your enterprise
+                                        Link Aadhar of the customers. Enter Customer mail and Aadhar to their BlockChain
                                     </p>
                                 </div>
                                 <form className="px-8 pt-6 pb-8 mb-4 rounded">
@@ -82,7 +70,7 @@ const Insurance = () => {
                                             type="button"
                                             onClick={formHandler}
                                         >
-                                            Add User
+                                            Add Aadhar
                                         </button>
                                     </div>
                                 </form>
@@ -95,4 +83,4 @@ const Insurance = () => {
     )
 }
 
-export default Insurance;
+export default InsAadhar

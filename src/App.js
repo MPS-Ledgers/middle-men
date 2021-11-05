@@ -21,7 +21,7 @@ import Web3 from "web3";
 import Footer from "./components/Footer";
 import Record from "./ethereum/build/Record.json";
 import { contractAddress } from "./ethereum/contractAddress";
-
+import InsAadhar from "./pages/insAadhar";
 const App = () => {
   const dispatch = useDispatch();
   const [type, setType] = useState();
@@ -114,12 +114,20 @@ const App = () => {
           <Route
             path="/insurance/bill"
             exact
-            path="/insurance/bill"
             component={InsuranceBill}
           />
         ) : (
           <Redirect path="/" />
         )}
+        {type == '2' ? (
+          <Route
+            path="/insurance/add"
+            exact
+            component={InsAadhar}
+          />
+        ) :
+          <Redirect path="/"/>
+        }
       </Router>
       <Footer />
     </>

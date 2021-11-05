@@ -5,6 +5,7 @@ import inspro from "../images/inspro.webp"
 import SignOut from "../utils/SignOut";
 import { CgProfile } from "react-icons/cg"
 import { BsChatFill } from "react-icons/bs";
+import { GrAdd } from "react-icons/gr";
 import { MdApproval } from "react-icons/md";
 const insProfile = () => {
     return (
@@ -16,6 +17,7 @@ const insProfile = () => {
                     <Link to="/insurance/bill"><GiTakeMyMoney className="inline text-white text-3xl mt-2 mr-4" /></Link>
                     <Link to="/chat"><BsChatFill className="inline text-3xl mt-2 mr-10" /></Link>
                     <Link to="/insurance/grant"><MdApproval className="inline text-3xl mr-4 mt-2 float-left" /></Link>
+                    <Link to="/insurance/add"><GrAdd className="inline rounded-md text-3xl mr-4 mt-2 float-left bg-white" /></Link>
                 </div>
                 <div class="w-full justify-center items-center">
                     <div class="flex relative h-60 justify-center">
