@@ -35,25 +35,25 @@ const ListGrant1 = (props) => {
         .then(() => {
         });
     }
-  //   await firebase.firestore().collection('customers').doc(props.grants.id).delete()
-  //   let myHeaders = new Headers();
-  //   myHeaders.append("Content-Type", "application/json");
-  //   myHeaders.append("Authorization", "617bf1c8245383001100f7de");
-  //   let raw = JSON.stringify({
-  //     "phone": "+916381801176",
-  //     "text": auth.user.email+" has accepted your " + props.grants.data.info+" request"
-  //   });
-  //   let requestOptions = {
-  //     method: 'POST',
-  //     headers: myHeaders,
-  //     body: raw,
-  //     redirect: 'follow'
-  //   };
+    await firebase.firestore().collection('customers').doc(props.grants.id).delete()
+    let myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Authorization", process.env.REACT_APP_RAPID_PASSWORD);
+    let raw = JSON.stringify({
+      "phone": "+916381801176",
+      "text": auth.user.email+" has accepted your " + props.grants.data.info+" request"
+    });
+    let requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: raw,
+      redirect: 'follow'
+    };
 
-  // fetch("https://rapidapi.rmlconnect.net/wbm/v1/message", requestOptions)
-  //     .then(response => response.text())
-  //     .then(result => console.log(result))
-  //     .catch(error => console.log('error', error));
+  fetch("https://rapidapi.rmlconnect.net/wbm/v1/message", requestOptions)
+      .then(response => response.text())
+      .then(result => console.log(result))
+      .catch(error => console.log('error', error));
   }
   const wrongClick = async() => {
     await firebase.firestore().collection('customers').doc(props.grants.id).delete()

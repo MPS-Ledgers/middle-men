@@ -31,13 +31,12 @@ const App = () => {
   console.log(state.type);
   useEffect(() => {
     setType(state.type);
-    console.log(state.type);
+    console.log(state.user);
   }, [state]);
   useEffect(() => {
     const getContract = async () => {
       const provider = new Web3.providers.HttpProvider("http://127.0.0.1:7545");
       const web3 = new Web3(provider);
-
       const instance = new web3.eth.Contract(
         JSON.parse(Record.interface),
         contractAddress

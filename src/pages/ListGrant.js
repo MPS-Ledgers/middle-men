@@ -71,7 +71,7 @@ const ListGrant = (props) => {
             .delete();
         let myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
-        myHeaders.append("Authorization", "617bf1c8245383001100f7de");
+        myHeaders.append("Authorization", process.env.REACT_APP_RAPID_PASSWORD);
         let raw = JSON.stringify({
             phone: "+916381801176",
             text:
