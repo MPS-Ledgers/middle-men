@@ -8,27 +8,111 @@ import "firebase/firestore";
 import { useSelector } from "react-redux";
 import SignOut from "../utils/SignOut";
 import GoBack from "../utils/GoBack";
+import { collection,query,where,getDocs,getFirestore } from "@firebase/firestore";
 import { MdApproval } from "react-icons/md";
 const InsuranceBill = () => {
+    const [Requ0, setRequ0] = useState();
+    const [Requ, setRequ] = useState()
+    const [Req1, setRequ1] = useState();
+    const [error, setError] = useState();
     const auth = useSelector((state) => state.auth);
-    const formHandler = async(event) => {
+    const formHandler = async (event) => {
+        setError("")
         event.preventDefault()
-        await firebase.firestore().collection('customers').doc().set({
-            email: custmail,
-            from: auth.user.email,
-            hosp: hospmail,
-            info: 'Grant Money: '+money+" Rs to "+hospmail,
-            type: 'I',
-            money: money
-        }).then(() => {
-        })
+        let reqs = []
+        const setRequests = async () => {
+            const db = getFirestore();
+            const usersRef = collection(db, "InsuranceWrite");
+            const q = query(
+                usersRef,
+                where("email", "==", custmail),
+                where("from", "==", auth.user.email),
+            );
+            const querySnapshot = await getDocs(q);
+            querySnapshot.forEach((doc) => {
+                reqs.push({
+                    id: doc.id,
+                    data: doc.data(),
+                });
+            });
+            setRequ(reqs);
+        };
+        let reqs0=[]
+        const setRequests1 = async () => {
+            const db0 = getFirestore();
+            const usersRef0 = collection(db0, "users");
+            const q0 = query(
+                usersRef0,
+                where("email", "==", hospmail),
+                where("type", "==", 3),
+            );
+            const querySnapshot0 = await getDocs(q0);
+            querySnapshot0.forEach((doc) => {
+                reqs0.push({
+                    id: doc.id,
+                    data: doc.data(),
+                });
+            });
+            setRequ0(reqs0);
+        };
+        await setRequests();
+        await setRequests1();
+        if (money <= 0) {
+            setError('Enter Valid Money')
+        }
+        else if (reqs0.length == 0) {
+            setError("Invalid Hospital")
+        }
+        else if (reqs.length == 1) {
+            let reqs1 = []
+            const setRequests1 = async () => {
+                const db1 = getFirestore();
+                const usersRef1 = collection(db1, "customers");
+                const q1 = query(
+                    usersRef1,
+                    where("email", "==", custmail),
+                    where("from", "==", auth.user.email),
+                    where("money","==",money)
+                );
+                const querySnapshot1 = await getDocs(q1);
+                querySnapshot1.forEach((doc) => {
+                    reqs1.push({
+                        id: doc.id,
+                        data: doc.data(),
+                    });
+                });
+                setRequ1(reqs1);
+            };
+            await setRequests1();
+            if (reqs1.length== 0) {
+                await firebase.firestore().collection('customers').doc().set({
+                    email: custmail,
+                    from: auth.user.email,
+                    hosp: hospmail,
+                    info: 'Grant Money: ' + money + " Rs to " + hospmail,
+                    type: 'I',
+                    money: money
+                }).then(() => {
+                })
+            }
+            else {
+                setError("Request Already Sent!!!")
+            }
+        }
+        else {
+            setError('Specified Email Id is not your Customer')
+        }
+        setCustmail("")
+        setHospmail("")
+        setMoney("")
     }
     const [custmail, setCustmail] = useState()
     const [hospmail, setHospmail] = useState()
     const [money,setMoney]=useState()
     return (
         <>
-            <SignOut/>
+            <SignOut />
+            <GoBack/>
             <div className="h-screen w-screen text-white" style={{ "background": "linear-gradient(rgba(0,0,0,0.7),rgba(0,0,0,0.7))" }}>
                 <div className="inline float-right">
                     <Link to="/insurance/profile"><CgProfile className="inline text-3xl mt-2 mr-5" /></Link>
@@ -102,6 +186,9 @@ const InsuranceBill = () => {
                                         >
                                             Request
                                         </button>
+                                    </div>
+                                    <div className="flex justify-center">
+                                        <p className="text-white text-lg mb-2">{error}</p>
                                     </div>
                                     <hr className="mb-6 border-t" />
                                 </form>
