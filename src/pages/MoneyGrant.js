@@ -3,7 +3,6 @@ import ListGrant from "./ListGrant";
 import { BsChatFill } from "react-icons/bs";
 import { MdApproval } from "react-icons/md";
 import { Link } from "react-router-dom";
-import firebase from "../firebaseConfig";
 import "firebase/firestore";
 import SignOut from "../utils/SignOut";
 import GoBack from "../utils/GoBack";
@@ -32,7 +31,7 @@ const MoneyGrant = () => {
             setRequ(reqs);
         };
         setRequests();
-    }, []);
+    }, [Requ]);
     return (
         <>
             <SignOut />

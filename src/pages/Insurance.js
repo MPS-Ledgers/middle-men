@@ -10,23 +10,53 @@ import firebase from "../firebaseConfig";
 import { useSelector } from "react-redux";
 import "firebase/firestore";
 import { GrAdd } from "react-icons/gr";
+import { collection,query,where,getDocs,getFirestore } from "@firebase/firestore";
 const Insurance = () => {
     const auth = useSelector((state) => state.auth);
     const [customer, setCustomer] = useState();
+    const [error, setError] = useState();
+    const [Requ, setRequ] = useState();
     const formHandler = async (event) => {
+        setError("")
         event.preventDefault();
-        await firebase
-            .firestore()
-            .collection("customers")
-            .doc()
-            .set({
-                email: customer,
-                from: auth.user.email,
-                info: "Write Access",
-                type: "I",
-                money: -1,
-            })
-            .then(() => {});
+        let reqs = []
+        const setRequests = async () => {
+            const db = getFirestore();
+            const usersRef = collection(db, "customers");
+            const q = query(
+                usersRef,
+                where("email", "==", customer),
+                where("from", "==", auth.user.email),
+                where("money","==",-1)
+            );
+            const querySnapshot = await getDocs(q);
+            querySnapshot.forEach((doc) => {
+                reqs.push({
+                    id: doc.id,
+                    data: doc.data(),
+                });
+            });
+            setRequ(reqs);
+        };
+        await setRequests();
+        if (reqs.length == 0) {
+            await firebase
+                .firestore()
+                .collection("customers")
+                .doc()
+                .set({
+                    email: customer,
+                    from: auth.user.email,
+                    info: "Write Access",
+                    type: "I",
+                    money: -1,
+                })
+                .then(() => { });
+        }
+        else {
+            setError("Request Already Sent!!!")
+        }
+        setCustomer("")
     };
     return (
         <>
@@ -96,6 +126,9 @@ const Insurance = () => {
                                             }}
                                             placeholder="Enter Customer Email..."
                                         />
+                                    </div>
+                                    <div className="flex justify-center">
+                                        <p className="text-white text-lg">{error}</p>
                                     </div>
                                     <hr className="mt-3 mb-6 border-t" />
                                     <div className="mb-6 text-center">

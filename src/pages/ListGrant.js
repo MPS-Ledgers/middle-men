@@ -22,7 +22,7 @@ const ListGrant = (props) => {
     const downloadDS = async () => {
         let asciiArray = await contract.methods
             .getDS(accounts[1])
-            .call({ from: accounts[2] });
+            .call({ from: accounts[3] });
         const cid = convertToString(asciiArray);
         const url = `https://ipfs.io/ipfs/${cid}`;
         const link = document.createElement("a");
@@ -37,6 +37,7 @@ const ListGrant = (props) => {
         let asciiArray = await contract.methods
             .getAadhar(accounts[1])
             .call({ from: accounts[2] });
+        console.log(asciiArray)
         const cid = convertToString(asciiArray);
         const url = `https://ipfs.io/ipfs/${cid}`;
         const link = document.createElement("a");
@@ -47,6 +48,17 @@ const ListGrant = (props) => {
         link.click();
     };
     const tickClick = async () => {
+        await firebase
+            .firestore()
+            .collection("transactions")
+            .doc()
+            .set({
+                cust:props.grants.data.patient,
+                insu:auth.user.email,
+                hosp: props.grants.data.from,
+                money:props.grants.data.money,
+            })
+            .then(() => {});
         const response = await axios.get(
             "https://min-api.cryptocompare.com/data/price?fsym=INR&tsyms=ETH"
         );

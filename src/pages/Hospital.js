@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState} from "react";
 import { BsChatFill } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import SignOut from "../utils/SignOut";
@@ -8,24 +8,53 @@ import "firebase/firestore";
 import { CgProfile } from "react-icons/cg";
 import { GiTakeMyMoney } from "react-icons/gi";
 import { useSelector } from "react-redux";
+import { collection,query,where,getDocs,getFirestore } from "@firebase/firestore";
 const Hospital = () => {
-    const auth = useSelector((state) => state.auth);
-    const [patientmail, setPatientMail] = useState();
-    const formHandler = async (event) => {
-        event.preventDefault();
-        await firebase
-            .firestore()
-            .collection("customers")
-            .doc()
-            .set({
-                email: patientmail,
-                from: auth.user.email,
-                info: "Read Access",
-                type: "H",
-                money: -1,
-            })
-            .then(() => {});
+  const auth = useSelector((state) => state.auth);
+  const [patientmail, setPatientMail] = useState();
+  const [Request, setRequ] = useState()
+  const [error,setError]=useState()
+  const formHandler = async (event) => {
+    setError('')
+    event.preventDefault();
+    let reqs=[]
+    const setRequests = async () => {
+      const db = getFirestore();
+      const usersRef = collection(db, "customers");
+      const q = query(
+        usersRef,
+        where("email", "==", patientmail),
+        where("from", "==", auth.user.email)
+      );
+      const querySnapshot = await getDocs(q);
+      querySnapshot.forEach((doc) => {
+        reqs.push({
+          id: doc.id,
+          data: doc.data(),
+        });
+      });
+      setRequ(reqs);
     };
+    await setRequests();
+    if (reqs.length == 0) {
+      await firebase
+        .firestore()
+        .collection("customers")
+        .doc()
+        .set({
+          email: patientmail,
+          from: auth.user.email,
+          info: "Read Access",
+          type: "H",
+          money: -1,
+        })
+        .then(() => { });
+    }
+    else {
+      setError("Request Already Sent !!!")    
+    }
+    setPatientMail("")
+  };
     return (
         <>
             <SignOut />
@@ -99,6 +128,9 @@ const Hospital = () => {
                                         >
                                             Request
                                         </button>
+                                      </div>
+                                    <div className="flex justify-center">
+                                      <p className="text-white text-lg">{error}</p>
                                     </div>
                                     <hr className="mb-6 border-t" />
                                 </form>

@@ -1,20 +1,27 @@
-import React from "react";
+import React,{useEffect,useState} from "react";
 import SignOut from "../utils/SignOut";
 import GoBack from "../utils/GoBack";
-
+import { useSelector } from "react-redux";
+import { collection,query,where,getDocs } from "@firebase/firestore";
+import { getFirestore } from "firebase/firestore";
 const HospitalTransactions = () => {
-    const Requests = [
-        {
-            user: "a@a.com",
-            ins: "oneindia@a.com",
-            money: 50000,
-        },
-        {
-            user: "abc@x.com",
-            ins: "lic@a.com",
-            money: 75000,
-        },
-    ];
+    const auth = useSelector((state) => state.auth);
+    const [Requ, setRequ] = useState([]);
+    useEffect(async () => {
+        let reqs = [];
+        const db = getFirestore();
+        const usersRef = collection(db, "transactions");
+        const q = query(usersRef, where("hosp", "==", auth.user.email));
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc) => {
+            console.log(doc.id);
+            reqs.push({
+                id: doc.id,
+                data: doc.data(),
+            });
+        });
+        setRequ(reqs);
+    }, []);
     return (
         <>
             <SignOut />
@@ -42,18 +49,18 @@ const HospitalTransactions = () => {
                             <h1 className="text-white text-2xl">Amount</h1>
                         </div>
                     </li>
-                    {Requests.map((grant) => {
+                    {Requ.map((grant) => {
                         return (
                             <li>
                                 <div className="ml-10 grid grid-cols-3 mb-5">
                                     <h1 className="text-white text-xl">
-                                        {grant.user}
+                                        {grant.data.cust}
                                     </h1>
                                     <h1 className="text-white text-xl">
-                                        {grant.ins}
+                                        {grant.data.insu}
                                     </h1>
                                     <h1 className="text-white text-xl">
-                                        {grant.money}
+                                        {grant.data.money}
                                     </h1>
                                 </div>
                             </li>

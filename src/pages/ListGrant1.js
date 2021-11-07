@@ -9,6 +9,7 @@ const ListGrant1 = (props) => {
   console.log(props)
   const auth = useSelector((state) => state.auth);
   const tickClick = async () => {
+    await firebase.firestore().collection('customers').doc(props.grants.id).delete()
     console.log('hello')
     if (props.grants.data.type == 'H') {
       await firebase
@@ -35,7 +36,7 @@ const ListGrant1 = (props) => {
         .then(() => {
         });
     }
-    await firebase.firestore().collection('customers').doc(props.grants.id).delete()
+  
     let myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
     myHeaders.append("Authorization", process.env.REACT_APP_RAPID_PASSWORD);

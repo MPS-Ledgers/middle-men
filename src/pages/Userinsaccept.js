@@ -5,7 +5,6 @@ import { MdApproval } from "react-icons/md";
 import { Link } from "react-router-dom";
 import SignOut from "../utils/SignOut";
 import GoBack from "../utils/GoBack";
-import firebase from "../firebaseConfig";
 import { useSelector } from "react-redux";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { getFirestore } from "firebase/firestore";
@@ -28,7 +27,7 @@ const Userinsaccept = () => {
             });
         });
         setRequ(reqs);
-    }, []);
+    }, [Requ]);
     return (
         <>
             <SignOut />
@@ -62,7 +61,7 @@ const Userinsaccept = () => {
                     <li>
                         <div className="ml-10 grid grid-cols-5 mb-10">
                             <h1 className="text-white text-2xl">
-                                Hospital Name
+                                Company Name
                             </h1>
                             <h1 className="text-white text-2xl">Request</h1>
 

@@ -185,7 +185,7 @@ const HospitalView = () => {
                                         </div>
                                         <div className="mb-6 text-center">
                                             <button
-                                                className="px-4 py-2 font-bold text-white bg-red-500 rounded-full hover:bg-red-700 focus:outline-none focus:shadow-outline"
+                                                className="px-4 py-2 font-bold text-white bg-pink-500 rounded-full hover:bg-red-700 focus:outline-none focus:shadow-outline"
                                                 type="button"
                                                 onClick={formHandler}
                                             >

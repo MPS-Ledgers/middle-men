@@ -14,8 +14,8 @@ const User = () => {
     useEffect(async () => {
         let reqs = [];
         const db = getFirestore();
-        const usersRef = collection(db, "insurance");
-        const q = query(usersRef, where("email", "==", auth.user.email));
+        const usersRef = collection(db, "transactions");
+        const q = query(usersRef, where("cust", "==", auth.user.email));
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
             console.log(doc.id);
@@ -59,8 +59,8 @@ const User = () => {
                 <ul className="mt-10">
                     <li>
                         <div className="ml-10 grid grid-cols-3 mb-10">
-                            <h1 className="text-white text-2xl">User</h1>
                             <h1 className="text-white text-2xl">Insurance</h1>
+                            <h1 className="text-white text-2xl">Hospital</h1>
                             <h1 className="text-white text-2xl">Amount</h1>
                         </div>
                     </li>
@@ -69,13 +69,13 @@ const User = () => {
                             <li>
                                 <div className="ml-10 grid grid-cols-3 mb-5">
                                     <h1 className="text-white text-xl">
-                                        {grant.ins}
+                                        {grant.data.insu}
                                     </h1>
                                     <h1 className="text-white text-xl">
-                                        {grant.hosp}
+                                        {grant.data.hosp}
                                     </h1>
                                     <h1 className="text-white text-xl">
-                                        {grant.money}
+                                        {grant.data.money}
                                     </h1>
                                 </div>
                             </li>
