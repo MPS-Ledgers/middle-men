@@ -9,7 +9,7 @@ import axios from "axios";
 const ListGrant = (props) => {
     const { contract, accounts, web3 } = useSelector((state) => state);
     const auth = useSelector((state) => state.auth);
-
+    console.log(props)
     console.log(auth.user.email);
     const convertToString = (asciiArray) => {
         let res = "";
@@ -46,7 +46,6 @@ const ListGrant = (props) => {
         document.body.appendChild(link);
         link.click();
     };
-
     const tickClick = async () => {
         const response = await axios.get(
             "https://min-api.cryptocompare.com/data/price?fsym=INR&tsyms=ETH"
