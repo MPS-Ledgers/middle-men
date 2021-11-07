@@ -34,7 +34,6 @@ const App = () => {
     useEffect(() => {
         setType(state.type);
         console.log(state.user);
-        dispatch({ type: "ACCOUNT_TYPE", payload: state.type });
     }, [state]);
 
     useEffect(() => {
