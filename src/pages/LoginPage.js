@@ -15,6 +15,7 @@ const LoginPage = (props) => {
   const [loginError, setLoginError] = useState(false);
   const dispatch = useDispatch();
   const db = getFirestore();
+
   const loginHandler = async (event) => {
     event.preventDefault();
     setLoaderShow(true);

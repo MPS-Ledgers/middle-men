@@ -16,8 +16,8 @@ const HospitalView = () => {
     const [Requ1, setRequ1] = useState([]);
     const [patientmail, setPatientMail] = useState("");
     const formHandler = async () => {
+        let reqs = [];
         const setRequests = async () => {
-            let reqs = [];
             const db1 = getFirestore();
             const usersRef1 = collection(db1, "HospitalRead");
             const q1 = query(
@@ -35,8 +35,7 @@ const HospitalView = () => {
             setRequ1(reqs);
         };
         await setRequests();
-        console.log(Requ1);
-        if (Requ1.length > 0) {
+        if (reqs.length > 0) {
             setX(true);
         }
     };
@@ -57,6 +56,7 @@ const HospitalView = () => {
         };
         setRequests();
     }, [x, patientmail]);
+    console.log(x);
     if (x)
         return (
             <>

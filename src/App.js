@@ -24,15 +24,19 @@ import { contractAddress } from "./ethereum/contractAddress";
 import InsuranceAadhar from "./pages/InsuranceAadhar";
 import HospitalView from "./pages/HospitalView";
 import Report from "./pages/Report";
+
 const App = () => {
     const dispatch = useDispatch();
-    const [type, setType] = useState();
+    const [localType, setType] = useState();
     const state = useSelector((state) => state.auth);
-    console.log(state.type);
+    const { type } = useSelector((state) => state);
+
     useEffect(() => {
         setType(state.type);
         console.log(state.user);
+        dispatch({ type: "ACCOUNT_TYPE", payload: state.type });
     }, [state]);
+
     useEffect(() => {
         const getContract = async () => {
             const provider = new Web3.providers.HttpProvider(
@@ -51,21 +55,23 @@ const App = () => {
         getContract();
     }, []);
 
+    console.log(type);
+
     return (
         <>
             <Router history={history}>
                 <Route path="/" exact component={LoginPage} />
-                {type == "1" ? (
+                {localType == "1" ? (
                     <Route path="/user" exact component={User} />
                 ) : (
                     <Redirect path="/" />
                 )}
-                {type == "2" ? (
+                {localType == "2" ? (
                     <Route path="/insurance" exact component={Insurance} />
                 ) : (
                     <Redirect path="/" />
                 )}
-                {type == "3" ? (
+                {localType == "3" ? (
                     <Route path="/hospital" exact component={Hospital} />
                 ) : (
                     <Redirect path="/" />
@@ -78,7 +84,7 @@ const App = () => {
                 : <Redirect path="/" />
                 <Route path="/signup" exact component={Signup} />
                 <Route path="/chat" exact component={Chat} />
-                {type == "2" ? (
+                {localType == "2" ? (
                     <Route
                         path="/insurance/grant"
                         exact
@@ -87,7 +93,7 @@ const App = () => {
                 ) : (
                     <Redirect path="/" />
                 )}
-                {type == "1" ? (
+                {localType == "1" ? (
                     <Route
                         path="/user/accept"
                         exact
@@ -96,7 +102,7 @@ const App = () => {
                 ) : (
                     <Redirect path="/" />
                 )}
-                {type == "2" ? (
+                {localType == "2" ? (
                     <Route
                         path="/insurance/profile"
                         exact
@@ -105,7 +111,7 @@ const App = () => {
                 ) : (
                     <Redirect path="/" />
                 )}
-                {type == "3" ? (
+                {localType == "3" ? (
                     <Route
                         path="/hospital/profile"
                         exact
@@ -114,7 +120,7 @@ const App = () => {
                 ) : (
                     <Redirect path="/" />
                 )}
-                {type == "2" ? (
+                {localType == "2" ? (
                     <Route
                         path="/insurance/transactions"
                         exact
@@ -123,7 +129,7 @@ const App = () => {
                 ) : (
                     <Redirect path="/" />
                 )}
-                {type == "3" ? (
+                {localType == "3" ? (
                     <Route
                         path="/hospital/transactions"
                         exact
@@ -132,7 +138,7 @@ const App = () => {
                 ) : (
                     <Redirect path="/" />
                 )}
-                {type == "3" ? (
+                {localType == "3" ? (
                     <Route
                         path="/hospital/bill"
                         exact
@@ -141,7 +147,7 @@ const App = () => {
                 ) : (
                     <Redirect path="/" />
                 )}
-                {type == "2" ? (
+                {localType == "2" ? (
                     <Route
                         path="/insurance/bill"
                         exact
@@ -150,7 +156,7 @@ const App = () => {
                 ) : (
                     <Redirect path="/" />
                 )}
-                {type == "2" ? (
+                {localType == "2" ? (
                     <Route
                         path="/insurance/add"
                         exact
@@ -159,7 +165,7 @@ const App = () => {
                 ) : (
                     <Redirect path="/" />
                 )}
-                {type == "3" ? (
+                {localType == "3" ? (
                     <Route
                         path="/hospital/view"
                         exact
