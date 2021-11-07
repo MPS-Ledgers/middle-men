@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import SignOut from "../utils/SignOut";
+import GoBack from "../utils/GoBack";
 import { Link } from "react-router-dom";
 import firebase from "../firebaseConfig";
 import "firebase/firestore";
@@ -46,6 +47,7 @@ const HospitalInsuranceConnect = () => {
     return (
         <>
             <SignOut />
+            <GoBack />
             <div
                 className="h-screen w-screen text-white"
                 style={{
@@ -64,12 +66,12 @@ const HospitalInsuranceConnect = () => {
                         <BsChatFill className="inline text-3xl mt-2 mr-10" />
                     </Link>
                 </div>
-                <div className="flex justify-center content-center">
+                <div className="flex justify-center content-center w-full">
                     <h1 className="text-5xl font-serif mt-10">
                         Welcome to Middlemen
                     </h1>
                 </div>
-                <div className="flex justify-center content-center">
+                <div className="flex justify-center content-center w-full">
                     <p className="text-3xl font-serif">Secure Solutions</p>
                 </div>
                 <div className="mx-auto">

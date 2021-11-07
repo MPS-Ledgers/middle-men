@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { getFirestore } from "firebase/firestore";
 import SignOut from "../utils/SignOut";
+import GoBack from "../utils/GoBack";
 import "firebase/firestore";
 import { Link } from "react-router-dom";
 import { CgProfile } from "react-icons/cg";
@@ -60,6 +61,7 @@ const HospitalView = () => {
         return (
             <>
                 <SignOut />
+                <GoBack />
                 <div
                     className="h-screen w-screen text-white"
                     style={{
@@ -78,12 +80,12 @@ const HospitalView = () => {
                             <BsChatFill className="inline text-3xl mt-2 mr-10" />
                         </Link>
                     </div>
-                    <div className="flex justify-center content-center">
+                    <div className="flex justify-center content-center w-full">
                         <h1 className="text-5xl font-serif mt-10">
                             Welcome to Middlemen
                         </h1>
                     </div>
-                    <div className="flex justify-center content-center">
+                    <div className="flex justify-center content-center w-full">
                         <p className="text-3xl font-serif">Secure Solutions</p>
                     </div>
                     <div className="flex justify-center mt-10">
@@ -119,6 +121,7 @@ const HospitalView = () => {
         return (
             <>
                 <SignOut />
+                <GoBack />
                 <div className="h-screen w-screen text-white font-serif">
                     <div className="inline float-right">
                         <Link to="/hospital/profile">
@@ -131,12 +134,12 @@ const HospitalView = () => {
                             <BsChatFill className="inline text-3xl mt-2 mr-10" />
                         </Link>
                     </div>
-                    <div className="flex justify-center content-center">
+                    <div className="flex justify-center content-center w-full">
                         <h1 className="text-5xl font-serif mt-10">
                             Welcome to Middlemen
                         </h1>
                     </div>
-                    <div className="flex justify-center content-center">
+                    <div className="flex justify-center content-center w-full">
                         <p className="text-3xl font-serif">Secure Solutions</p>
                     </div>
                     <div className="mx-auto">

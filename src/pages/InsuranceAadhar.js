@@ -6,6 +6,7 @@ import { MdApproval } from "react-icons/md";
 import { GrAdd } from "react-icons/gr";
 import { Link } from "react-router-dom";
 import SignOut from "../utils/SignOut";
+import GoBack from "../utils/GoBack";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import IPFS from "../IPFS";
 import { useSelector } from "react-redux";
@@ -70,6 +71,7 @@ const InsuranceAadhar = () => {
     return (
         <>
             <SignOut />
+            <GoBack />
             <div className="h-screen w-screen text-white font-serif">
                 <div className="inline float-right">
                     <Link to="/insurance/profile">
@@ -88,12 +90,12 @@ const InsuranceAadhar = () => {
                         <GrAdd className="inline rounded-md text-3xl mr-4 mt-2 float-left bg-white" />
                     </Link>
                 </div>
-                <div className="flex justify-center content-center">
+                <div className="flex justify-center content-center w-full">
                     <h1 className="text-5xl font-serif mt-10">
                         Welcome to Middlemen
                     </h1>
                 </div>
-                <div className="flex justify-center content-center">
+                <div className="flex justify-center content-center w-full">
                     <p className="text-3xl font-serif">Secure Solutions</p>
                 </div>
                 <div className="mx-auto">

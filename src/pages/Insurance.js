@@ -5,6 +5,7 @@ import { CgProfile } from "react-icons/cg";
 import { Link } from "react-router-dom";
 import { GiTakeMyMoney } from "react-icons/gi";
 import SignOut from "../utils/SignOut";
+import GoBack from "../utils/GoBack";
 import firebase from "../firebaseConfig";
 import { useSelector } from "react-redux";
 import "firebase/firestore";
@@ -30,6 +31,7 @@ const Insurance = () => {
     return (
         <>
             <SignOut />
+            <GoBack />
             <div className="h-screen w-screen text-white font-serif">
                 <div className="inline float-right">
                     <Link to="/insurance/profile">

@@ -7,6 +7,7 @@ import firebase from '../firebaseConfig'
 import "firebase/firestore";
 import { useSelector } from "react-redux";
 import SignOut from "../utils/SignOut";
+import GoBack from "../utils/GoBack";
 import { MdApproval } from "react-icons/md";
 const InsuranceBill = () => {
     const auth = useSelector((state) => state.auth);
@@ -35,10 +36,10 @@ const InsuranceBill = () => {
                     <Link to="/chat"><BsChatFill className="inline text-3xl mt-2 mr-10" /></Link>
                     <Link to="/insurance/grant"><MdApproval className="inline text-3xl mr-4 mt-2 float-left" /></Link>
                 </div>
-                <div className="flex justify-center content-center">
+                <div className="flex justify-center content-center w-full">
                     <h1 className="text-5xl font-serif mt-10">Welcome to Middlemen</h1>
                 </div>
-                <div className="flex justify-center content-center">
+                <div className="flex justify-center content-center w-full">
                     <p className="text-3xl font-serif">Secure Solutions</p>
                 </div>
                 <div className="mx-auto">

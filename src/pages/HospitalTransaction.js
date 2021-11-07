@@ -1,5 +1,6 @@
 import React from "react";
 import SignOut from "../utils/SignOut";
+import GoBack from "../utils/GoBack";
 
 const HospitalTransactions = () => {
     const Requests = [
@@ -17,6 +18,7 @@ const HospitalTransactions = () => {
     return (
         <>
             <SignOut />
+            <GoBack />
             <div
                 className="h-screen w-screen text-white"
                 style={{
@@ -24,12 +26,12 @@ const HospitalTransactions = () => {
                         "linear-gradient(rgba(0,0,0,0.7),rgba(0,0,0,0.7))",
                 }}
             >
-                <div className="flex justify-center content-center">
+                <div className="flex justify-center content-center w-full">
                     <h1 className="text-5xl font-serif mt-10">
                         Welcome to Middlemen
                     </h1>
                 </div>
-                <div className="flex justify-center content-center">
+                <div className="flex justify-center content-center w-full">
                     <p className="text-3xl font-serif">Secure Solutions</p>
                 </div>
                 <ul className="mt-10">

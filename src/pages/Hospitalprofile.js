@@ -4,11 +4,13 @@ import { GiTakeMyMoney } from "react-icons/gi";
 import { Link } from "react-router-dom";
 import hosppro from "../images/hosppro.png";
 import SignOut from "../utils/SignOut";
+import GoBack from "../utils/GoBack";
 import { BsChatFill } from "react-icons/bs";
 const HospitalProfile = () => {
     return (
         <>
             <SignOut />
+            <GoBack />
             <div
                 className="h-screen w-screen text-white"
                 style={{
