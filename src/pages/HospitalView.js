@@ -1,25 +1,29 @@
-import React,{useState,useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { getFirestore } from "firebase/firestore";
 import SignOut from "../utils/SignOut";
 import "firebase/firestore";
-import { Link } from 'react-router-dom'
+import { Link } from "react-router-dom";
 import { CgProfile } from "react-icons/cg";
 import { BsChatFill } from "react-icons/bs";
 import { GiTakeMyMoney } from "react-icons/gi";
-const HospView = () => {
+const HospitalView = () => {
     const auth = useSelector((state) => state.auth);
-    const [x, setX] = useState(false)
+    const [x, setX] = useState(false);
     const [Requ, setRequ] = useState([]);
     const [Requ1, setRequ1] = useState([]);
-    const [patientmail,setPatientMail]=useState('')
-    const formHandler=async() => {
+    const [patientmail, setPatientMail] = useState("");
+    const formHandler = async () => {
         const setRequests = async () => {
             let reqs = [];
             const db1 = getFirestore();
             const usersRef1 = collection(db1, "HospitalRead");
-            const q1 = query(usersRef1, where("email", "==", patientmail),where("from","==",auth.user.email));
+            const q1 = query(
+                usersRef1,
+                where("email", "==", patientmail),
+                where("from", "==", auth.user.email)
+            );
             const querySnapshot = await getDocs(q1);
             querySnapshot.forEach((doc) => {
                 reqs.push({
@@ -30,17 +34,17 @@ const HospView = () => {
             setRequ1(reqs);
         };
         await setRequests();
-        console.log(Requ1)
+        console.log(Requ1);
         if (Requ1.length > 0) {
-            setX(true)
+            setX(true);
         }
-    }
+    };
     useEffect(() => {
         const setRequests = async () => {
             let reqs = [];
             const db = getFirestore();
             const usersRef = collection(db, "InsuranceWrite");
-            const q = query(usersRef, where("email", "==",patientmail));
+            const q = query(usersRef, where("email", "==", patientmail));
             const querySnapshot = await getDocs(q);
             querySnapshot.forEach((doc) => {
                 reqs.push({
@@ -51,54 +55,66 @@ const HospView = () => {
             setRequ(reqs);
         };
         setRequests();
-    }, [x]);
+    }, [x, patientmail]);
     if (x)
-    return (
-        <>
-            <SignOut />
-            <div className="h-screen w-screen text-white" style={{ "background": "linear-gradient(rgba(0,0,0,0.7),rgba(0,0,0,0.7))" }}>
-                <div className="inline float-right">
-                    <Link to="/hospital/profile">
-                        <CgProfile className="inline text-3xl mt-2 mr-5" />
-                    </Link>
-                    <Link to="/hospital/bill">
-                        <GiTakeMyMoney className="inline text-white text-3xl mt-2 mr-4" />
-                    </Link>
-                    <Link to="/chat">
-                        <BsChatFill className="inline text-3xl mt-2 mr-10" />
-                    </Link>
+        return (
+            <>
+                <SignOut />
+                <div
+                    className="h-screen w-screen text-white"
+                    style={{
+                        background:
+                            "linear-gradient(rgba(0,0,0,0.7),rgba(0,0,0,0.7))",
+                    }}
+                >
+                    <div className="inline float-right">
+                        <Link to="/hospital/profile">
+                            <CgProfile className="inline text-3xl mt-2 mr-5" />
+                        </Link>
+                        <Link to="/hospital/bill">
+                            <GiTakeMyMoney className="inline text-white text-3xl mt-2 mr-4" />
+                        </Link>
+                        <Link to="/chat">
+                            <BsChatFill className="inline text-3xl mt-2 mr-10" />
+                        </Link>
+                    </div>
+                    <div className="flex justify-center content-center">
+                        <h1 className="text-5xl font-serif mt-10">
+                            Welcome to Middlemen
+                        </h1>
+                    </div>
+                    <div className="flex justify-center content-center">
+                        <p className="text-3xl font-serif">Secure Solutions</p>
+                    </div>
+                    <div className="flex justify-center mt-10">
+                        <h1 className="text-xl">User : {patientmail}</h1>
+                    </div>
+                    <div className="mt-5 flex justify-center">
+                        <ul>
+                            <li>
+                                <div className="ml-10 grid grid-cols-1 mb-4">
+                                    <h1 className="text-white text-2xl">
+                                        Insurance
+                                    </h1>
+                                    <hr className="text-white" />
+                                </div>
+                            </li>
+                            {Requ.map((grant) => {
+                                return (
+                                    <li>
+                                        <div className="ml-10 grid grid-cols-1 mb-2">
+                                            <h1 className="text-white text-xl">
+                                                {grant.data.from}
+                                            </h1>
+                                        </div>
+                                    </li>
+                                );
+                            })}
+                        </ul>
+                    </div>
                 </div>
-                <div className="flex justify-center content-center">
-                    <h1 className="text-5xl font-serif mt-10">Welcome to Middlemen</h1>
-                </div>
-                <div className="flex justify-center content-center">
-                    <p className="text-3xl font-serif">Secure Solutions</p>
-                </div>
-                <div className="flex justify-center mt-10">
-                    <h1 className="text-xl">User : {patientmail}</h1>
-                </div>
-                <div className="mt-5 flex justify-center">
-                    <ul>
-                        <li>
-                            <div className="ml-10 grid grid-cols-1 mb-4">
-                                <h1 className="text-white text-2xl">Insurance</h1>
-                                <hr className="text-white"/>
-                            </div>
-                        </li>
-                        {Requ.map((grant) => {
-                            return (
-                                <li>
-                                    <div className="ml-10 grid grid-cols-1 mb-2">
-                                        <h1 className="text-white text-xl">{grant.data.from}</h1>
-                                    </div>
-                                </li>
-                            )
-                        })}
-                    </ul>
-                </div>
-            </div>
-        </>
-        )
+            </>
+        );
     else {
         return (
             <>
@@ -116,7 +132,9 @@ const HospView = () => {
                         </Link>
                     </div>
                     <div className="flex justify-center content-center">
-                        <h1 className="text-5xl font-serif mt-10">Welcome to Middlemen</h1>
+                        <h1 className="text-5xl font-serif mt-10">
+                            Welcome to Middlemen
+                        </h1>
                     </div>
                     <div className="flex justify-center content-center">
                         <p className="text-3xl font-serif">Secure Solutions</p>
@@ -126,7 +144,8 @@ const HospView = () => {
                             <div
                                 className="flex"
                                 style={{
-                                    background: "linear-gradient(rgba(0,0,0,0.7),rgba(0,0,0,0.7))",
+                                    background:
+                                        "linear-gradient(rgba(0,0,0,0.7),rgba(0,0,0,0.7))",
                                 }}
                             >
                                 <div className="p-10 rounded-lg lg:rounded-l-none">
@@ -135,7 +154,9 @@ const HospView = () => {
                                             Search Patient Insurance Details
                                         </h3>
                                         <p className="mb-4 text-sm text-white">
-                                            Know the Patient's Insurance Company details. Enter the patient mail and get the info!!!
+                                            Know the Patient's Insurance Company
+                                            details. Enter the patient mail and
+                                            get the info!!!
                                         </p>
                                     </div>
                                     <form className="px-8 pt-6 pb-8 mb-4 rounded">
@@ -152,7 +173,9 @@ const HospView = () => {
                                                 type="email"
                                                 value={patientmail}
                                                 onChange={(event) => {
-                                                    setPatientMail(event.target.value);
+                                                    setPatientMail(
+                                                        event.target.value
+                                                    );
                                                 }}
                                                 placeholder="Enter Patient Email..."
                                             />
@@ -169,7 +192,12 @@ const HospView = () => {
                                         <hr className="mb-6 border-t" />
                                     </form>
                                     <div className="flex justify-center">
-                                        <Link to="/hospital" className="text-xl">Add New Users Get Read Access!!!</Link>
+                                        <Link
+                                            to="/hospital"
+                                            className="text-xl"
+                                        >
+                                            Add New Users Get Read Access!!!
+                                        </Link>
                                     </div>
                                 </div>
                             </div>
@@ -177,8 +205,8 @@ const HospView = () => {
                     </div>
                 </div>
             </>
-        )
+        );
     }
-}
+};
 
-export default HospView
+export default HospitalView;

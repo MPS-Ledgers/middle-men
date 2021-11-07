@@ -12,12 +12,12 @@ import { useSelector } from "react-redux";
 import { getFirestore } from "firebase/firestore";
 import "firebase/firestore";
 
-const InsAadhar = () => {
+const InsuranceAadhar = () => {
     const auth = useSelector((state) => state.auth);
     const [customer, setCustomer] = useState();
     const [aadhaar, setAadhaar] = useState("");
     const { accounts, contract } = useSelector((state) => state);
-    const [Requ1,setRequ1]=useState([])
+    const [Requ1, setRequ1] = useState([]);
     const formHandler = async (event) => {
         event.preventDefault();
 
@@ -37,7 +37,11 @@ const InsAadhar = () => {
             let reqs = [];
             const db1 = getFirestore();
             const usersRef1 = collection(db1, "InsuranceWrite");
-            const q1 = query(usersRef1, where("email", "==", customer), where("from", "==", auth.user.email));
+            const q1 = query(
+                usersRef1,
+                where("email", "==", customer),
+                where("from", "==", auth.user.email)
+            );
             const querySnapshot = await getDocs(q1);
             querySnapshot.forEach((doc) => {
                 reqs.push({
@@ -57,10 +61,10 @@ const InsAadhar = () => {
             await contract.methods
                 .addAadhar(accounts[1], asciiArray)
                 .send({ from: accounts[2], gas: "6100000" });
-        // let arr = await contract.methods
-        //     .getAadhar(accounts[1])
-        //     .call({ from: accounts[2] });
-        // console.log(arr);
+            // let arr = await contract.methods
+            //     .getAadhar(accounts[1])
+            //     .call({ from: accounts[2] });
+            // console.log(arr);
         }
     };
     return (
@@ -166,4 +170,4 @@ const InsAadhar = () => {
     );
 };
 
-export default InsAadhar;
+export default InsuranceAadhar;

@@ -7,7 +7,7 @@ import { CgProfile } from "react-icons/cg"
 import { BsChatFill } from "react-icons/bs";
 import { GrAdd } from "react-icons/gr";
 import { MdApproval } from "react-icons/md";
-const insProfile = () => {
+const InsuranceProfile = () => {
     return (
         <>
             <SignOut />
@@ -45,4 +45,4 @@ const insProfile = () => {
     )
 }
 
-export default insProfile;
+export default InsuranceProfile;

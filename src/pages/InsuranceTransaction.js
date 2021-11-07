@@ -1,7 +1,7 @@
 import React from "react";
 import SignOut from "../utils/SignOut";
 
-const insTrans = () => {
+const InsuranceTransaction = () => {
     const Requests = [
         {
             user: "a@a.com",
@@ -49,4 +49,4 @@ const insTrans = () => {
     )
 }
 
-export default insTrans
+export default InsuranceTransaction
