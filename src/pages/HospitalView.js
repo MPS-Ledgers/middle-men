@@ -11,11 +11,13 @@ import { BsChatFill } from "react-icons/bs";
 import { GiTakeMyMoney } from "react-icons/gi";
 const HospitalView = () => {
     const auth = useSelector((state) => state.auth);
+    const [error, setError] = useState();
     const [x, setX] = useState(false);
     const [Requ, setRequ] = useState([]);
     const [Requ1, setRequ1] = useState([]);
     const [patientmail, setPatientMail] = useState("");
     const formHandler = async () => {
+        setError("")
         let reqs = [];
         const setRequests = async () => {
             const db1 = getFirestore();
@@ -37,6 +39,9 @@ const HospitalView = () => {
         await setRequests();
         if (reqs.length > 0) {
             setX(true);
+        }
+        else {
+            setError("You dont have Read Access of this patient")
         }
     };
     useEffect(() => {
@@ -191,6 +196,9 @@ const HospitalView = () => {
                                             >
                                                 Request
                                             </button>
+                                        </div>
+                                        <div className="flex justify-center">
+                                            <p className="text-white text-lg">{error}</p>
                                         </div>
                                         <hr className="mb-6 border-t" />
                                     </form>

@@ -35,8 +35,32 @@ const Hospital = () => {
       });
       setRequ(reqs);
     };
+    let reqs1=[]
+    const setRequests1 = async () => {
+      const db = getFirestore();
+      const usersRef = collection(db, "HospitalRead");
+        const q = query(
+            usersRef,
+            where("email", "==", patientmail),
+            where("from", "==", auth.user.email)
+        );
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc) => {
+          reqs1.push({
+            id: doc.id,
+                data: doc.data(),
+            });
+        });
+        setRequ(reqs1);
+    };
     await setRequests();
-    if (reqs.length == 0) {
+    await setRequests1();
+    console.log(reqs.length, reqs)
+    console.log(reqs1.length, reqs1)
+    if (patientmail.length <= 0) {
+      setError("Enter Valid Email")
+    }
+    else if (reqs.length == 0 && reqs1.length==0) {
       await firebase
         .firestore()
         .collection("customers")
@@ -50,8 +74,11 @@ const Hospital = () => {
         })
         .then(() => { });
     }
-    else {
+    else if(reqs.length>0) {
       setError("Request Already Sent !!!")    
+    }
+    else if (reqs1.length > 0) {
+      setError("You already have Read Access of this Patient")
     }
     setPatientMail("")
   };
