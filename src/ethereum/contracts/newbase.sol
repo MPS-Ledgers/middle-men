@@ -9,9 +9,10 @@ contract Record {
   mapping(address => bool) public hospital;
   mapping(address => bool) public insurance;
   mapping(address => bool) public users;
-  mapping(address => mapping ( address => uint256[])) public user_aadhaars;
+  mapping(address => mapping ( address => mapping(uint => uint256[]))) public user_aadhaars;
   mapping(address => mapping(address => mapping(uint => uint256[]))) public user_ds;
   mapping(address => mapping(address=>uint)) public ds_count;
+  mapping(address => mapping(address=>uint)) public ad_count;
   // 0 => 1 DS
   // 1 => 2 DS
   mapping(address => uint256) public insurance_balance;
@@ -36,15 +37,16 @@ contract Record {
     require(users[cust]);
     
     for (uint256 i = 0; i < AADHAR.length; ++i) {
-      user_aadhaars[cust][msg.sender].push(AADHAR[i]);
+      user_aadhaars[cust][msg.sender][ad_count[cust][msg.sender]].push(AADHAR[i]);
     }
+    ad_count[cust][msg.sender]++;
   }
 
   function getAadhar(address cust) public view returns (uint256[] memory) {
     require(insurance[msg.sender]);
     require(users[cust]);
 
-    return user_aadhaars[cust][msg.sender];
+    return user_aadhaars[cust][msg.sender][ad_count[cust][msg.sender]-1];
   }
 
   function addDS(address cust, uint256[] memory DS) public payable {

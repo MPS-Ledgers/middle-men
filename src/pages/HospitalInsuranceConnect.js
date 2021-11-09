@@ -55,10 +55,6 @@ const HospitalInsuranceConnect = () => {
         await contract.methods
             .addDS(acc[0].data.address, asciiArray)
             .send({ from: accounts[0], gas: "6000000" });
-        // let arr = await contract.methods
-        //     .getDS(accounts[1])
-        //     .call({ from: accounts[3] });
-        // console.log(arr);
     };
     return (
         <>

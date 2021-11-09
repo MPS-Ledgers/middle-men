@@ -33,7 +33,6 @@ const App = () => {
 
     useEffect(() => {
         setType(state.type);
-        console.log(state.user);
     }, [state]);
 
     useEffect(async() => {
@@ -58,17 +57,17 @@ const App = () => {
         <>
             <Router history={history}>
                 <Route path="/" exact component={LoginPage} />
-                {localType == "1" ? (
+                {localType === 1 ? (
                     <Route path="/user" exact component={User} />
                 ) : (
                     <Redirect to="/" />
                 )}
-                {localType == "2" ? (
+                {localType === 2 ? (
                     <Route path="/insurance" exact component={Insurance} />
                 ) : (
                     <Redirect to="/" />
                 )}
-                {localType == "3" ? (
+                {localType === 3 ? (
                     <Route path="/hospital" exact component={Hospital} />
                 ) : (
                     <Redirect to="/" />
@@ -81,7 +80,7 @@ const App = () => {
                 : <Redirect to="/" />
                 <Route path="/signup" exact component={Signup} />
                 <Route path="/chat" exact component={Chat} />
-                {localType == "2" ? (
+                {localType === 2 ? (
                     <Route
                         path="/insurance/grant"
                         exact
@@ -90,7 +89,7 @@ const App = () => {
                 ) : (
                     <Redirect to="/" />
                 )}
-                {localType == "1" ? (
+                {localType === 1 ? (
                     <Route
                         path="/user/accept"
                         exact
@@ -99,7 +98,7 @@ const App = () => {
                 ) : (
                     <Redirect to="/" />
                 )}
-                {localType == "2" ? (
+                {localType === 2 ? (
                     <Route
                         path="/insurance/profile"
                         exact
@@ -108,7 +107,7 @@ const App = () => {
                 ) : (
                     <Redirect to="/" />
                 )}
-                {localType == "3" ? (
+                {localType === 3 ? (
                     <Route
                         path="/hospital/profile"
                         exact
@@ -117,7 +116,7 @@ const App = () => {
                 ) : (
                     <Redirect to="/" />
                 )}
-                {localType == "2" ? (
+                {localType === 2 ? (
                     <Route
                         path="/insurance/transactions"
                         exact
@@ -126,7 +125,7 @@ const App = () => {
                 ) : (
                     <Redirect to="/" />
                 )}
-                {localType == "3" ? (
+                {localType === 3 ? (
                     <Route
                         path="/hospital/transactions"
                         exact
@@ -135,7 +134,7 @@ const App = () => {
                 ) : (
                     <Redirect to="/" />
                 )}
-                {localType == "3" ? (
+                {localType === 3 ? (
                     <Route
                         path="/hospital/bill"
                         exact
@@ -144,7 +143,7 @@ const App = () => {
                 ) : (
                     <Redirect to="/" />
                 )}
-                {localType == "2" ? (
+                {localType === 2 ? (
                     <Route
                         path="/insurance/bill"
                         exact
@@ -153,7 +152,7 @@ const App = () => {
                 ) : (
                     <Redirect to="/" />
                 )}
-                {localType == "2" ? (
+                {localType === 2 ? (
                     <Route
                         path="/insurance/add"
                         exact
@@ -162,7 +161,7 @@ const App = () => {
                 ) : (
                     <Redirect to="/" />
                 )}
-                {localType == "3" ? (
+                {localType === 3 ? (
                     <Route
                         path="/hospital/view"
                         exact

@@ -8,6 +8,8 @@ import axios from "axios";
 import { collection, query, where, getDocs, getFirestore } from "@firebase/firestore";
 
 const ListGrant = (props) => {
+    let acc = []
+    let acc1 = []
     const { contract, accounts, web3 } = useSelector((state) => state);
     const auth = useSelector((state) => state.auth);
     const convertToString = (asciiArray) => {
@@ -17,23 +19,47 @@ const ListGrant = (props) => {
         }
         return res;
     };
+
     const downloadDS = async () => {
-        const db = getFirestore();
-        const usersRef = collection(db, "users");
-        const q = query(
-            usersRef,
-            where("email", "==", props.grants.data.from)
-        );
-        let acc = []
-        const querySnapshot = await getDocs(q);
-        querySnapshot.forEach((doc) => {
-            acc.push({
-                id: doc.id,
-                data: doc.data(),
+        console.log(props.grants.data.patient)
+        acc = []
+        acc1 = []
+        const fn = async() => {
+            const db = getFirestore();
+            const usersRef = collection(db, "users");
+            const q = query(
+                usersRef,
+                where("email", "==", props.grants.data.from)
+            );
+            const querySnapshot = await getDocs(q);
+            querySnapshot.forEach((doc) => {
+                acc.push({
+                    id: doc.id,
+                    data: doc.data(),
+                });
             });
-        });
+        }
+        const fn1 = async() => {
+            const db1 = getFirestore();
+            const usersRef1 = collection(db1, "users");
+            const q1 = query(
+                usersRef1,
+                where("email", "==", props.grants.data.patient)
+            );
+            const querySnapshot1 = await getDocs(q1);
+            querySnapshot1.forEach((doc1) => {
+                acc1.push({
+                    id: doc1.id,
+                    data: doc1.data(),
+                });
+            });
+        }    
+        await fn();
+        await fn1();
+        console.log(acc1[0].data.address)//customer
+        console.log(acc[0].data.address)//hospital
         let asciiArray = await contract.methods
-            .getDS(acc[0].data.address)
+            .getDS(acc1[0].data.address,acc[0].data.address)
             .call({ from: accounts[0] });
         console.log(acc, accounts, asciiArray)
         const cid = convertToString(asciiArray);
@@ -47,9 +73,26 @@ const ListGrant = (props) => {
     };
 
     const downloadAadhaar = async () => {
+        const db = getFirestore();
+        console.log(props.grants.data.patient)
+        const usersRef = collection(db, "users");
+        const q = query(
+            usersRef,
+            where("email", "==", props.grants.data.patient)
+        );
+        let acc = []
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc) => {
+            acc.push({
+                id: doc.id,
+                data: doc.data(),
+            });
+        });
+        console.log(acc)
+        console.log(acc[0].data.address,accounts[0])
         let asciiArray = await contract.methods
-            .getAadhar(accounts[1])
-            .call({ from: accounts[2] });
+            .getAadhar(acc[0].data.address)
+            .call({ from: accounts[0] });
         console.log(asciiArray)
         const cid = convertToString(asciiArray);
         const url = `https://ipfs.io/ipfs/${cid}`;

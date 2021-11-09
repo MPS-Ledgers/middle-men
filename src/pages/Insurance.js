@@ -112,7 +112,7 @@ const Insurance = () => {
                                     <div className="mb-4">
                                         <label
                                             className="block mb-2 text-sm font-bold text-white"
-                                            for="AADHAR"
+                                            htmlFor="AADHAR"
                                         >
                                             Email
                                         </label>

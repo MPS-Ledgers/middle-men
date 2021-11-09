@@ -17,12 +17,11 @@ const InsuranceAadhar = () => {
     const auth = useSelector((state) => state.auth);
     const [customer, setCustomer] = useState();
     const [aadhaar, setAadhaar] = useState("");
+    const [error, setError] = useState("");
     const { accounts, contract } = useSelector((state) => state);
     const [Requ1, setRequ1] = useState([]);
     const formHandler = async (event) => {
         event.preventDefault();
-
-        // To get the address of the user
         const db = getFirestore();
         const usersRef = collection(db, "users");
         const q = query(usersRef, where("email", "==", customer));
@@ -64,10 +63,6 @@ const InsuranceAadhar = () => {
             await contract.methods
                 .addAadhar(address, asciiArray)
                 .send({ from: accounts[0], gas: "6100000" });
-            // let arr = await contract.methods
-            //     .getAadhar(address)
-            //     .call({ from: accounts[0] });
-            // console.log(arr);
         }
     };
     return (
