@@ -56,8 +56,6 @@ const ListGrant = (props) => {
         }    
         await fn();
         await fn1();
-        console.log(acc1[0].data.address)//customer
-        console.log(acc[0].data.address)//hospital
         let asciiArray = await contract.methods
             .getDS(acc1[0].data.address,acc[0].data.address)
             .call({ from: accounts[0] });

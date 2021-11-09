@@ -12,76 +12,103 @@ import { collection, query, where, getDocs, getFirestore } from "@firebase/fires
 
 const Hospital = () => {
   const auth = useSelector((state) => state.auth);
-  const [patientmail, setPatientMail] = useState();
+  const [patientmail, setPatientMail] = useState("");
   const [Request, setRequ] = useState()
-  const [error,setError]=useState()
+  const [error,setError]=useState("")
   const formHandler = async (event) => {
     setError('')
     event.preventDefault();
-    let reqs=[]
-    const setRequests = async () => {
-      const db = getFirestore();
-      const usersRef = collection(db, "customers");
-      const q = query(
-        usersRef,
-        where("email", "==", patientmail),
-        where("from", "==", auth.user.email)
-      );
-      const querySnapshot = await getDocs(q);
-      querySnapshot.forEach((doc) => {
-        reqs.push({
-          id: doc.id,
-          data: doc.data(),
-        });
-      });
-      setRequ(reqs);
-    };
-    let reqs1=[]
-    const setRequests1 = async () => {
-      const db = getFirestore();
-      const usersRef = collection(db, "HospitalRead");
-        const q = query(
-            usersRef,
-            where("email", "==", patientmail),
-            where("from", "==", auth.user.email)
-        );
-        const querySnapshot = await getDocs(q);
-        querySnapshot.forEach((doc) => {
-          reqs1.push({
-            id: doc.id,
-                data: doc.data(),
+    if (patientmail.length == 0) {
+        setError("Enter Patient Mail")
+    }
+    else {
+        let reqs = []
+        const setRequests = async () => {
+            const db = getFirestore();
+            const usersRef = collection(db, "customers");
+            const q = query(
+                usersRef,
+                where("email", "==", patientmail),
+                where("from", "==", auth.user.email)
+            );
+            const querySnapshot = await getDocs(q);
+            querySnapshot.forEach((doc) => {
+                reqs.push({
+                    id: doc.id,
+                    data: doc.data(),
+                });
             });
-        });
-        setRequ(reqs1);
-    };
-    await setRequests();
-    await setRequests1();
-    console.log(reqs.length, reqs)
-    console.log(reqs1.length, reqs1)
-    if (patientmail.length <= 0) {
-      setError("Enter Valid Email")
+            setRequ(reqs);
+        };
+        let reqs1 = []
+        const setRequests1 = async () => {
+            const db = getFirestore();
+            const usersRef = collection(db, "HospitalRead");
+            const q = query(
+                usersRef,
+                where("email", "==", patientmail),
+                where("from", "==", auth.user.email)
+            );
+            const querySnapshot = await getDocs(q);
+            querySnapshot.forEach((doc) => {
+                reqs1.push({
+                    id: doc.id,
+                    data: doc.data(),
+                });
+            });
+            setRequ(reqs1);
+        };
+        let reqs2 = []
+        const setRequests2 = async () => {
+            const db2 = getFirestore();
+            const usersRef2 = collection(db2, "HospitalRead");
+            const q2 = query(
+                usersRef2,
+                where("email", "==", patientmail),
+                where("from", "==", auth.user.email)
+            );
+            const querySnapshot2 = await getDocs(q2);
+            querySnapshot2.forEach((doc) => {
+                reqs2.push({
+                    id: doc.id,
+                    data: doc.data(),
+                });
+            });
+            setRequ(reqs2);
+        };
+        await setRequests();
+        await setRequests1();
+        await setRequests2();
+        console.log(reqs.length, reqs)
+        console.log(reqs1.length, reqs1)
+        if (patientmail.length <= 0) {
+            setError("Enter Valid Email")
+        }
+        else if (reqs.length == 0 && reqs1.length == 0 && reqs2.length > 0) {
+            await firebase
+                .firestore()
+                .collection("customers")
+                .doc()
+                .set({
+                    email: patientmail,
+                    from: auth.user.email,
+                    info: "Read Access",
+                    type: "H",
+                    money: -1,
+                })
+                .then(() => { });
+        }
+        else if (reqs2.length == 0) {
+            setError("Invalid patient mail")
+        }
+        else if (reqs.length > 0) {
+            setError("Request Already Sent !!!")
+        }
+        else if (reqs1.length > 0) {
+            setError("You already have Read Access of this Patient")
+        }
+        setPatientMail("")
     }
-    else if (reqs.length == 0 && reqs1.length==0) {
-      await firebase
-        .firestore()
-        .collection("customers")
-        .doc()
-        .set({
-          email: patientmail,
-          from: auth.user.email,
-          info: "Read Access",
-          type: "H",
-          money: -1,
-        })
-        .then(() => { });
-    }
-    else if(reqs.length>0) {
-      setError("Request Already Sent !!!")    
-    }
-    else if (reqs1.length > 0) {
-      setError("You already have Read Access of this Patient")
-    }
-    setPatientMail("")
   };
     return (
         <>

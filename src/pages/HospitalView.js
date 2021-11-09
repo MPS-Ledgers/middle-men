@@ -40,6 +40,9 @@ const HospitalView = () => {
         if (reqs.length > 0) {
             setX(true);
         }
+        else if (patientmail.length == 0) {
+            setError("Enter Patient Mail")
+        }
         else {
             setError("You dont have Read Access of this patient")
         }
@@ -103,7 +106,7 @@ const HospitalView = () => {
                                     <h1 className="text-white text-2xl">
                                         Insurance
                                     </h1>
-                                    <hr className="text-white" />
+                                    <hr className="text-white w-24" />
                                 </div>
                             </li>
                             {Requ.map((grant) => {
