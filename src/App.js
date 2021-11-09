@@ -24,6 +24,7 @@ import { contractAddress } from "./ethereum/contractAddress";
 import InsuranceAadhar from "./pages/InsuranceAadhar";
 import HospitalView from "./pages/HospitalView";
 import Report from "./pages/Report";
+import UserToInsurance from "./pages/UserToInsurance";
 
 const App = () => {
     const dispatch = useDispatch();
@@ -62,6 +63,12 @@ const App = () => {
                 ) : (
                     <Redirect to="/" />
                 )}
+                {localType === 1 ? (
+                    <Route path="/user/send" exact component={UserToInsurance}/>
+                ) : (
+                    <Redirect to="/"></Redirect>
+                )
+                }
                 {localType === 2 ? (
                     <Route path="/insurance" exact component={Insurance} />
                 ) : (

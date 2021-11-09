@@ -7,6 +7,7 @@ import GoBack from "../utils/GoBack";
 import { useSelector } from "react-redux";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { getFirestore } from "firebase/firestore";
+import { GiTakeMyMoney } from "react-icons/gi";
 const User = () => {
     const auth = useSelector((state) => state.auth);
     const [Requ, setRequ] = useState([]);
@@ -38,6 +39,7 @@ const User = () => {
                 }}
             >
                 <div className="inline float-right">
+                    <Link to="/user/send"><GiTakeMyMoney className="inline text-white text-3xl mt-2 mr-4" /></Link>
                     <Link to="/chat">
                         <BsChatFill className="inline text-3xl mt-2 mr-10" />
                     </Link>
