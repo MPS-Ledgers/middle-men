@@ -17,7 +17,7 @@ import InsuranceTransaction from "./pages/InsuranceTransaction";
 import HospitalTransactions from "./pages/HospitalTransaction";
 import HospitalInsuranceConnect from "./pages/HospitalInsuranceConnect";
 import InsuranceBill from "./pages/Insurancebill";
-import Web3 from "web3";
+import web3 from "./ethereum/web3"
 import Footer from "./components/Footer";
 import Record from "./ethereum/build/Record.json";
 import { contractAddress } from "./ethereum/contractAddress";
@@ -36,26 +36,24 @@ const App = () => {
         console.log(state.user);
     }, [state]);
 
-    useEffect(() => {
+    useEffect(async() => {
         const getContract = async () => {
-            const provider = new Web3.providers.HttpProvider(
-                "http://127.0.0.1:7545"
-            );
-            const web3 = new Web3(provider);
+            // const provider = new Web3.providers.HttpProvider(
+            //     "http://127.0.0.1:7545"
+            // );
+            // const web3 = new Web3(provider);
             const instance = new web3.eth.Contract(
                 JSON.parse(Record.interface),
                 contractAddress
             );
             let accounts = await web3.eth.getAccounts();
+            console.log(accounts,instance)
             dispatch({ type: "WEB3", payload: web3 });
             dispatch({ type: "ALL_ACCOUNTS", payload: accounts });
             dispatch({ type: "CONTRACT", payload: instance });
         };
-        getContract();
+        await getContract();
     }, []);
-
-    console.log(type);
-
     return (
         <>
             <Router history={history}>
@@ -63,24 +61,24 @@ const App = () => {
                 {localType == "1" ? (
                     <Route path="/user" exact component={User} />
                 ) : (
-                    <Redirect path="/" />
+                    <Redirect to="/" />
                 )}
                 {localType == "2" ? (
                     <Route path="/insurance" exact component={Insurance} />
                 ) : (
-                    <Redirect path="/" />
+                    <Redirect to="/" />
                 )}
                 {localType == "3" ? (
                     <Route path="/hospital" exact component={Hospital} />
                 ) : (
-                    <Redirect path="/" />
+                    <Redirect to="/" />
                 )}
                 <Route
                     path="/forgotpassword"
                     exact
                     component={forgotPassword}
-                />{" "}
-                : <Redirect path="/" />
+                />
+                : <Redirect to="/" />
                 <Route path="/signup" exact component={Signup} />
                 <Route path="/chat" exact component={Chat} />
                 {localType == "2" ? (
@@ -90,7 +88,7 @@ const App = () => {
                         component={MoneyGrant}
                     />
                 ) : (
-                    <Redirect path="/" />
+                    <Redirect to="/" />
                 )}
                 {localType == "1" ? (
                     <Route
@@ -99,7 +97,7 @@ const App = () => {
                         component={Userinsaccept}
                     />
                 ) : (
-                    <Redirect path="/" />
+                    <Redirect to="/" />
                 )}
                 {localType == "2" ? (
                     <Route
@@ -108,7 +106,7 @@ const App = () => {
                         component={InsuranceProfile}
                     />
                 ) : (
-                    <Redirect path="/" />
+                    <Redirect to="/" />
                 )}
                 {localType == "3" ? (
                     <Route
@@ -117,7 +115,7 @@ const App = () => {
                         component={HospitalProfile}
                     />
                 ) : (
-                    <Redirect path="/" />
+                    <Redirect to="/" />
                 )}
                 {localType == "2" ? (
                     <Route
@@ -126,7 +124,7 @@ const App = () => {
                         component={InsuranceTransaction}
                     />
                 ) : (
-                    <Redirect path="/" />
+                    <Redirect to="/" />
                 )}
                 {localType == "3" ? (
                     <Route
@@ -135,7 +133,7 @@ const App = () => {
                         component={HospitalTransactions}
                     />
                 ) : (
-                    <Redirect path="/" />
+                    <Redirect to="/" />
                 )}
                 {localType == "3" ? (
                     <Route
@@ -144,7 +142,7 @@ const App = () => {
                         component={HospitalInsuranceConnect}
                     />
                 ) : (
-                    <Redirect path="/" />
+                    <Redirect to="/" />
                 )}
                 {localType == "2" ? (
                     <Route
@@ -153,7 +151,7 @@ const App = () => {
                         component={InsuranceBill}
                     />
                 ) : (
-                    <Redirect path="/" />
+                    <Redirect to="/" />
                 )}
                 {localType == "2" ? (
                     <Route
@@ -162,7 +160,7 @@ const App = () => {
                         component={InsuranceAadhar}
                     />
                 ) : (
-                    <Redirect path="/" />
+                    <Redirect to="/" />
                 )}
                 {localType == "3" ? (
                     <Route
@@ -171,7 +169,7 @@ const App = () => {
                         component={HospitalView}
                     />
                 ) : (
-                    <Redirect path="/" />
+                    <Redirect to="/" />
                 )}
                 <Route path="/report" exact component={Report} />
             </Router>

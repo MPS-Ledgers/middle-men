@@ -8,7 +8,8 @@ import "firebase/firestore";
 import { CgProfile } from "react-icons/cg";
 import { GiTakeMyMoney } from "react-icons/gi";
 import { useSelector } from "react-redux";
-import { collection,query,where,getDocs,getFirestore } from "@firebase/firestore";
+import { collection, query, where, getDocs, getFirestore } from "@firebase/firestore";
+
 const Hospital = () => {
   const auth = useSelector((state) => state.auth);
   const [patientmail, setPatientMail] = useState();

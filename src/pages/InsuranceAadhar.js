@@ -23,17 +23,17 @@ const InsuranceAadhar = () => {
         event.preventDefault();
 
         // To get the address of the user
-        // const db = getFirestore();
-        // const usersRef = collection(db, "users");
-        // const q = query(usersRef, where("email", "==", customer));
-        // const querySnapshot = await getDocs(q);
-        // let address = -1;
-        // querySnapshot.forEach((doc) => {
-        //     console.log(doc.id, " => ", doc.data());
-        //     if (doc.data().email == customer) {
-        //         address = doc.data().address;
-        //     }
-        // });
+        const db = getFirestore();
+        const usersRef = collection(db, "users");
+        const q = query(usersRef, where("email", "==", customer));
+        const querySnapshot = await getDocs(q);
+        let address = -1;
+        querySnapshot.forEach((doc) => {
+            console.log(doc.id, " => ", doc.data());
+            if (doc.data().email == customer) {
+                address = doc.data().address;
+            }
+        });
         const setRequests = async () => {
             let reqs = [];
             const db1 = getFirestore();
@@ -53,18 +53,20 @@ const InsuranceAadhar = () => {
             setRequ1(reqs);
         };
         await setRequests();
+        console.log(address)
         if (Requ1.length > 0) {
             const response = await IPFS.add(aadhaar);
             console.log(response.path);
             let asciiArray = [];
             for (let i = 0; i < response.path.length; ++i)
                 asciiArray.push(response.path.charCodeAt(i));
+            console.log(asciiArray)
             await contract.methods
-                .addAadhar(accounts[1], asciiArray)
-                .send({ from: accounts[2], gas: "6100000" });
+                .addAadhar(address, asciiArray)
+                .send({ from: accounts[0], gas: "6100000" });
             // let arr = await contract.methods
-            //     .getAadhar(accounts[1])
-            //     .call({ from: accounts[2] });
+            //     .getAadhar(address)
+            //     .call({ from: accounts[0] });
             // console.log(arr);
         }
     };

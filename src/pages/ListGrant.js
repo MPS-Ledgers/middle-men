@@ -5,12 +5,11 @@ import firebase from "../firebaseConfig";
 import { useSelector } from "react-redux";
 import "firebase/firestore";
 import axios from "axios";
+import { collection, query, where, getDocs, getFirestore } from "@firebase/firestore";
 
 const ListGrant = (props) => {
     const { contract, accounts, web3 } = useSelector((state) => state);
     const auth = useSelector((state) => state.auth);
-    console.log(props)
-    console.log(auth.user.email);
     const convertToString = (asciiArray) => {
         let res = "";
         for (let ele of asciiArray) {
@@ -18,11 +17,25 @@ const ListGrant = (props) => {
         }
         return res;
     };
-
     const downloadDS = async () => {
+        const db = getFirestore();
+        const usersRef = collection(db, "users");
+        const q = query(
+            usersRef,
+            where("email", "==", props.grants.data.from)
+        );
+        let acc = []
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc) => {
+            acc.push({
+                id: doc.id,
+                data: doc.data(),
+            });
+        });
         let asciiArray = await contract.methods
-            .getDS(accounts[1])
-            .call({ from: accounts[3] });
+            .getDS(acc[0].data.address)
+            .call({ from: accounts[0] });
+        console.log(acc, accounts, asciiArray)
         const cid = convertToString(asciiArray);
         const url = `https://ipfs.io/ipfs/${cid}`;
         const link = document.createElement("a");
@@ -53,12 +66,12 @@ const ListGrant = (props) => {
             .collection("transactions")
             .doc()
             .set({
-                cust:props.grants.data.patient,
-                insu:auth.user.email,
+                cust: props.grants.data.patient,
+                insu: auth.user.email,
                 hosp: props.grants.data.from,
-                money:props.grants.data.money,
+                money: props.grants.data.money,
             })
-            .then(() => {});
+            .then(() => { });
         const response = await axios.get(
             "https://min-api.cryptocompare.com/data/price?fsym=INR&tsyms=ETH"
         );

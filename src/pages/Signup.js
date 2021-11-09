@@ -8,7 +8,7 @@ import { useSelector } from "react-redux";
 const Signup = () => {
   const [CurrentUser, setCurrentUser] = useState(null);
   const { accounts, contract } = useSelector((state) => state);
-
+  console.log(accounts, contract);
   const handleSubmit = async (e) => {
     e.preventDefault();
     const { email, password, Phone, radio } = e.target.elements;
@@ -18,15 +18,16 @@ const Signup = () => {
         .createUserWithEmailAndPassword(email.value, password.value)
         .then((userCredential) => {
           // send verification mail.
-          userCredential.user.sendEmailVerification();
+          // userCredential.user.sendEmailVerification();
           //auth().signOut();
-          alert("Email sent");
+          // alert("Email sent");
         });
       //setCurrentUser(true);
       firebaseConfig
         .firestore()
         .collection("users")
         .add({
+          address: accounts[0],
           email: email.value,
           phone: Phone.value,
           type: parseInt(radio.value),
@@ -35,20 +36,19 @@ const Signup = () => {
       alert(error);
     }
 
-    console.log(accounts, contract);
     let type = parseInt(radio.value);
     switch (type) {
       case 1:
-        await contract.methods.addUser(accounts[1]).send({ from: accounts[0] });
+        await contract.methods.addUser(accounts[0]).send({ from: accounts[0] });
         break;
       case 2:
         await contract.methods
-          .addInsurance(accounts[2])
+          .addInsurance(accounts[0])
           .send({ from: accounts[0] });
         break;
       case 3:
         await contract.methods
-          .addHospitals(accounts[3])
+          .addHospitals(accounts[0])
           .send({ from: accounts[0] });
         break;
       default:

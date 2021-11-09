@@ -9,6 +9,7 @@ import { GiTakeMyMoney } from "react-icons/gi";
 import { BsChatFill } from "react-icons/bs";
 import IPFS from "../IPFS";
 import { useSelector } from "react-redux";
+import { collection, query, where, getDocs, getFirestore } from "@firebase/firestore";
 
 const HospitalInsuranceConnect = () => {
     const [insMail, setInsMail] = useState();
@@ -35,14 +36,29 @@ const HospitalInsuranceConnect = () => {
                 patient: patientMail,
                 money: money,
             })
-            .then(() => {});
+            .then(() => { });
+        const db = getFirestore();
+        const usersRef = collection(db, "users");
+        const q = query(
+            usersRef,
+            where("email", "==", patientMail)
+        );
+        let acc = []
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc) => {
+            acc.push({
+                id: doc.id,
+                data: doc.data(),
+            });
+        });
+        console.log(acc[0].data.address, accounts[0])
         await contract.methods
-            .addDS(accounts[1], asciiArray)
-            .send({ from: accounts[3], gas: "6000000" });
-        let arr = await contract.methods
-            .getDS(accounts[1])
-            .call({ from: accounts[3] });
-        console.log(arr);
+            .addDS(acc[0].data.address, asciiArray)
+            .send({ from: accounts[0], gas: "6000000" });
+        // let arr = await contract.methods
+        //     .getDS(accounts[1])
+        //     .call({ from: accounts[3] });
+        // console.log(arr);
     };
     return (
         <>
