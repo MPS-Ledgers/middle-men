@@ -36,7 +36,7 @@ const App = () => {
         setType(state.type);
     }, [state]);
 
-    useEffect(async() => {
+    useEffect(async () => {
         const getContract = async () => {
             // const provider = new Web3.providers.HttpProvider(
             //     "http://127.0.0.1:7545"
@@ -47,7 +47,9 @@ const App = () => {
                 contractAddress
             );
             let accounts = await web3.eth.getAccounts();
-            console.log(accounts,instance)
+            console.log(accounts, instance)
+            let x = await web3.eth.getBalance(accounts[0])
+            console.log(x)
             dispatch({ type: "WEB3", payload: web3 });
             dispatch({ type: "ALL_ACCOUNTS", payload: accounts });
             dispatch({ type: "CONTRACT", payload: instance });
@@ -64,7 +66,7 @@ const App = () => {
                     <Redirect to="/" />
                 )}
                 {localType === 1 ? (
-                    <Route path="/user/send" exact component={UserToInsurance}/>
+                    <Route path="/user/send" exact component={UserToInsurance} />
                 ) : (
                     <Redirect to="/"></Redirect>
                 )

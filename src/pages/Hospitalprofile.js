@@ -1,12 +1,30 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { CgProfile } from "react-icons/cg";
 import { GiTakeMyMoney } from "react-icons/gi";
 import { Link } from "react-router-dom";
 import hosppro from "../images/hosppro.png";
 import SignOut from "../utils/SignOut";
 import GoBack from "../utils/GoBack";
+import { useSelector } from 'react-redux'
 import { BsChatFill } from "react-icons/bs";
+import web3 from '../ethereum/web3'
+import axios from 'axios'
+
 const HospitalProfile = () => {
+    const { accounts } = useSelector((state) => state);
+    const [balance, setBalance] = useState(0)
+    useEffect(() => {
+        console.log(accounts)
+        const getBal = async () => {
+        const response = await axios.get(
+            "https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=INR"
+            );
+            console.log(response.data)
+            let bal = await web3.eth.getBalance(accounts[0])/1e18;
+            setBalance(bal*response.data.INR)
+        }
+        getBal()
+    }, [])
     return (
         <>
             <SignOut />
@@ -48,7 +66,7 @@ const HospitalProfile = () => {
                     <div className="flex justify-center">
                         <div className="justify-center align-center my-7">
                             <h1 className="text-white text-3xl my-5">
-                                Balance : 10000 Rs
+                                Balance : {balance.toFixed(2)} Rs
                             </h1>
                             <Link to="/hospital/transactions">
                                 <h1 className="text-white text-3xl my-2 my-5">

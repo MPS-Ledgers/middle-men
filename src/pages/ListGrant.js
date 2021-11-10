@@ -8,6 +8,7 @@ import axios from "axios";
 import { collection, query, where, getDocs, getFirestore } from "@firebase/firestore";
 
 const ListGrant = (props) => {
+    //console.log(props.grants.data.from)
     let acc = []
     let acc1 = []
     const { contract, accounts, web3 } = useSelector((state) => state);
@@ -21,7 +22,7 @@ const ListGrant = (props) => {
     };
 
     const downloadDS = async () => {
-        console.log(props.grants.data.patient)
+        //console.log(props.grants.data.patient)
         acc = []
         acc1 = []
         const fn = async() => {
@@ -102,6 +103,24 @@ const ListGrant = (props) => {
         link.click();
     };
     const tickClick = async () => {
+        let accc = []
+        const fn = async () => {
+            const db = getFirestore();
+            const usersRef = collection(db, "users");
+            const q = query(
+                usersRef,
+                where("email", "==", props.grants.data.from)
+            );
+            const querySnapshot = await getDocs(q);
+            querySnapshot.forEach((doc) => {
+                accc.push({
+                    id: doc.id,
+                    data: doc.data(),
+                });
+            });
+        }
+        await fn();
+        console.log(accc[0].data.address)
         await firebase
             .firestore()
             .collection("transactions")
@@ -116,19 +135,21 @@ const ListGrant = (props) => {
         const response = await axios.get(
             "https://min-api.cryptocompare.com/data/price?fsym=INR&tsyms=ETH"
         );
+        
         console.log(
             props.grants.data.money * response.data.ETH * 1000000000000000000,
             response.data.ETH
         );
         await contract.methods
-            .transferMoney(accounts[3])
+            .transferMoney(accc[0].data.address)
             .send({
-                from: accounts[2],
+                from: accounts[0],
                 value: web3.utils.toWei(
                     (props.grants.data.money * response.data.ETH).toString(),
                     "ether"
                 ),
             });
+
         await firebase
             .firestore()
             .collection("insurance")
