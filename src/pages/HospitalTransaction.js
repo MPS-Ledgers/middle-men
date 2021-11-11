@@ -1,8 +1,8 @@
-import React,{useEffect,useState} from "react";
+import React, { useEffect, useState } from "react";
 import SignOut from "../utils/SignOut";
 import GoBack from "../utils/GoBack";
 import { useSelector } from "react-redux";
-import { collection,query,where,getDocs } from "@firebase/firestore";
+import { collection, query, where, getDocs } from "@firebase/firestore";
 import { getFirestore } from "firebase/firestore";
 const HospitalTransactions = () => {
     const auth = useSelector((state) => state.auth);
@@ -34,12 +34,12 @@ const HospitalTransactions = () => {
                 }}
             >
                 <div className="flex justify-center content-center w-full">
-                    <h1 className="text-5xl font-serif mt-10">
+                    <h1 className="text-5xl font-montserrat mt-10">
                         Welcome to Middlemen
                     </h1>
                 </div>
                 <div className="flex justify-center content-center w-full">
-                    <p className="text-3xl font-serif">Secure Solutions</p>
+                    <p className="text-3xl font-montserrat">Secure Solutions</p>
                 </div>
                 <ul className="mt-10">
                     <li>

@@ -10,7 +10,13 @@ import firebase from "../firebaseConfig";
 import { useSelector } from "react-redux";
 import "firebase/firestore";
 import { GrAdd } from "react-icons/gr";
-import { collection,query,where,getDocs,getFirestore } from "@firebase/firestore";
+import {
+    collection,
+    query,
+    where,
+    getDocs,
+    getFirestore,
+} from "@firebase/firestore";
 const Insurance = () => {
     const auth = useSelector((state) => state.auth);
     const [customer, setCustomer] = useState("");
@@ -18,12 +24,11 @@ const Insurance = () => {
     const [Requ, setRequ] = useState();
     const formHandler = async (event) => {
         event.preventDefault();
-        setError("")
+        setError("");
         if (customer.length == 0) {
-            setError("Enter Customer Mail")
-        }
-        else {
-            let reqs = []
+            setError("Enter Customer Mail");
+        } else {
+            let reqs = [];
             const setRequests = async () => {
                 const db = getFirestore();
                 const usersRef = collection(db, "customers");
@@ -42,7 +47,7 @@ const Insurance = () => {
                 });
                 setRequ(reqs);
             };
-            let reqs1 = []
+            let reqs1 = [];
             const setRequests1 = async () => {
                 const db1 = getFirestore();
                 const usersRef1 = collection(db1, "InsuranceWrite");
@@ -60,7 +65,7 @@ const Insurance = () => {
                 });
                 setRequ(reqs1);
             };
-            let reqs2 = []
+            let reqs2 = [];
             const setRequests2 = async () => {
                 const db2 = getFirestore();
                 const usersRef2 = collection(db2, "users");
@@ -94,25 +99,22 @@ const Insurance = () => {
                         type: "I",
                         money: -1,
                     })
-                    .then(() => { });
+                    .then(() => {});
+            } else if (reqs2.length == 0) {
+                setError("Invalid Customer Mail");
+            } else if (reqs.length > 0) {
+                setError("Request Already Sent!!!");
+            } else {
+                setError("You already have Write Access of this customer");
             }
-            else if (reqs2.length == 0) {
-                setError("Invalid Customer Mail")
-            }
-            else if (reqs.length > 0) {
-                setError("Request Already Sent!!!")
-            }
-            else {
-                setError("You already have Write Access of this customer")
-            }
-            setCustomer("")
+            setCustomer("");
         }
     };
     return (
         <>
             <SignOut />
             <GoBack />
-            <div className="h-screen w-screen text-white font-serif">
+            <div className="h-screen w-screen text-white font-montserrat">
                 <div className="inline float-right">
                     <Link to="/insurance/profile">
                         <CgProfile className="inline text-3xl mt-2 mr-5" />
@@ -131,12 +133,12 @@ const Insurance = () => {
                     </Link>
                 </div>
                 <div className="flex justify-center items-center w-full">
-                    <h1 className="text-5xl font-serif text-center mt-10">
+                    <h1 className="text-5xl font-montserrat text-center mt-10">
                         Welcome to Middlemen
                     </h1>
                 </div>
                 <div className="flex justify-center items-center">
-                    <p className="text-3xl font-serif">Secure Solutions</p>
+                    <p className="text-3xl font-montserrat">Secure Solutions</p>
                 </div>
                 <div className="mx-auto">
                     <div className="flex justify-center px-6 my-12">
@@ -178,7 +180,9 @@ const Insurance = () => {
                                         />
                                     </div>
                                     <div className="flex justify-center">
-                                        <p className="text-white text-lg">{error}</p>
+                                        <p className="text-white text-lg">
+                                            {error}
+                                        </p>
                                     </div>
                                     <hr className="mt-3 mb-6 border-t" />
                                     <div className="mb-6 text-center">

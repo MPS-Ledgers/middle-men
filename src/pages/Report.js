@@ -25,14 +25,14 @@ const Report = () => {
         <>
             <div className="h-screen w-screen text-white">
                 <div className="flex justify-center content-center w-full">
-                    <h1 className="text-5xl font-serif mt-10">
+                    <h1 className="text-5xl font-montserrat mt-10">
                         Welcome to Middlemen
                     </h1>
                 </div>
                 <div className="flex justify-center content-center w-full">
-                    <p className="text-3xl font-serif">Secure Solutions</p>
+                    <p className="text-3xl font-montserrat">Secure Solutions</p>
                 </div>
-                <div className="flex justify-center content-center w-full font-serif mt-10">
+                <div className="flex justify-center content-center w-full font-montserrat mt-10">
                     <label className="text-2xl">Report Message</label>
                 </div>
                 <div className="mb-3 mt-5 pt-0 flex justify-center">

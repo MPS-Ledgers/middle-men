@@ -9,7 +9,13 @@ import { GiTakeMyMoney } from "react-icons/gi";
 import { BsChatFill } from "react-icons/bs";
 import IPFS from "../IPFS";
 import { useSelector } from "react-redux";
-import { collection, query, where, getDocs, getFirestore } from "@firebase/firestore";
+import {
+    collection,
+    query,
+    where,
+    getDocs,
+    getFirestore,
+} from "@firebase/firestore";
 
 const HospitalInsuranceConnect = () => {
     const [Requ, setRequ] = useState();
@@ -25,27 +31,20 @@ const HospitalInsuranceConnect = () => {
         setError("");
         event.preventDefault();
         if (insMail.length == 0) {
-            setError("Enter Insurance Mail")
-        }
-        else if (patientMail.length == 0) {
-            setError("Enter Patient Mail")
-        }
-        else if (aadhar.length == 0) {
-            setError("Enter Patient Aadhar Number")
-        }
-        else if (aadhar.length != 12) {
-            setError("Enter Valid Patient Aadhar Number")
-        }
-        else if (money.length == 0) {
-            setError("Enter Money")
-        }
-        else if (money <= 0) {
-            setError("Enter valid money")
-        }
-        else if (dsFile.length == 0) {
-            setError("Attach discharge summary")
-        }
-        else {
+            setError("Enter Insurance Mail");
+        } else if (patientMail.length == 0) {
+            setError("Enter Patient Mail");
+        } else if (aadhar.length == 0) {
+            setError("Enter Patient Aadhar Number");
+        } else if (aadhar.length != 12) {
+            setError("Enter Valid Patient Aadhar Number");
+        } else if (money.length == 0) {
+            setError("Enter Money");
+        } else if (money <= 0) {
+            setError("Enter valid money");
+        } else if (dsFile.length == 0) {
+            setError("Attach discharge summary");
+        } else {
             let reqs = [];
             const setRequests = async () => {
                 const db = getFirestore();
@@ -64,7 +63,7 @@ const HospitalInsuranceConnect = () => {
                 });
                 setRequ(reqs);
             };
-            let reqs1 = []
+            let reqs1 = [];
             const setRequests1 = async () => {
                 const db = getFirestore();
                 const usersRef = collection(db, "InsuranceWrite");
@@ -82,7 +81,7 @@ const HospitalInsuranceConnect = () => {
                 });
                 setRequ(reqs1);
             };
-            let reqs2 = []
+            let reqs2 = [];
             const setRequests2 = async () => {
                 const db2 = getFirestore();
                 const usersRef2 = collection(db2, "insurance");
@@ -104,7 +103,7 @@ const HospitalInsuranceConnect = () => {
             await setRequests1();
             await setRequests2();
             if (reqs.length > 0 && reqs1.length > 0 && reqs2.length == 0) {
-                const response = await IPFS.add(dsFile)
+                const response = await IPFS.add(dsFile);
                 let asciiArray = [];
                 for (let i = 0; i < response.path.length; ++i)
                     asciiArray.push(response.path.charCodeAt(i));
@@ -119,14 +118,11 @@ const HospitalInsuranceConnect = () => {
                         patient: patientMail,
                         money: parseFloat(money),
                     })
-                    .then(() => { });
+                    .then(() => {});
                 const db = getFirestore();
                 const usersRef = collection(db, "users");
-                const q = query(
-                    usersRef,
-                    where("email", "==", patientMail)
-                );
-                let acc = []
+                const q = query(usersRef, where("email", "==", patientMail));
+                let acc = [];
                 const querySnapshot = await getDocs(q);
                 querySnapshot.forEach((doc) => {
                     acc.push({
@@ -134,19 +130,16 @@ const HospitalInsuranceConnect = () => {
                         data: doc.data(),
                     });
                 });
-                console.log(acc[0].data.address, accounts[0])
+                console.log(acc[0].data.address, accounts[0]);
                 await contract.methods
                     .addDS(acc[0].data.address, asciiArray)
                     .send({ from: accounts[0], gas: "6000000" });
-            }
-            else if (reqs.length == 0) {
-                setError("You dont have the Read Access of the Patient")
-            }
-            else if (reqs1.length == 0) {
-                setError("The Patient donot have an insurance in this company")
-            }
-            else if (reqs2.length != 0) {
-                setError("You have already sent request for same patient")
+            } else if (reqs.length == 0) {
+                setError("You dont have the Read Access of the Patient");
+            } else if (reqs1.length == 0) {
+                setError("The Patient donot have an insurance in this company");
+            } else if (reqs2.length != 0) {
+                setError("You have already sent request for same patient");
             }
         }
     };
@@ -173,12 +166,12 @@ const HospitalInsuranceConnect = () => {
                     </Link>
                 </div>
                 <div className="flex justify-center content-center w-full">
-                    <h1 className="text-5xl font-serif mt-10">
+                    <h1 className="text-5xl font-montserrat mt-10">
                         Welcome to Middlemen
                     </h1>
                 </div>
                 <div className="flex justify-center content-center w-full">
-                    <p className="text-3xl font-serif">Secure Solutions</p>
+                    <p className="text-3xl font-montserrat">Secure Solutions</p>
                 </div>
                 <div className="mx-auto">
                     <div className="flex justify-center px-6">
@@ -288,7 +281,9 @@ const HospitalInsuranceConnect = () => {
                                         </button>
                                     </div>
                                     <div className="flex justify-center">
-                                        <h1 className="text-white text-lg">{error}</h1>
+                                        <h1 className="text-white text-lg">
+                                            {error}
+                                        </h1>
                                     </div>
                                     <hr className="mb-6 border-t" />
                                 </form>

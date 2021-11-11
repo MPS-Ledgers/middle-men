@@ -17,7 +17,7 @@ const HospitalView = () => {
     const [Requ1, setRequ1] = useState([]);
     const [patientmail, setPatientMail] = useState("");
     const formHandler = async () => {
-        setError("")
+        setError("");
         let reqs = [];
         const setRequests = async () => {
             const db1 = getFirestore();
@@ -39,12 +39,10 @@ const HospitalView = () => {
         await setRequests();
         if (reqs.length > 0) {
             setX(true);
-        }
-        else if (patientmail.length == 0) {
-            setError("Enter Patient Mail")
-        }
-        else {
-            setError("You dont have Read Access of this patient")
+        } else if (patientmail.length == 0) {
+            setError("Enter Patient Mail");
+        } else {
+            setError("You dont have Read Access of this patient");
         }
     };
     useEffect(() => {
@@ -89,12 +87,14 @@ const HospitalView = () => {
                         </Link>
                     </div>
                     <div className="flex justify-center content-center w-full">
-                        <h1 className="text-5xl font-serif mt-10">
+                        <h1 className="text-5xl font-montserrat mt-10">
                             Welcome to Middlemen
                         </h1>
                     </div>
                     <div className="flex justify-center content-center w-full">
-                        <p className="text-3xl font-serif">Secure Solutions</p>
+                        <p className="text-3xl font-montserrat">
+                            Secure Solutions
+                        </p>
                     </div>
                     <div className="flex justify-center mt-10">
                         <h1 className="text-xl">User : {patientmail}</h1>
@@ -130,7 +130,7 @@ const HospitalView = () => {
             <>
                 <SignOut />
                 <GoBack />
-                <div className="h-screen w-screen text-white font-serif">
+                <div className="h-screen w-screen text-white font-montserrat">
                     <div className="inline float-right">
                         <Link to="/hospital/profile">
                             <CgProfile className="inline text-3xl mt-2 mr-5" />
@@ -143,12 +143,14 @@ const HospitalView = () => {
                         </Link>
                     </div>
                     <div className="flex justify-center content-center w-full">
-                        <h1 className="text-5xl font-serif mt-10">
+                        <h1 className="text-5xl font-montserrat mt-10">
                             Welcome to Middlemen
                         </h1>
                     </div>
                     <div className="flex justify-center content-center w-full">
-                        <p className="text-3xl font-serif">Secure Solutions</p>
+                        <p className="text-3xl font-montserrat">
+                            Secure Solutions
+                        </p>
                     </div>
                     <div className="mx-auto">
                         <div className="flex justify-center px-6 my-12">
@@ -201,7 +203,9 @@ const HospitalView = () => {
                                             </button>
                                         </div>
                                         <div className="flex justify-center">
-                                            <p className="text-white text-lg">{error}</p>
+                                            <p className="text-white text-lg">
+                                                {error}
+                                            </p>
                                         </div>
                                         <hr className="mb-6 border-t" />
                                     </form>

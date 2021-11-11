@@ -1,4 +1,4 @@
-import React,{useState,useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import SignOut from "../utils/SignOut";
 import GoBack from "../utils/GoBack";
 import { useSelector } from "react-redux";
@@ -34,12 +34,12 @@ const InsuranceTransaction = () => {
                 }}
             >
                 <div className="flex justify-center content-center w-full">
-                    <h1 className="text-5xl font-serif mt-10">
+                    <h1 className="text-5xl font-montserrat mt-10">
                         Welcome to Middlemen
                     </h1>
                 </div>
                 <div className="flex justify-center content-center w-full">
-                    <p className="text-3xl font-serif">Secure Solutions</p>
+                    <p className="text-3xl font-montserrat">Secure Solutions</p>
                 </div>
                 <ul className="mt-10">
                     <li>

@@ -8,23 +8,23 @@ import { useSelector } from "react-redux";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { getFirestore } from "firebase/firestore";
 import { GiTakeMyMoney } from "react-icons/gi";
-import axios from "axios"
-import web3 from '../ethereum/web3'
+import axios from "axios";
+import web3 from "../ethereum/web3";
 const User = () => {
     const { accounts } = useSelector((state) => state);
-    const [balance, setBalance] = useState(0)
+    const [balance, setBalance] = useState(0);
     useEffect(() => {
-        console.log(accounts)
+        console.log(accounts);
         const getBal = async () => {
             const response = await axios.get(
                 "https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=INR"
             );
-            console.log(response.data)
-            let bal = await web3.eth.getBalance(accounts[0]) / 1e18;
-            setBalance(bal * response.data.INR)
-        }
-        getBal()
-    }, [])
+            console.log(response.data);
+            let bal = (await web3.eth.getBalance(accounts[0])) / 1e18;
+            setBalance(bal * response.data.INR);
+        };
+        getBal();
+    }, []);
     const auth = useSelector((state) => state.auth);
     const [Requ, setRequ] = useState([]);
     let id = 0;
@@ -48,14 +48,16 @@ const User = () => {
             <SignOut />
             <GoBack />
             <div
-                className="h-screen w-screen text-white font-serif"
+                className="h-screen w-screen text-white font-montserrat"
                 style={{
                     background:
                         "linear-gradient(rgba(0,0,0,0.7),rgba(0,0,0,0.7))",
                 }}
             >
                 <div className="inline float-right">
-                    <Link to="/user/send"><GiTakeMyMoney className="inline text-white text-3xl mt-2 mr-4" /></Link>
+                    <Link to="/user/send">
+                        <GiTakeMyMoney className="inline text-white text-3xl mt-2 mr-4" />
+                    </Link>
                     <Link to="/chat">
                         <BsChatFill className="inline text-3xl mt-2 mr-10" />
                     </Link>
@@ -64,18 +66,22 @@ const User = () => {
                     </Link>
                 </div>
                 <div className="flex justify-center content-center w-full">
-                    <h1 className="text-5xl font-serif mt-10">
+                    <h1 className="text-5xl font-montserrat mt-10">
                         Welcome to Middlemen
                     </h1>
                 </div>
                 <div className="flex justify-center content-center w-full">
-                    <p className="text-3xl font-serif">Secure Solutions</p>
+                    <p className="text-3xl font-montserrat">Secure Solutions</p>
                 </div>
                 <div className="flex justify-center">
-                    <h1 className="text-2xl mt-3">Balance : {balance.toFixed(2)} RS</h1>
+                    <h1 className="text-2xl mt-3">
+                        Balance : {balance.toFixed(2)} RS
+                    </h1>
                 </div>
                 <div className="flex justify-center content-center w-full my-10">
-                    <p className="text-3xl font-serif">Your Past Transactions</p>
+                    <p className="text-3xl font-montserrat">
+                        Your Past Transactions
+                    </p>
                 </div>
                 <ul className="mt-10">
                     <li>

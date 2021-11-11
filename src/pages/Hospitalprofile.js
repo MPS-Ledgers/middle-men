@@ -69,7 +69,7 @@ const HospitalProfile = () => {
                                 Balance : {balance.toFixed(2)} Rs
                             </h1>
                             <Link to="/hospital/transactions">
-                                <h1 className="text-white text-3xl my-2 my-5">
+                                <h1 className="text-white text-3xl my-2">
                                     Your Transactions
                                 </h1>
                             </Link>

@@ -48,27 +48,31 @@ const Userinsaccept = () => {
                     </Link>
                 </div>
                 <div className="flex justify-center content-center w-full">
-                    <h1 className="text-5xl font-serif mt-10">
+                    <h1 className="text-5xl font-montserrat mt-10">
                         Welcome to Middlemen
                     </h1>
                 </div>
                 <div className="flex justify-center content-center w-full">
-                    <p className="text-3xl mt-5 font-serif">
+                    <p className="text-3xl mt-5 font-montserrat">
                         You have {Requ.length} Request{" "}
                     </p>
                 </div>
                 <ul className="mt-10">
-                    <li>
-                        <div className="ml-10 grid grid-cols-5 mb-10">
-                            <h1 className="text-white text-2xl">
-                                Company Name
-                            </h1>
-                            <h1 className="text-white text-2xl">Request</h1>
+                    {Requ.length > 0 ? (
+                        <li>
+                            <div className="ml-10 grid grid-cols-5 mb-10">
+                                <h1 className="text-white text-2xl">
+                                    Company Name
+                                </h1>
+                                <h1 className="text-white text-2xl">Request</h1>
 
-                            <h1 className="text-white text-2xl">Accept</h1>
-                            <h1 className="text-white text-2xl">Reject</h1>
-                        </div>
-                    </li>
+                                <h1 className="text-white text-2xl">Accept</h1>
+                                <h1 className="text-white text-2xl">Reject</h1>
+                            </div>
+                        </li>
+                    ) : (
+                        <></>
+                    )}
                     {Requ.map((grant) => {
                         id++;
                         return <ListGrant1 key={id} grants={grant} />;

@@ -22,14 +22,12 @@ const InsuranceAadhar = () => {
     const [Requ1, setRequ1] = useState([]);
     const formHandler = async (event) => {
         event.preventDefault();
-        setError("")
+        setError("");
         if (customer.length == 0) {
-            setError("Enter Customer mail")
-        }
-        else if (aadhaar.length == 0) {
-            setError("Attach Customer Aadhar")
-        }
-        else {
+            setError("Enter Customer mail");
+        } else if (aadhaar.length == 0) {
+            setError("Attach Customer Aadhar");
+        } else {
             const db = getFirestore();
             const usersRef = collection(db, "users");
             const q = query(usersRef, where("email", "==", customer));
@@ -60,20 +58,19 @@ const InsuranceAadhar = () => {
                 setRequ1(reqs);
             };
             await setRequests();
-            console.log(address)
+            console.log(address);
             if (Requ1.length > 0) {
                 const response = await IPFS.add(aadhaar);
                 console.log(response.path);
                 let asciiArray = [];
                 for (let i = 0; i < response.path.length; ++i)
                     asciiArray.push(response.path.charCodeAt(i));
-                console.log(asciiArray)
+                console.log(asciiArray);
                 await contract.methods
                     .addAadhar(address, asciiArray)
                     .send({ from: accounts[0], gas: "6100000" });
-            }
-            else {
-                setError("You dont have Write Access to this account")
+            } else {
+                setError("You dont have Write Access to this account");
             }
         }
     };
@@ -81,7 +78,7 @@ const InsuranceAadhar = () => {
         <>
             <SignOut />
             <GoBack />
-            <div className="h-screen w-screen text-white font-serif">
+            <div className="h-screen w-screen text-white font-montserrat">
                 <div className="inline float-right">
                     <Link to="/insurance/profile">
                         <CgProfile className="inline text-3xl mt-2 mr-5" />
@@ -100,12 +97,12 @@ const InsuranceAadhar = () => {
                     </Link>
                 </div>
                 <div className="flex justify-center content-center w-full">
-                    <h1 className="text-5xl font-serif mt-10">
+                    <h1 className="text-5xl font-montserrat mt-10">
                         Welcome to Middlemen
                     </h1>
                 </div>
                 <div className="flex justify-center content-center w-full">
-                    <p className="text-3xl font-serif">Secure Solutions</p>
+                    <p className="text-3xl font-montserrat">Secure Solutions</p>
                 </div>
                 <div className="mx-auto">
                     <div className="flex justify-center px-6 my-12">
@@ -172,7 +169,9 @@ const InsuranceAadhar = () => {
                                         </button>
                                     </div>
                                     <div className="flex justify-center">
-                                        <h1 className="text-white text-lg">{error}</h1>
+                                        <h1 className="text-white text-lg">
+                                            {error}
+                                        </h1>
                                     </div>
                                 </form>
                             </div>

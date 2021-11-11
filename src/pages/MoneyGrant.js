@@ -58,30 +58,36 @@ const MoneyGrant = () => {
                     </Link>
                 </div>
                 <div className="flex justify-center content-center w-full">
-                    <h1 className="text-5xl font-serif mt-10">
+                    <h1 className="text-5xl font-montserrat mt-10">
                         Welcome to Middlemen
                     </h1>
                 </div>
                 <div className="flex justify-center content-center w-full">
-                    <p className="text-3xl mt-5 font-serif">
+                    <p className="text-3xl mt-5 font-montserrat">
                         You have {Requ.length} Requests
                     </p>
                 </div>
                 <ul className="mt-10">
-                    <li>
-                        <div className="ml-10 grid grid-cols-6 mb-10">
-                            <h1 className="text-white text-2xl">AADHAR NO</h1>
-                            <h1 className="text-white text-2xl">Amount</h1>
-                            <h1 className="text-white text-2xl text-center">
-                                Discharge Summary
-                            </h1>
-                            <h1 className="text-white text-2xl text-center">
-                                Aadhaar Card
-                            </h1>
-                            <h1 class="text-white text-2xl ">Accept</h1>
-                            <h1 class="text-white text-2xl ">Reject</h1>
-                        </div>
-                    </li>
+                    {Requ.length > 0 ? (
+                        <li>
+                            <div className="ml-10 grid grid-cols-6 mb-10">
+                                <h1 className="text-white text-2xl">
+                                    AADHAR NO
+                                </h1>
+                                <h1 className="text-white text-2xl">Amount</h1>
+                                <h1 className="text-white text-2xl text-center">
+                                    Discharge Summary
+                                </h1>
+                                <h1 className="text-white text-2xl text-center">
+                                    Aadhaar Card
+                                </h1>
+                                <h1 class="text-white text-2xl ">Accept</h1>
+                                <h1 class="text-white text-2xl ">Reject</h1>
+                            </div>
+                        </li>
+                    ) : (
+                        <></>
+                    )}
                     {Requ.map((grant) => {
                         id++;
                         return <ListGrant key={id} grants={grant} />;
