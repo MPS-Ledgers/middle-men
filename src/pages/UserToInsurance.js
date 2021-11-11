@@ -80,15 +80,13 @@ const UserToInsurance = () => {
                     "https://min-api.cryptocompare.com/data/price?fsym=INR&tsyms=ETH"
                 );
                 console.log(response.data.ETH * money);
-                await contract.methods
-                    .addMoneyToInsurance(reqs[0].data.address)
-                    .send({
-                        from: accounts[0],
-                        value: web3.utils.toWei(
-                            toString(response.data.ETH * money),
-                            "ether"
-                        ),
-                    });
+                await contract.methods.addMoneyToInsurance(accounts[2]).send({
+                    from: accounts[0],
+                    value: web3.utils.toWei(
+                        toString(response.data.ETH * money),
+                        "ether"
+                    ),
+                });
             }
         }
     };

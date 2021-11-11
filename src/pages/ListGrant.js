@@ -58,8 +58,8 @@ const ListGrant = (props) => {
         await fn();
         await fn1();
         let asciiArray = await contract.methods
-            .getDS(acc1[0].data.address,acc[0].data.address)
-            .call({ from: accounts[0] });
+            .getDS(accounts[0],accounts[1])
+            .call({ from: accounts[2] });
         console.log(acc, accounts, asciiArray)
         const cid = convertToString(asciiArray);
         const url = `https://ipfs.io/ipfs/${cid}`;
@@ -90,8 +90,8 @@ const ListGrant = (props) => {
         console.log(acc)
         console.log(acc[0].data.address,accounts[0])
         let asciiArray = await contract.methods
-            .getAadhar(acc[0].data.address)
-            .call({ from: accounts[0] });
+            .getAadhar(accounts[0])
+            .call({ from: accounts[2] });
         console.log(asciiArray)
         const cid = convertToString(asciiArray);
         const url = `https://ipfs.io/ipfs/${cid}`;
@@ -141,9 +141,9 @@ const ListGrant = (props) => {
             response.data.ETH
         );
         await contract.methods
-            .transferMoney(accc[0].data.address)
+            .transferMoney(accounts[2])
             .send({
-                from: accounts[0],
+                from: accounts[1],
                 value: web3.utils.toWei(
                     (props.grants.data.money * response.data.ETH).toString(),
                     "ether"

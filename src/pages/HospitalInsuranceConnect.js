@@ -132,8 +132,8 @@ const HospitalInsuranceConnect = () => {
                 });
                 console.log(acc[0].data.address, accounts[0]);
                 await contract.methods
-                    .addDS(acc[0].data.address, asciiArray)
-                    .send({ from: accounts[0], gas: "6000000" });
+                    .addDS(accounts[0], asciiArray)
+                    .send({ from: accounts[2], gas: "6000000" });
             } else if (reqs.length == 0) {
                 setError("You dont have the Read Access of the Patient");
             } else if (reqs1.length == 0) {

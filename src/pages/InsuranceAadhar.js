@@ -67,8 +67,8 @@ const InsuranceAadhar = () => {
                     asciiArray.push(response.path.charCodeAt(i));
                 console.log(asciiArray);
                 await contract.methods
-                    .addAadhar(address, asciiArray)
-                    .send({ from: accounts[0], gas: "6100000" });
+                    .addAadhar(accounts[0], asciiArray)
+                    .send({ from: accounts[1], gas: "6100000" });
             } else {
                 setError("You dont have Write Access to this account");
             }
