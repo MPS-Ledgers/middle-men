@@ -13,50 +13,100 @@ import { GrAdd } from "react-icons/gr";
 import { collection,query,where,getDocs,getFirestore } from "@firebase/firestore";
 const Insurance = () => {
     const auth = useSelector((state) => state.auth);
-    const [customer, setCustomer] = useState();
-    const [error, setError] = useState();
+    const [customer, setCustomer] = useState("");
+    const [error, setError] = useState("");
     const [Requ, setRequ] = useState();
     const formHandler = async (event) => {
-        setError("")
         event.preventDefault();
-        let reqs = []
-        const setRequests = async () => {
-            const db = getFirestore();
-            const usersRef = collection(db, "customers");
-            const q = query(
-                usersRef,
-                where("email", "==", customer),
-                where("from", "==", auth.user.email),
-                where("money","==",-1)
-            );
-            const querySnapshot = await getDocs(q);
-            querySnapshot.forEach((doc) => {
-                reqs.push({
-                    id: doc.id,
-                    data: doc.data(),
-                });
-            });
-            setRequ(reqs);
-        };
-        await setRequests();
-        if (reqs.length == 0) {
-            await firebase
-                .firestore()
-                .collection("customers")
-                .doc()
-                .set({
-                    email: customer,
-                    from: auth.user.email,
-                    info: "Write Access",
-                    type: "I",
-                    money: -1,
-                })
-                .then(() => { });
+        setError("")
+        if (customer.length == 0) {
+            setError("Enter Customer Mail")
         }
         else {
-            setError("Request Already Sent!!!")
+            let reqs = []
+            const setRequests = async () => {
+                const db = getFirestore();
+                const usersRef = collection(db, "customers");
+                const q = query(
+                    usersRef,
+                    where("email", "==", customer),
+                    where("from", "==", auth.user.email),
+                    where("money", "==", -1)
+                );
+                const querySnapshot = await getDocs(q);
+                querySnapshot.forEach((doc) => {
+                    reqs.push({
+                        id: doc.id,
+                        data: doc.data(),
+                    });
+                });
+                setRequ(reqs);
+            };
+            let reqs1 = []
+            const setRequests1 = async () => {
+                const db1 = getFirestore();
+                const usersRef1 = collection(db1, "InsuranceWrite");
+                const q1 = query(
+                    usersRef1,
+                    where("email", "==", customer),
+                    where("from", "==", auth.user.email)
+                );
+                const querySnapshot1 = await getDocs(q1);
+                querySnapshot1.forEach((doc) => {
+                    reqs1.push({
+                        id: doc.id,
+                        data: doc.data(),
+                    });
+                });
+                setRequ(reqs1);
+            };
+            let reqs2 = []
+            const setRequests2 = async () => {
+                const db2 = getFirestore();
+                const usersRef2 = collection(db2, "users");
+                const q2 = query(
+                    usersRef2,
+                    where("email", "==", customer),
+                    where("type", "==", 1)
+                );
+                const querySnapshot2 = await getDocs(q2);
+                querySnapshot2.forEach((doc) => {
+                    reqs2.push({
+                        id: doc.id,
+                        data: doc.data(),
+                    });
+                });
+                setRequ(reqs2);
+            };
+            await setRequests();
+            await setRequests1();
+            await setRequests2();
+            console.log(reqs2);
+            if (reqs.length == 0 && reqs1.length == 0 && reqs2.length != 0) {
+                await firebase
+                    .firestore()
+                    .collection("customers")
+                    .doc()
+                    .set({
+                        email: customer,
+                        from: auth.user.email,
+                        info: "Write Access",
+                        type: "I",
+                        money: -1,
+                    })
+                    .then(() => { });
+            }
+            else if (reqs2.length == 0) {
+                setError("Invalid Customer Mail")
+            }
+            else if (reqs.length > 0) {
+                setError("Request Already Sent!!!")
+            }
+            else {
+                setError("You already have Write Access of this customer")
+            }
+            setCustomer("")
         }
-        setCustomer("")
     };
     return (
         <>
@@ -112,7 +162,7 @@ const Insurance = () => {
                                     <div className="mb-4">
                                         <label
                                             className="block mb-2 text-sm font-bold text-white"
-                                            for="AADHAR"
+                                            htmlFor="AADHAR"
                                         >
                                             Email
                                         </label>

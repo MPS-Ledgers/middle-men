@@ -10,7 +10,6 @@ const SignOut = () => {
             const auth = getAuth();
             await signOut(auth);
             dispatch({ type: "ACCOUNT_TYPE", payload: -1 });
-            console.log("Signout success!");
             history.replace("/");
         } catch (error) {
             console.log("Error :(");

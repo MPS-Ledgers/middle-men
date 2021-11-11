@@ -9,29 +9,25 @@ contract Record {
   mapping(address => bool) public hospital;
   mapping(address => bool) public insurance;
   mapping(address => bool) public users;
-  mapping(address => uint256[]) public user_aadhaars;
-  mapping(address => uint256[]) public user_ds;
+  mapping(address => mapping ( address => mapping(uint => uint256[]))) public user_aadhaars;
+  mapping(address => mapping(address => mapping(uint => uint256[]))) public user_ds;
+  mapping(address => mapping(address=>uint)) public ds_count;
+  mapping(address => mapping(address=>uint)) public ad_count;
+  // 0 => 1 DS
+  // 1 => 2 DS
   mapping(address => uint256) public insurance_balance;
 
-//   constructor() {
-//     administrator = msg.sender;
-//   }
-
-  //Adding Hospitals, Insurance and User
   function addHospitals(address hosp) public payable {
-    // require(msg.sender==administrator);
     hospital[hosp] = true;
     hospital_count++;
   }
 
   function addInsurance(address insure) public payable {
-    // require(msg.sender==administrator);
     insurance[insure] = true;
     insure_count++;
   }
 
   function addUser(address cust) public payable {
-    // require(msg.sender==administrator);
     users[cust] = true;
     customer_count++;
   }
@@ -39,29 +35,36 @@ contract Record {
   function addAadhar(address cust, uint256[] memory AADHAR) public payable {
     require(insurance[msg.sender]);
     require(users[cust]);
+    
     for (uint256 i = 0; i < AADHAR.length; ++i) {
-      user_aadhaars[cust].push(AADHAR[i]);
+      user_aadhaars[cust][msg.sender][ad_count[cust][msg.sender]].push(AADHAR[i]);
     }
+    ad_count[cust][msg.sender]++;
   }
 
   function getAadhar(address cust) public view returns (uint256[] memory) {
     require(insurance[msg.sender]);
     require(users[cust]);
-    return user_aadhaars[cust];
+
+    return user_aadhaars[cust][msg.sender][ad_count[cust][msg.sender]-1];
   }
 
   function addDS(address cust, uint256[] memory DS) public payable {
     require(hospital[msg.sender]);
     require(users[cust]);
+    
     for (uint256 i = 0; i < DS.length; ++i) {
-      user_ds[cust].push(DS[i]);
+      user_ds[cust][msg.sender][ds_count[cust][msg.sender]].push(DS[i]);
     }
+    ds_count[cust][msg.sender]++;
   }
 
-  function getDS(address cust) public view returns (uint256[] memory) {
-    require(hospital[msg.sender]);
+  function getDS(address cust, address hosp) public view returns (uint256[] memory) {
     require(users[cust]);
-    return user_ds[cust];
+    require(insurance[msg.sender]);
+    require(hospital[hosp]);
+    
+    return user_ds[cust][hosp][ds_count[cust][hosp]-1];
   }
 
   function addMoneyToInsurance(address insu) public payable {

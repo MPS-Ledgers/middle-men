@@ -5,12 +5,14 @@ import firebase from "../firebaseConfig";
 import { useSelector } from "react-redux";
 import "firebase/firestore";
 import axios from "axios";
+import { collection, query, where, getDocs, getFirestore } from "@firebase/firestore";
 
 const ListGrant = (props) => {
+    //console.log(props.grants.data.from)
+    let acc = []
+    let acc1 = []
     const { contract, accounts, web3 } = useSelector((state) => state);
     const auth = useSelector((state) => state.auth);
-    console.log(props)
-    console.log(auth.user.email);
     const convertToString = (asciiArray) => {
         let res = "";
         for (let ele of asciiArray) {
@@ -20,9 +22,45 @@ const ListGrant = (props) => {
     };
 
     const downloadDS = async () => {
+        //console.log(props.grants.data.patient)
+        acc = []
+        acc1 = []
+        const fn = async() => {
+            const db = getFirestore();
+            const usersRef = collection(db, "users");
+            const q = query(
+                usersRef,
+                where("email", "==", props.grants.data.from)
+            );
+            const querySnapshot = await getDocs(q);
+            querySnapshot.forEach((doc) => {
+                acc.push({
+                    id: doc.id,
+                    data: doc.data(),
+                });
+            });
+        }
+        const fn1 = async() => {
+            const db1 = getFirestore();
+            const usersRef1 = collection(db1, "users");
+            const q1 = query(
+                usersRef1,
+                where("email", "==", props.grants.data.patient)
+            );
+            const querySnapshot1 = await getDocs(q1);
+            querySnapshot1.forEach((doc1) => {
+                acc1.push({
+                    id: doc1.id,
+                    data: doc1.data(),
+                });
+            });
+        }    
+        await fn();
+        await fn1();
         let asciiArray = await contract.methods
-            .getDS(accounts[1])
-            .call({ from: accounts[3] });
+            .getDS(acc1[0].data.address,acc[0].data.address)
+            .call({ from: accounts[0] });
+        console.log(acc, accounts, asciiArray)
         const cid = convertToString(asciiArray);
         const url = `https://ipfs.io/ipfs/${cid}`;
         const link = document.createElement("a");
@@ -34,9 +72,26 @@ const ListGrant = (props) => {
     };
 
     const downloadAadhaar = async () => {
+        const db = getFirestore();
+        console.log(props.grants.data.patient)
+        const usersRef = collection(db, "users");
+        const q = query(
+            usersRef,
+            where("email", "==", props.grants.data.patient)
+        );
+        let acc = []
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc) => {
+            acc.push({
+                id: doc.id,
+                data: doc.data(),
+            });
+        });
+        console.log(acc)
+        console.log(acc[0].data.address,accounts[0])
         let asciiArray = await contract.methods
-            .getAadhar(accounts[1])
-            .call({ from: accounts[2] });
+            .getAadhar(acc[0].data.address)
+            .call({ from: accounts[0] });
         console.log(asciiArray)
         const cid = convertToString(asciiArray);
         const url = `https://ipfs.io/ipfs/${cid}`;
@@ -48,33 +103,53 @@ const ListGrant = (props) => {
         link.click();
     };
     const tickClick = async () => {
+        let accc = []
+        const fn = async () => {
+            const db = getFirestore();
+            const usersRef = collection(db, "users");
+            const q = query(
+                usersRef,
+                where("email", "==", props.grants.data.from)
+            );
+            const querySnapshot = await getDocs(q);
+            querySnapshot.forEach((doc) => {
+                accc.push({
+                    id: doc.id,
+                    data: doc.data(),
+                });
+            });
+        }
+        await fn();
+        console.log(accc[0].data.address)
         await firebase
             .firestore()
             .collection("transactions")
             .doc()
             .set({
-                cust:props.grants.data.patient,
-                insu:auth.user.email,
+                cust: props.grants.data.patient,
+                insu: auth.user.email,
                 hosp: props.grants.data.from,
-                money:props.grants.data.money,
+                money: props.grants.data.money,
             })
-            .then(() => {});
+            .then(() => { });
         const response = await axios.get(
             "https://min-api.cryptocompare.com/data/price?fsym=INR&tsyms=ETH"
         );
+        
         console.log(
             props.grants.data.money * response.data.ETH * 1000000000000000000,
             response.data.ETH
         );
         await contract.methods
-            .transferMoney(accounts[3])
+            .transferMoney(accc[0].data.address)
             .send({
-                from: accounts[2],
+                from: accounts[0],
                 value: web3.utils.toWei(
                     (props.grants.data.money * response.data.ETH).toString(),
                     "ether"
                 ),
             });
+
         await firebase
             .firestore()
             .collection("insurance")

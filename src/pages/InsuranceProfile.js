@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useState,useEffect} from "react";
 import { GiTakeMyMoney } from "react-icons/gi";
 import { Link } from "react-router-dom";
 import inspro from "../images/inspro.webp";
@@ -8,7 +8,24 @@ import { CgProfile } from "react-icons/cg";
 import { BsChatFill } from "react-icons/bs";
 import { GrAdd } from "react-icons/gr";
 import { MdApproval } from "react-icons/md";
+import { useSelector } from 'react-redux'
+import axios from "axios"
+import web3 from '../ethereum/web3'
 const InsuranceProfile = () => {
+    const { accounts } = useSelector((state) => state);
+    const [balance, setBalance] = useState(0)
+    useEffect(() => {
+        console.log(accounts)
+        const getBal = async () => {
+            const response = await axios.get(
+                "https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=INR"
+            );
+            console.log(response.data)
+            let bal = await web3.eth.getBalance(accounts[0]) / 1e18;
+            setBalance(bal * response.data.INR)
+        }
+        getBal()
+    }, [])
     return (
         <>
             <SignOut />
@@ -56,7 +73,7 @@ const InsuranceProfile = () => {
                     <div className="flex justify-center">
                         <div className="justify-center align-center my-7">
                             <h1 className="text-white text-3xl my-5">
-                                Balance : 10000 Rs
+                                Balance : {balance.toFixed(2)} Rs
                             </h1>
                             <Link to="/insurance/transactions">
                                 <h1 className="text-white text-3xl my-2 my-5">

@@ -7,7 +7,24 @@ import GoBack from "../utils/GoBack";
 import { useSelector } from "react-redux";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { getFirestore } from "firebase/firestore";
+import { GiTakeMyMoney } from "react-icons/gi";
+import axios from "axios"
+import web3 from '../ethereum/web3'
 const User = () => {
+    const { accounts } = useSelector((state) => state);
+    const [balance, setBalance] = useState(0)
+    useEffect(() => {
+        console.log(accounts)
+        const getBal = async () => {
+            const response = await axios.get(
+                "https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=INR"
+            );
+            console.log(response.data)
+            let bal = await web3.eth.getBalance(accounts[0]) / 1e18;
+            setBalance(bal * response.data.INR)
+        }
+        getBal()
+    }, [])
     const auth = useSelector((state) => state.auth);
     const [Requ, setRequ] = useState([]);
     let id = 0;
@@ -38,6 +55,7 @@ const User = () => {
                 }}
             >
                 <div className="inline float-right">
+                    <Link to="/user/send"><GiTakeMyMoney className="inline text-white text-3xl mt-2 mr-4" /></Link>
                     <Link to="/chat">
                         <BsChatFill className="inline text-3xl mt-2 mr-10" />
                     </Link>
@@ -53,8 +71,11 @@ const User = () => {
                 <div className="flex justify-center content-center w-full">
                     <p className="text-3xl font-serif">Secure Solutions</p>
                 </div>
+                <div className="flex justify-center">
+                    <h1 className="text-2xl mt-3">Balance : {balance.toFixed(2)} RS</h1>
+                </div>
                 <div className="flex justify-center content-center w-full my-10">
-                    <p className="text-3xl font-serif">Your Transactions</p>
+                    <p className="text-3xl font-serif">Your Past Transactions</p>
                 </div>
                 <ul className="mt-10">
                     <li>
