@@ -17,7 +17,8 @@ import InsuranceTransaction from "./pages/InsuranceTransaction";
 import HospitalTransactions from "./pages/HospitalTransaction";
 import HospitalInsuranceConnect from "./pages/HospitalInsuranceConnect";
 import InsuranceBill from "./pages/Insurancebill";
-import Web3 from "web3";
+// import Web3 from "web3";
+import web3 from "./ethereum/web3";
 import Footer from "./components/Footer";
 import Record from "./ethereum/build/Record.json";
 import { contractAddress } from "./ethereum/contractAddress";
@@ -38,23 +39,22 @@ const App = () => {
 
     useEffect(() => {
         const getContract = async () => {
-            const provider = new Web3.providers.HttpProvider(
-                "http://127.0.0.1:7545"
-            );
-            const web3 = new Web3(provider);
+            // const provider = new Web3.providers.HttpProvider(
+            //     "http://127.0.0.1:7545"
+            // );
+            // const web3 = new Web3(provider);
             const instance = new web3.eth.Contract(
                 JSON.parse(Record.interface),
                 contractAddress
             );
             let accounts = await web3.eth.getAccounts();
+            console.log(accounts, instance);
             dispatch({ type: "WEB3", payload: web3 });
             dispatch({ type: "ALL_ACCOUNTS", payload: accounts });
             dispatch({ type: "CONTRACT", payload: instance });
         };
         getContract();
     }, []);
-
-    console.log(type);
 
     return (
         <>
