@@ -14,14 +14,15 @@ beforeEach(async () => {
     record = await new web3.eth.Contract(JSON.parse(compiledRecord.interface))
         .deploy({ data: compiledRecord.bytecode })
         .send({ from: accounts[0], gas: "1000000" });
+
+    await record.methods.addUser(accounts[1]).send({ from: accounts[0] });
+    await record.methods.addInsurance(accounts[2]).send({ from: accounts[0] });
+    await record.methods.addHospitals(accounts[3]).send({ from: accounts[0] });
 });
 
 describe("Record", () => {
     it("deploys a record and a campaign", () => {
         assert.ok(record.options.address);
-    });
-    it("adds a user", async () => {
-        await record.methods.addUser(accounts[1]).send({ from: accounts[0] });
     });
     it("adds aadhaar", async () => {
         const asciiArray = [
@@ -72,25 +73,11 @@ describe("Record", () => {
             87,
             80,
         ];
-        await record.methods.addUser(accounts[1]).send({ from: accounts[0] });
-        await record.methods
-            .addInsurance(accounts[2])
-            .send({ from: accounts[0] });
-        await record.methods
-            .addHospitals(accounts[3])
-            .send({ from: accounts[0] });
         await record.methods
             .addAadhar(accounts[1], asciiArray)
             .send({ from: accounts[2], gas: "6100000" });
     });
     it("send money", async () => {
-        await record.methods.addUser(accounts[1]).send({ from: accounts[0] });
-        await record.methods
-            .addInsurance(accounts[2])
-            .send({ from: accounts[0] });
-        await record.methods
-            .addHospitals(accounts[3])
-            .send({ from: accounts[0] });
         await record.methods.addMoneyToInsurance(accounts[2]).send({
             from: accounts[1],
             value: web3.utils.toWei("10", "ether"),

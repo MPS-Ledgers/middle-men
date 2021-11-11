@@ -17,7 +17,7 @@ import InsuranceTransaction from "./pages/InsuranceTransaction";
 import HospitalTransactions from "./pages/HospitalTransaction";
 import HospitalInsuranceConnect from "./pages/HospitalInsuranceConnect";
 import InsuranceBill from "./pages/Insurancebill";
-import web3 from "./ethereum/web3"
+import web3 from "./ethereum/web3";
 import Footer from "./components/Footer";
 import Record from "./ethereum/build/Record.json";
 import { contractAddress } from "./ethereum/contractAddress";
@@ -36,7 +36,7 @@ const App = () => {
         setType(state.type);
     }, [state]);
 
-    useEffect( () => {
+    useEffect(() => {
         const getContract = async () => {
             // const provider = new Web3.providers.HttpProvider(
             //     "http://127.0.0.1:7545"
@@ -47,12 +47,17 @@ const App = () => {
                 contractAddress
             );
             let accounts = await web3.eth.getAccounts();
-            console.log(accounts, instance)
-            let x = await web3.eth.getBalance(accounts[0])
-            console.log(x)
+            console.log(accounts, instance);
             dispatch({ type: "WEB3", payload: web3 });
             dispatch({ type: "ALL_ACCOUNTS", payload: accounts });
             dispatch({ type: "CONTRACT", payload: instance });
+
+            if (window != null && window.ethereum != null) {
+                window.ethereum.on("accountsChanged", (accounts) => {
+                    console.log("Changed Account:", accounts);
+                    dispatch({ type: "ALL_ACCOUNTS", payload: accounts });
+                });
+            }
         };
         getContract();
     }, []);
@@ -66,11 +71,14 @@ const App = () => {
                     <Redirect to="/" />
                 )}
                 {localType === 1 ? (
-                    <Route path="/user/send" exact component={UserToInsurance} />
+                    <Route
+                        path="/user/send"
+                        exact
+                        component={UserToInsurance}
+                    />
                 ) : (
                     <Redirect to="/"></Redirect>
-                )
-                }
+                )}
                 {localType === 2 ? (
                     <Route path="/insurance" exact component={Insurance} />
                 ) : (

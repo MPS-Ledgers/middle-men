@@ -96,10 +96,10 @@ const LoginPage = (props) => {
                             <h1 className="text-4xl font-bold text-white tracking-wide">
                                 Welcome to
                             </h1>
-                            <h1 className="text-5xl p-2 font-bold text-white tracking-wide">
+                            <h1 className="text-5xl py-2 font-bold text-white tracking-wide">
                                 Middle-Men
                             </h1>
-                            <p className="text-white p-2">
+                            <p className="text-white py-2">
                                 We Can't Predict Future But We can Protect It
                             </p>
                             <span className="text-white">
