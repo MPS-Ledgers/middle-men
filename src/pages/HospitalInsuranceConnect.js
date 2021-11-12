@@ -29,6 +29,7 @@ const HospitalInsuranceConnect = () => {
 
     const formHandler = async (event) => {
         setError("");
+        console.log("Clicked")
         event.preventDefault();
         if (insMail.length == 0) {
             setError("Enter Insurance Mail");
@@ -45,6 +46,7 @@ const HospitalInsuranceConnect = () => {
         } else if (dsFile.length == 0) {
             setError("Attach discharge summary");
         } else {
+            console.log("else ")
             let reqs = [];
             const setRequests = async () => {
                 const db = getFirestore();
@@ -102,45 +104,49 @@ const HospitalInsuranceConnect = () => {
             await setRequests();
             await setRequests1();
             await setRequests2();
-            if (reqs.length > 0 && reqs1.length > 0 && reqs2.length == 0) {
-                const response = await IPFS.add(dsFile);
-                let asciiArray = [];
-                for (let i = 0; i < response.path.length; ++i)
-                    asciiArray.push(response.path.charCodeAt(i));
-                await firebase
-                    .firestore()
-                    .collection("insurance")
-                    .doc()
-                    .set({
-                        email: insMail,
-                        from: auth.user.email,
-                        aadhar: aadhar,
-                        patient: patientMail,
-                        money: parseFloat(money),
-                    })
-                    .then(() => {});
-                const db = getFirestore();
-                const usersRef = collection(db, "users");
-                const q = query(usersRef, where("email", "==", patientMail));
-                let acc = [];
-                const querySnapshot = await getDocs(q);
-                querySnapshot.forEach((doc) => {
-                    acc.push({
-                        id: doc.id,
-                        data: doc.data(),
+            console.log(reqs, reqs1, reqs2)
+            const task = async() => {
+                if (reqs.length > 0 && reqs1.length > 0 && reqs2.length == 0) {
+                    const response = await IPFS.add(dsFile);
+                    let asciiArray = [];
+                    for (let i = 0; i < response.path.length; ++i)
+                        asciiArray.push(response.path.charCodeAt(i));
+                    await firebase
+                        .firestore()
+                        .collection("insurance")
+                        .doc()
+                        .set({
+                            email: insMail,
+                            from: auth.user.email,
+                            aadhar: aadhar,
+                            patient: patientMail,
+                            money: parseFloat(money),
+                        })
+                        .then(() => { });
+                    const db = getFirestore();
+                    const usersRef = collection(db, "users");
+                    const q = query(usersRef, where("email", "==", patientMail));
+                    let acc = [];
+                    const querySnapshot = await getDocs(q);
+                    querySnapshot.forEach((doc) => {
+                        acc.push({
+                            id: doc.id,
+                            data: doc.data(),
+                        });
                     });
-                });
-                console.log(acc[0].data.address, accounts[0]);
-                await contract.methods
-                    .addDS(acc[0].data.address, asciiArray)
-                    .send({ from: accounts[0], gas: "6000000" });
-            } else if (reqs.length == 0) {
-                setError("You dont have the Read Access of the Patient");
-            } else if (reqs1.length == 0) {
-                setError("The Patient donot have an insurance in this company");
-            } else if (reqs2.length != 0) {
-                setError("You have already sent request for same patient");
+                    console.log(acc[0].data.address, accounts[0]);
+                    await contract.methods
+                        .addDS(acc[0].data.address, asciiArray)
+                        .send({ from: accounts[0], gas: "6000000" });
+                } else if (reqs.length == 0) {
+                    setError("You dont have the Read Access of the Patient");
+                } else if (reqs1.length == 0) {
+                    setError("The Patient donot have an insurance in this company");
+                } else if (reqs2.length != 0) {
+                    setError("You have already sent request for same patient");
+                }
             }
+            await task();
         }
     };
     return (
