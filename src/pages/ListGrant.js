@@ -6,11 +6,13 @@ import { useSelector } from "react-redux";
 import "firebase/firestore";
 import axios from "axios";
 import { collection, query, where, getDocs, getFirestore } from "@firebase/firestore";
-import ConvertAPI from 'convertapi';
 
-const convertapi = new ConvertAPI(process.env.REACT_APP_CONVERTAPI, { conversionTimeout: 60 });
 const ListGrant = (props) => {
-    let file_link
+    // console.log(props.grants.data.email)
+    // console.log(props.grants.data.from)
+    // console.log(props.grants.data.patient)
+    // console.log(props.grants.data.money)
+    // let file_link
     let acc = []
     let acc1 = []
     const { contract, accounts, web3 } = useSelector((state) => state);
@@ -179,33 +181,19 @@ const ListGrant = (props) => {
             .then((response) => response.text())
             .then((result) => console.log(result))
             .catch((error) => console.log("error", error));
-        convertapi.convert('pdf', { File: 'C:\\Users\\MONIESH\\Desktop\\middle-men\\src\\pdf.html' })
-            .then(function (result) {
-                file_link=result.file.url
-                console.log("Converted file url: " + result.file.url);
-                return result.file.save('C:\\Users\\MONIESH\\Desktop\\middle-men\\src');
-            })
-            .then(function (file) {
-                console.log("File saved: " + file);
-            })
-            .catch(function (e) {
-                console.error(e.toString());
-            });
-        const raw1 = JSON.stringify({
-            "phone": "+916381801176",
-            "media": {
-                "type": "media_template",
-                "template_name": "order_place",
-                "lang_code": "en",
-                "header": [
-                    {
-                        "document": {
-                            "link": file_link
-                        }
-                    }
-                ]
+        const config = {
+            body: {
+                'Content-Type':'application/json'
             }
-        })
+        }
+        const obj = { 'usermail': props.grants.data.patient, 'insmail': props.grants.data.email, 'hospmail': props.grants.data.from, 'amount': props.grants.data.money }
+        axios.post('http://localhost:8000/grants',obj, config)
+        const url = await axios.get('http://localhost:8000/')
+        console.log(url)
+        let raw1 = JSON.stringify({
+            phone: "+916381801176",
+            text:'Hello '+props.grants.data.patient+', \nYour payment invoice has been attached below.\nThank You\n\n'+url
+        });
         let requestOptions1 = {
             method: "POST",
             headers: myHeaders,
@@ -216,6 +204,7 @@ const ListGrant = (props) => {
             .then((response) => response.text())
             .then((result) => console.log(result))
             .catch((error) => console.log("error", error));
+
     };
 
     const wrongClick = async () => {

@@ -10,13 +10,24 @@ const path = require('path')
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-
+let amount = 0
+let usermail = ''
+let hospmail = ''
+let insmail = ''
 // INSURANCE MAIL , CUSTOMER MAIL, HOSPITAL MAIL, MONEY
+
+app.post('/grants', (req, res) => {
+    const info = req.body;
+    console.log(info);
+    console.log(usermail)
+    usermail = info.usermail
+    hospmail = info.hospmail
+    insmail = info.insmail
+    amount = info.amount
+})
+
+
 app.get('/', (req, res) => {
-    let amount = 10000
-    let usermail = 'bob@middlemen.com'
-    let hospmail = 'appolo@middlemen.com'
-    let insmail='starhealth@middlemen.com'
     let dom = new JSDOM(`<html>
     <head>
         <style>
@@ -130,7 +141,7 @@ app.get('/', (req, res) => {
                 Email: mpsledgers@middlemen.com
             </div>
             <div class="rights">
-                <p>© 2021 Company Co. All rights reserved.</p>
+                <p> © 2021 Company Co. All rights reserved.</p>
             </div>
         </div>
     </body>
