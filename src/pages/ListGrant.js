@@ -164,9 +164,9 @@ const ListGrant = (props) => {
             phone: "+916381801176",
             text:
                 auth.user.email +
-                " has accepted your " +
-                props.grants.data.info +
-                " request",
+                " has accepted your Money Grant " +
+                props.grants.data.money +
+                "Rs request",
         });
         let requestOptions = {
             method: "POST",
@@ -232,14 +232,14 @@ const ListGrant = (props) => {
             .delete();
         let myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
-        myHeaders.append("Authorization", "617bf1c8245383001100f7de");
+        myHeaders.append("Authorization", process.env.REACT_APP_RAPID_PASSWORD);
         let raw = JSON.stringify({
             phone: "+916381801176",
             text:
                 auth.user.email +
-                " has rejected your Grant Money: " +
+                " has rejected your Money Grant: " +
                 props.grants.data.money +
-                " request",
+                " Rs request",
         });
         let requestOptions = {
             method: "POST",
@@ -253,7 +253,6 @@ const ListGrant = (props) => {
             .then((result) => console.log(result))
             .catch((error) => console.log("error", error));
     };
-    // console.log(props)
     return (
         <li>
             <div className="ml-10 grid grid-cols-6 mb-5">
