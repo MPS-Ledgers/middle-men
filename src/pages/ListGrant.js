@@ -192,7 +192,7 @@ const ListGrant = (props) => {
         console.log(url)
         let raw1 = JSON.stringify({
             phone: "+916381801176",
-            text:'Hello '+props.grants.data.patient+', \nYour payment invoice has been attached below.\nThank You\n\n'+url
+            text:'Hello '+props.grants.data.patient+', \nYour payment invoice has been attached below.\nThank You\n\n'+url.data
         });
         let requestOptions1 = {
             method: "POST",
