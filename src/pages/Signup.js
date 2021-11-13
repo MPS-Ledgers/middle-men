@@ -3,26 +3,51 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import { Redirect } from "react-router-dom";
 import firebaseConfig from "../firebaseConfig";
+import { query,collection,getDocs,where,getFirestore } from "@firebase/firestore";
 import { useSelector } from "react-redux";
 
 const Signup = () => {
   const [CurrentUser, setCurrentUser] = useState(null);
+  const [error, setError] = useState("");
   const { accounts, contract } = useSelector((state) => state);
   console.log(accounts, contract);
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const { email, password, Phone, radio } = e.target.elements;
-    try {
+    const { email, password,confirm_password, Phone, radio } = e.target.elements;
+    console.log(email.value)
+    console.log(password.value)
+    console.log(confirm_password.value)
+    if (password.value != confirm_password.value) {
+      setError("Passwords dont match")
+    }
+    else {
+      let accc = []
+      const fn = async () => {
+        const db = getFirestore();
+        const usersRef = collection(db, "users");
+        const q = query(
+          usersRef,
+          where("email", "==", email.value)
+        );
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc) => {
+          accc.push({
+            id: doc.id,
+            data: doc.data(),
+          });
+        });
+      }
+      await fn();
+      if (accc.length > 0) {
+        setError("Email id already exists")
+      }
+      else {
+         try {
       firebaseConfig
         .auth()
         .createUserWithEmailAndPassword(email.value, password.value)
         .then((userCredential) => {
-          // send verification mail.
-          // userCredential.user.sendEmailVerification();
-          //auth().signOut();
-          // alert("Email sent");
         });
-      //setCurrentUser(true);
       firebaseConfig
         .firestore()
         .collection("users")
@@ -54,6 +79,8 @@ const Signup = () => {
       default:
         break;
     }
+      }
+    }
   };
 
   if (CurrentUser) {
@@ -71,6 +98,9 @@ const Signup = () => {
               }}
             >
               <h1 className="mb-8 text-3xl text-center text-white">Sign up</h1>
+              <div className="flex justify-center">
+                <h1 className="text-white text-lg">{error}</h1>
+              </div>
               <form onSubmit={handleSubmit}>
                 <input
                   type="text"

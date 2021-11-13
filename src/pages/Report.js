@@ -12,9 +12,9 @@ const Report = () => {
             process.env.REACT_APP_RAPID_PASSWORD +
             "&destination=" +
             process.env.REACT_APP_ADMIN_NO +
-            "&source=RMLPRD&message=From:" +
+            "&source=RMLPRD&message=From: " +
             auth.user.email +
-            "\nMessage:\n" +
+            "\n Message: \n" +
             report;
         event.preventDefault();
         console.log(process.env.REACT_APP_RAPID_USERNAME);
