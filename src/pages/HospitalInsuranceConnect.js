@@ -16,6 +16,7 @@ import {
     getDocs,
     getFirestore,
 } from "@firebase/firestore";
+import FullPageLoader from "../components/FullPageLoader";
 
 const HospitalInsuranceConnect = () => {
     const [Requ, setRequ] = useState();
@@ -25,11 +26,13 @@ const HospitalInsuranceConnect = () => {
     const [dsFile, setDsFile] = useState("");
     const [patientMail, setPatientMail] = useState("");
     const [error, setError] = useState("");
+    const [loaderShow, setLoaderShow] = useState(false);
     const { auth, accounts, contract } = useSelector((state) => state);
 
     const formHandler = async (event) => {
+        setLoaderShow(true);
         setError("");
-        console.log("Clicked")
+        console.log("Clicked");
         event.preventDefault();
         if (insMail.length == 0) {
             setError("Enter Insurance Mail");
@@ -46,7 +49,7 @@ const HospitalInsuranceConnect = () => {
         } else if (dsFile.length == 0) {
             setError("Attach discharge summary");
         } else {
-            console.log("else ")
+            console.log("else ");
             let reqs = [];
             const setRequests = async () => {
                 const db = getFirestore();
@@ -104,8 +107,8 @@ const HospitalInsuranceConnect = () => {
             await setRequests();
             await setRequests1();
             await setRequests2();
-            console.log(reqs, reqs1, reqs2)
-            const task = async() => {
+            console.log(reqs, reqs1, reqs2);
+            const task = async () => {
                 if (reqs.length > 0 && reqs1.length > 0 && reqs2.length == 0) {
                     const response = await IPFS.add(dsFile);
                     let asciiArray = [];
@@ -122,10 +125,13 @@ const HospitalInsuranceConnect = () => {
                             patient: patientMail,
                             money: parseFloat(money),
                         })
-                        .then(() => { });
+                        .then(() => {});
                     const db = getFirestore();
                     const usersRef = collection(db, "users");
-                    const q = query(usersRef, where("email", "==", patientMail));
+                    const q = query(
+                        usersRef,
+                        where("email", "==", patientMail)
+                    );
                     let acc = [];
                     const querySnapshot = await getDocs(q);
                     querySnapshot.forEach((doc) => {
@@ -141,17 +147,21 @@ const HospitalInsuranceConnect = () => {
                 } else if (reqs.length == 0) {
                     setError("You dont have the Read Access of the Patient");
                 } else if (reqs1.length == 0) {
-                    setError("The Patient donot have an insurance in this company");
+                    setError(
+                        "The Patient donot have an insurance in this company"
+                    );
                 } else if (reqs2.length != 0) {
                     setError("You have already sent request for same patient");
                 }
-            }
+            };
             await task();
         }
+        setLoaderShow(false);
     };
     return (
         <>
             <SignOut />
+            <FullPageLoader show={loaderShow} />
             <GoBack />
             <div
                 className="h-screen w-screen text-white"
@@ -287,9 +297,13 @@ const HospitalInsuranceConnect = () => {
                                         </button>
                                     </div>
                                     <div className="flex justify-center">
-                                        <h1 className="text-white text-lg">
-                                            {error}
-                                        </h1>
+                                        {error ? (
+                                            <h1 className="text-lg bg-red-600 p-1 px-3 rounded-lg mb-4 -mt-4">
+                                                {error}
+                                            </h1>
+                                        ) : (
+                                            <></>
+                                        )}
                                     </div>
                                     <hr className="mb-6 border-t" />
                                 </form>

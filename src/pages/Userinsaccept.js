@@ -13,20 +13,23 @@ const Userinsaccept = () => {
     const auth = useSelector((state) => state.auth);
     const [Requ, setRequ] = useState([]);
     let id = 0;
-    useEffect(async () => {
-        let reqs = [];
-        const db = getFirestore();
-        const usersRef = collection(db, "customers");
-        const q = query(usersRef, where("email", "==", auth.user.email));
-        const querySnapshot = await getDocs(q);
-        querySnapshot.forEach((doc) => {
-            console.log(doc.id);
-            reqs.push({
-                id: doc.id,
-                data: doc.data(),
+    useEffect(() => {
+        const setRequests = async () => {
+            let reqs = [];
+            const db = getFirestore();
+            const usersRef = collection(db, "customers");
+            const q = query(usersRef, where("email", "==", auth.user.email));
+            const querySnapshot = await getDocs(q);
+            querySnapshot.forEach((doc) => {
+                console.log(doc.id);
+                reqs.push({
+                    id: doc.id,
+                    data: doc.data(),
+                });
             });
-        });
-        setRequ(reqs);
+            setRequ(reqs);
+        };
+        setRequests();
     }, [Requ]);
     return (
         <>

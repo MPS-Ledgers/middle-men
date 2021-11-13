@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Loader from "../components/Loader";
+import FullPageLoader from "../components/FullPageLoader";
 import { Link } from "react-router-dom";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { history } from "../history";
@@ -65,7 +65,7 @@ const LoginPage = (props) => {
     };
     return (
         <>
-            <Loader show={loaderShow} />
+            <FullPageLoader show={loaderShow} />
             <div className="w-screen h-screen px-8 py-2">
                 <div className="flex items-center justify-between">
                     <h2 className="text-gray-200 font-bold text-2xl ">

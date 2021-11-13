@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { CgProfile } from "react-icons/cg";
+import FullPageLoader from "../components/FullPageLoader";
 import { BsChatFill } from "react-icons/bs";
 import { GiTakeMyMoney } from "react-icons/gi";
 import { MdApproval } from "react-icons/md";
@@ -16,12 +17,15 @@ import "firebase/firestore";
 const InsuranceAadhar = () => {
     const auth = useSelector((state) => state.auth);
     const [customer, setCustomer] = useState("");
+    const [loaderShow, setLoaderShow] = useState(false);
     const [aadhaar, setAadhaar] = useState("");
     const [error, setError] = useState("");
     const { accounts, contract } = useSelector((state) => state);
     const [Requ1, setRequ1] = useState([]);
+
     const formHandler = async (event) => {
         event.preventDefault();
+        setLoaderShow(true);
         setError("");
         if (customer.length == 0) {
             setError("Enter Customer mail");
@@ -73,9 +77,11 @@ const InsuranceAadhar = () => {
                 setError("You dont have Write Access to this account");
             }
         }
+        setLoaderShow(false);
     };
     return (
         <>
+            <FullPageLoader show={loaderShow} />
             <SignOut />
             <GoBack />
             <div className="h-screen w-screen text-white font-montserrat">
