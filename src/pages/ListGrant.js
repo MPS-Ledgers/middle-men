@@ -1,11 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import { TiTick } from "react-icons/ti";
 import { ImCross } from "react-icons/im";
 import firebase from "../firebaseConfig";
 import { useSelector } from "react-redux";
 import "firebase/firestore";
 import axios from "axios";
-import { collection, query, where, getDocs, getFirestore } from "@firebase/firestore";
+import {
+    collection,
+    query,
+    where,
+    getDocs,
+    getFirestore,
+} from "@firebase/firestore";
+import FullPageLoader from "../components/FullPageLoader";
 
 const ListGrant = (props) => {
     // console.log(props.grants.data.email)
@@ -13,10 +20,13 @@ const ListGrant = (props) => {
     // console.log(props.grants.data.patient)
     // console.log(props.grants.data.money)
     // let file_link
-    let acc = []
-    let acc1 = []
+
+    let acc = [];
+    let acc1 = [];
     const { contract, accounts, web3 } = useSelector((state) => state);
     const auth = useSelector((state) => state.auth);
+    const [loader, setLoader] = useState(false);
+
     const convertToString = (asciiArray) => {
         let res = "";
         for (let ele of asciiArray) {
@@ -26,10 +36,11 @@ const ListGrant = (props) => {
     };
 
     const downloadDS = async () => {
+        setLoader(true);
         //console.log(props.grants.data.patient)
-        acc = []
-        acc1 = []
-        const fn = async() => {
+        acc = [];
+        acc1 = [];
+        const fn = async () => {
             const db = getFirestore();
             const usersRef = collection(db, "users");
             const q = query(
@@ -43,8 +54,8 @@ const ListGrant = (props) => {
                     data: doc.data(),
                 });
             });
-        }
-        const fn1 = async() => {
+        };
+        const fn1 = async () => {
             const db1 = getFirestore();
             const usersRef1 = collection(db1, "users");
             const q1 = query(
@@ -58,13 +69,13 @@ const ListGrant = (props) => {
                     data: doc1.data(),
                 });
             });
-        }    
+        };
         await fn();
         await fn1();
         let asciiArray = await contract.methods
-            .getDS(acc1[0].data.address,acc[0].data.address)
+            .getDS(acc1[0].data.address, acc[0].data.address)
             .call({ from: accounts[0] });
-        console.log(acc, accounts, asciiArray)
+        console.log(acc, accounts, asciiArray);
         const cid = convertToString(asciiArray);
         const url = `https://ipfs.io/ipfs/${cid}`;
         const link = document.createElement("a");
@@ -73,17 +84,19 @@ const ListGrant = (props) => {
         link.setAttribute("download", "file.pdf");
         document.body.appendChild(link);
         link.click();
+        setLoader(false);
     };
 
     const downloadAadhaar = async () => {
+        setLoader(true);
         const db = getFirestore();
-        console.log(props.grants.data.patient)
+        console.log(props.grants.data.patient);
         const usersRef = collection(db, "users");
         const q = query(
             usersRef,
             where("email", "==", props.grants.data.patient)
         );
-        let acc = []
+        let acc = [];
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
             acc.push({
@@ -91,12 +104,12 @@ const ListGrant = (props) => {
                 data: doc.data(),
             });
         });
-        console.log(acc)
-        console.log(acc[0].data.address,accounts[0])
+        console.log(acc);
+        console.log(acc[0].data.address, accounts[0]);
         let asciiArray = await contract.methods
             .getAadhar(acc[0].data.address)
             .call({ from: accounts[0] });
-        console.log(asciiArray)
+        console.log(asciiArray);
         const cid = convertToString(asciiArray);
         const url = `https://ipfs.io/ipfs/${cid}`;
         const link = document.createElement("a");
@@ -105,9 +118,11 @@ const ListGrant = (props) => {
         link.setAttribute("download", "file.pdf");
         document.body.appendChild(link);
         link.click();
+        setLoader(false);
     };
     const tickClick = async () => {
-        let accc = []
+        setLoader(true);
+        let accc = [];
         const fn = async () => {
             const db = getFirestore();
             const usersRef = collection(db, "users");
@@ -122,9 +137,9 @@ const ListGrant = (props) => {
                     data: doc.data(),
                 });
             });
-        }
+        };
         await fn();
-        console.log(accc[0].data.address)
+        console.log(accc[0].data.address);
         await firebase
             .firestore()
             .collection("transactions")
@@ -135,24 +150,22 @@ const ListGrant = (props) => {
                 hosp: props.grants.data.from,
                 money: props.grants.data.money,
             })
-            .then(() => { });
+            .then(() => {});
         const response = await axios.get(
             "https://min-api.cryptocompare.com/data/price?fsym=INR&tsyms=ETH"
         );
-        
+
         console.log(
             props.grants.data.money * response.data.ETH * 1000000000000000000,
             response.data.ETH
         );
-        await contract.methods
-            .transferMoney(accc[0].data.address)
-            .send({
-                from: accounts[0],
-                value: web3.utils.toWei(
-                    (props.grants.data.money * response.data.ETH).toString(),
-                    "ether"
-                ),
-            });
+        await contract.methods.transferMoney(accc[0].data.address).send({
+            from: accounts[0],
+            value: web3.utils.toWei(
+                (props.grants.data.money * response.data.ETH).toString(),
+                "ether"
+            ),
+        });
 
         await firebase
             .firestore()
@@ -183,16 +196,25 @@ const ListGrant = (props) => {
             .catch((error) => console.log("error", error));
         const config = {
             body: {
-                'Content-Type':'application/json'
-            }
-        }
-        const obj = { 'usermail': props.grants.data.patient, 'insmail': props.grants.data.email, 'hospmail': props.grants.data.from, 'amount': props.grants.data.money }
-        axios.post('http://localhost:8000/grants',obj, config)
-        const url = await axios.get('http://localhost:8000/')
-        console.log(url)
+                "Content-Type": "application/json",
+            },
+        };
+        const obj = {
+            usermail: props.grants.data.patient,
+            insmail: props.grants.data.email,
+            hospmail: props.grants.data.from,
+            amount: props.grants.data.money,
+        };
+        axios.post("http://localhost:8000/grants", obj, config);
+        const url = await axios.get("http://localhost:8000/");
+        console.log(url);
         let raw1 = JSON.stringify({
             phone: "+916381801176",
-            text:'Hello '+props.grants.data.patient+', \nYour payment invoice has been attached below.\nThank You\n\n'+url.data
+            text:
+                "Hello " +
+                props.grants.data.patient +
+                ", \nYour payment invoice has been attached below.\nThank You\n\n" +
+                url.data,
         });
         let requestOptions1 = {
             method: "POST",
@@ -205,9 +227,11 @@ const ListGrant = (props) => {
             .then((result) => console.log(result))
             .catch((error) => console.log("error", error));
 
+        setLoader(false);
     };
 
     const wrongClick = async () => {
+        setLoader(true);
         console.log(auth.user.email);
         await firebase
             .firestore()
@@ -241,9 +265,12 @@ const ListGrant = (props) => {
             .then((response) => response.text())
             .then((result) => console.log(result))
             .catch((error) => console.log("error", error));
+
+        setLoader(false);
     };
     return (
         <li>
+            <FullPageLoader show={loader} />
             <div className="ml-10 grid grid-cols-6 mb-5">
                 <h1 className="text-white text-xl">
                     {props.grants.data.aadhar}

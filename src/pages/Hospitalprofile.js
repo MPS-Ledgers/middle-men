@@ -47,10 +47,10 @@ const HospitalProfile = () => {
                         <BsChatFill className="inline text-3xl mt-2 mr-10" />
                     </Link>
                 </div>
-                <div class="w-full justify-center items-center">
-                    <div class="flex relative h-60 justify-center">
+                <div class="w-full flex flex-col justify-center items-center">
+                    <div class="flex relative h-60 justify-center items-center">
                         <img
-                            class="absolute h-full w-1/2"
+                            class="h-full"
                             src={hosppro}
                             alt="pto-pho"
                         />
@@ -64,17 +64,17 @@ const HospitalProfile = () => {
                         </h1>
                     </div>
                     <div className="flex justify-center">
-                        <div className="justify-center align-center my-7">
+                        <div className="justify-center align-center my-7 text-center">
                             <h1 className="text-white text-3xl my-5">
                                 Balance : {balance.toFixed(2)} Rs
                             </h1>
                             <Link to="/hospital/transactions">
-                                <h1 className="text-white text-3xl my-2">
+                                <h1 className="text-white text-3xl my-2 text-center">
                                     Your Transactions
                                 </h1>
                             </Link>
                             <Link to="/chat">
-                                <h1 className="text-white text-3xl ml-20 my-5">
+                                <h1 className="text-white text-3xl my-5 text-center">
                                     Chat
                                 </h1>
                             </Link>

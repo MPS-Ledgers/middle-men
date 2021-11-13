@@ -15,6 +15,7 @@ import { GiTakeMyMoney } from "react-icons/gi";
 import { BsChatFill } from "react-icons/bs";
 import web3 from "../ethereum/web3";
 import axios from "axios";
+import FullPageLoader from "../components/FullPageLoader";
 
 const UserToInsurance = () => {
     const { contract, accounts, auth } = useSelector((state) => state);
@@ -22,8 +23,10 @@ const UserToInsurance = () => {
     const [Requ, setRequ] = useState();
     const [money, setMoney] = useState("");
     const [error, setError] = useState("");
+    const [loaderShow, setLoaderShow] = useState(false);
 
     const formHandler = async (event) => {
+        setLoaderShow(true);
         setError("");
         event.preventDefault();
         if (Insmail.length == 0) {
@@ -91,10 +94,12 @@ const UserToInsurance = () => {
                     });
             }
         }
+        setLoaderShow(false);
     };
     return (
         <>
             <SignOut />
+            <FullPageLoader show={loaderShow} />
             <GoBack />
             <div
                 className="h-screen w-screen text-white"

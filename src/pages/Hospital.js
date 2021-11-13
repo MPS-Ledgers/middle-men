@@ -15,14 +15,21 @@ import {
     getDocs,
     getFirestore,
 } from "@firebase/firestore";
+import FullPageLoader from "../components/FullPageLoader";
 
 const Hospital = () => {
     const auth = useSelector((state) => state.auth);
     const [patientmail, setPatientMail] = useState("");
     const [Request, setRequ] = useState();
     const [error, setError] = useState("");
+    const [loader, setLoader] = useState(false);
+
     const formHandler = async (event) => {
         setError("");
+        setLoader(true);
+        // window.onscroll = () => {
+        //     window.scroll(0, 0);
+        // };
         event.preventDefault();
         if (patientmail.length == 0) {
             setError("Enter Patient Mail");
@@ -114,10 +121,13 @@ const Hospital = () => {
             }
             setPatientMail("");
         }
+        // window.onscroll = null;
+        setLoader(false);
     };
     return (
-        <>
+        <div className="relative">
             <SignOut />
+            <FullPageLoader show={loader} />
             <GoBack />
             <div className="h-screen w-screen text-white font-montserrat">
                 <div className="inline float-right">
@@ -214,7 +224,7 @@ const Hospital = () => {
                     </button>
                 </Link>
             </div>
-        </>
+        </div>
     );
 };
 

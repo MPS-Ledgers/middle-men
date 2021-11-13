@@ -8,6 +8,7 @@ import SignOut from "../utils/SignOut";
 import GoBack from "../utils/GoBack";
 import firebase from "../firebaseConfig";
 import { useSelector } from "react-redux";
+import FullPageLoader from "../components/FullPageLoader";
 import "firebase/firestore";
 import { GrAdd } from "react-icons/gr";
 import {
@@ -17,12 +18,16 @@ import {
     getDocs,
     getFirestore,
 } from "@firebase/firestore";
+
 const Insurance = () => {
     const auth = useSelector((state) => state.auth);
     const [customer, setCustomer] = useState("");
     const [error, setError] = useState("");
     const [Requ, setRequ] = useState();
+    const [loaderShow, setLoaderShow] = useState(false);
+
     const formHandler = async (event) => {
+        setLoaderShow(true);
         event.preventDefault();
         setError("");
         if (customer.length == 0) {
@@ -109,9 +114,11 @@ const Insurance = () => {
             }
             setCustomer("");
         }
+        setLoaderShow(false);
     };
     return (
         <>
+            <FullPageLoader show={loaderShow} />
             <SignOut />
             <GoBack />
             <div className="h-screen w-screen text-white font-montserrat">

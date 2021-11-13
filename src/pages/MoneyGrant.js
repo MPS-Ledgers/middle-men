@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import ListGrant from "./ListGrant";
+import Loader from "../components/Loader";
 import { BsChatFill } from "react-icons/bs";
 import { MdApproval } from "react-icons/md";
 import { Link } from "react-router-dom";
@@ -13,9 +14,12 @@ import { collection, query, where, getDocs } from "firebase/firestore";
 import { getFirestore } from "firebase/firestore";
 const MoneyGrant = () => {
     const auth = useSelector((state) => state.auth);
+    const [loaderShow, setLoaderShow] = useState(false);
     const [Requ, setRequ] = useState([]);
     let id = 0;
+
     useEffect(() => {
+        setLoaderShow(true);
         const setRequests = async () => {
             let reqs = [];
             const db = getFirestore();
@@ -31,10 +35,12 @@ const MoneyGrant = () => {
             setRequ(reqs);
         };
         setRequests();
+        setLoaderShow(false);
     }, [Requ]);
     return (
         <>
             <SignOut />
+            <Loader show={loaderShow} />
             <GoBack />
             <div
                 className="h-screen w-screen text-white"
