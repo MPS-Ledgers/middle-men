@@ -1,6 +1,6 @@
 # MIDDLE MEN
 
-<div align="center"> <img align="center" alt="Middlemen" src="" height='95' width='380'> </a> </div>
+<div align="center"> <img align="center" alt="Middlemen" src="https://raw.githubusercontent.com/lokeshn011101/middle-men/main/src/images/Middlemen%20logo.jpeg" height='95' width='380'> </a> </div>
 
 MIDDLE-MEN is a React JS based which using Ethereum Blockchain and Rapid APIs to help users to get the required online resources in a faster manner.  It is also made user-friendly to make it easily accessible to all sections of the society. To avoid documents forgery and ensure security , we cross check all details from multiple-sources. 
 
@@ -41,7 +41,8 @@ $ npm start
 
 ## Demo Video:
 
-<a href=""> <img src="" alt="Demo Video" height='250' width='400'/> </a>
+<a href=""> <img src="
+https://raw.githubusercontent.com/lokeshn011101/middle-men/main/src/images/homepage.png" alt="Demo Video" height='250' width='400'/> </a>
 
 ## Team:
 
