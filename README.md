@@ -49,7 +49,7 @@ https://raw.githubusercontent.com/lokeshn011101/middle-men/main/src/images/homep
 | S.No. | Name                        |  GitHub Username                                       |
 | ----- | --------------------------- | ----------------------------------------------------   |
 | 1.    | Lokesh N N                  |  [@lokeshn011101](https://github.com/lokeshn011101)    |
-| 2.    | Moniesh Ravichandrann       |  [@Moniesh R](https://github.com/monieshravichandrran) |
+| 2.    | Moniesh Ravichandrran       |  [@Moniesh R](https://github.com/monieshravichandrran) |
 | 3.    | Sanyog Kave P               |  [@Sankave00](https://github.com/sankave00)            |
 | 4.    | Srivatsav M                 |  [@Srivathsav01](https://github.com/srivathsav01)      |
 | 5.    | Partheban K V               |  [@parthe11](https://github.com/parthe11)              |

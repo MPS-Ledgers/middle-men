@@ -43,8 +43,8 @@ const InsuranceAadhar = () => {
                     address = doc.data().address;
                 }
             });
+            let reqs = [];
             const setRequests = async () => {
-                let reqs = [];
                 const db1 = getFirestore();
                 const usersRef1 = collection(db1, "InsuranceWrite");
                 const q1 = query(
@@ -62,8 +62,9 @@ const InsuranceAadhar = () => {
                 setRequ1(reqs);
             };
             await setRequests();
+            console.log(reqs)
             console.log(address);
-            if (Requ1.length > 0) {
+            if (reqs.length > 0) {
                 const response = await IPFS.add(aadhaar);
                 console.log(response.path);
                 let asciiArray = [];
