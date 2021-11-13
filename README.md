@@ -41,8 +41,8 @@ $ npm start
 
 ## Demo Video:
 
-<a href=""> <img src="
-https://raw.githubusercontent.com/lokeshn011101/middle-men/main/src/images/homepage.png" alt="Demo Video" height='250' width='400'/> </a>
+<a href="https://www.youtube.com/watch?v=tGfVSJvoNuo"> <img src="
+https://raw.githubusercontent.com/lokeshn011101/middle-men/main/src/images/homepage.jpg" alt="Demo Video" height='250' width='400'/> </a>
 
 ## Team:
 
