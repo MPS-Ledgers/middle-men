@@ -22,7 +22,7 @@ MIDDLE-MEN , being an application common to all the components of the Insurance 
 >> To enable Blockchain, Install metamask and have a Rinkeby Test account.
 
 In the project directory, you can run:
-### `npm -i`
+### `npm install`
 
 This installs all the nescessary node modules and dependencies needed to run the application.
 
