@@ -196,13 +196,18 @@ const ListGrant = (props) => {
             .catch((error) => console.log("error", error));
         const config = {
             body: {
-                'Content-Type':'application/json'
-            }
-        }
-        const obj = { 'usermail': props.grants.data.patient, 'insmail': props.grants.data.email, 'hospmail': props.grants.data.from, 'amount': props.grants.data.money }
-        axios.post('http://localhost:8000/grants',obj, config)
-        const url = await axios.get('http://localhost:8000/')
-        console.log(url.data)
+                "Content-Type": "application/json",
+            },
+        };
+        const obj = {
+            usermail: props.grants.data.patient,
+            insmail: props.grants.data.email,
+            hospmail: props.grants.data.from,
+            amount: props.grants.data.money,
+        };
+        axios.post("http://localhost:8000/grants", obj, config);
+        const url = await axios.get("http://localhost:8000/");
+        console.log(url.data);
         let raw1 = JSON.stringify({
             phone: "+916381801176",
             text:
@@ -211,7 +216,7 @@ const ListGrant = (props) => {
                 ", \nYour payment invoice has been attached below.\nThank You\n\n" +
                 url.data,
         });
-        console.log(raw1)
+        console.log(raw1);
         let requestOptions1 = {
             method: "POST",
             headers: myHeaders,
