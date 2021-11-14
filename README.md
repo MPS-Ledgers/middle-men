@@ -67,7 +67,7 @@ $ npm start
 
 ## Demo Video:
 
-<a href="https://youtu.be/4zXfMUjH4DI"> 
+<a href="https://youtu.be/QO_3PE2JuaU" target="_blank"> 
 <img src="https://raw.githubusercontent.com/lokeshn011101/middle-men/main/src/images/blockchainimg%20(2).jpg" alt="Demo Video" height='200' width='400'/> </a>
 
 ## Team:
