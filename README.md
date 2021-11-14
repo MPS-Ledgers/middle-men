@@ -40,7 +40,7 @@ $ git clone https://github.com/lokeshn011101/middle-men.git
     Start a new ethereum workspace.
     Go to the ganache branch from the main branch in cloned repo 
     
-    git checkout ganache
+    $ git checkout ganache
     ```
 
 In the project directory, you can run:
@@ -64,6 +64,15 @@ $ npm start
 $ cd ..
 $ npm start
 ```
+-   Test accounts created for the application *(UserEmail - Password (Type))*
+
+```
+starhealth@middlemen.com - 123456 (Insurance)
+appolo@middlemen.com - 123456 (Hospital)
+bob@middlemen.com - 123456 (User)
+alice@middlemen.com - 123456 (User)
+```
+- The Smart Contract was deployed in the Rinkeby Test Network with address - [0xb6fB0e128EfA5305aA476dE9F12fBf467155e1be](https://rinkeby.etherscan.io/address/0xb6fB0e128EfA5305aA476dE9F12fBf467155e1be).
 
 ## Demo Video:
 
