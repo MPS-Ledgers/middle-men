@@ -34,15 +34,22 @@ In the project directory, you can run:
 $ npm i
 ```
 
-- Run the Server and see the demo at [http://localhost:3000/](http://localhost:3000/)
+- Enable backend services
 ```
+$ cd backend
+$ npm start
+```
+
+- Now, run the Server and see the demo at [http://localhost:3000/](http://localhost:3000/)
+```
+$ cd ..
 $ npm start
 ```
 
 ## Demo Video:
 
-<a href="https://www.youtube.com/watch?v=tGfVSJvoNuo"> <img src="
-https://raw.githubusercontent.com/lokeshn011101/middle-men/main/src/images/homepage.jpg" alt="Demo Video" height='250' width='400'/> </a>
+<a href="https://youtu.be/4zXfMUjH4DI"> 
+<img src="https://raw.githubusercontent.com/lokeshn011101/middle-men/main/src/images/blockchainimg%20(2).jpg" alt="Demo Video" height='200' width='400'/> </a>
 
 ## Team:
 
