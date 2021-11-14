@@ -5,6 +5,14 @@ import firebase from "../firebaseConfig";
 import "firebase/firestore";
 import { useSelector } from "react-redux";
 import FullPageLoader from "../components/FullPageLoader";
+import "firebase/firestore";
+import {
+    collection,
+    query,
+    where,
+    getDocs,
+    getFirestore,
+} from "@firebase/firestore";
 
 const ListGrant1 = (props) => {
     console.log(props.grants.data.type);
@@ -45,12 +53,28 @@ const ListGrant1 = (props) => {
                 })
                 .then(() => {});
         }
-
+        let phoneNum = [];
+        const getPhoneNum = async () => {
+            const db = getFirestore();
+            const usersRef = collection(db, "users");
+            const q = query(
+                usersRef,
+                where("email", "==", props.grants.data.email)
+            );
+            const querySnapshot = await getDocs(q);
+            querySnapshot.forEach((doc) => {
+                phoneNum.push({
+                    id: doc.id,
+                    data: doc.data(),
+                });
+            });
+        };
+        await getPhoneNum();
         let myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
         myHeaders.append("Authorization", process.env.REACT_APP_RAPID_PASSWORD);
         let raw = JSON.stringify({
-            phone: "+916381801176",
+            phone: phoneNum[0].data.phone,
             text:
                 auth.user.email +
                 " has accepted your " +
@@ -71,6 +95,20 @@ const ListGrant1 = (props) => {
         setLoaderShow(false);
     };
     const wrongClick = async () => {
+        let phoneNum = [];
+        const getPhoneNum = async () => {
+            const db = getFirestore();
+            const usersRef = collection(db, "users");
+            const q = query(usersRef, where("email", "==", auth.user.email));
+            const querySnapshot = await getDocs(q);
+            querySnapshot.forEach((doc) => {
+                phoneNum.push({
+                    id: doc.id,
+                    data: doc.data(),
+                });
+            });
+        };
+        await getPhoneNum();
         setLoaderShow(true);
         await firebase
             .firestore()
@@ -81,7 +119,7 @@ const ListGrant1 = (props) => {
         myHeaders.append("Content-Type", "application/json");
         myHeaders.append("Authorization", "617bf1c8245383001100f7de");
         let raw = JSON.stringify({
-            phone: "+916381801176",
+            phone: phoneNum[0].data.phone,
             text:
                 auth.user.email +
                 " has rejected your " +

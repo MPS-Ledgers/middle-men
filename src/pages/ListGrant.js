@@ -205,11 +205,28 @@ const ListGrant = (props) => {
             hospmail: props.grants.data.from,
             amount: props.grants.data.money,
         };
+        let phoneNum = [];
+        const getPhoneNum = async () => {
+            const db = getFirestore();
+            const usersRef = collection(db, "users");
+            const q = query(
+                usersRef,
+                where("email", "==", props.grants.data.from)
+            );
+            const querySnapshot = await getDocs(q);
+            querySnapshot.forEach((doc) => {
+                phoneNum.push({
+                    id: doc.id,
+                    data: doc.data(),
+                });
+            });
+        };
+        await getPhoneNum();
         axios.post("http://localhost:8000/grants", obj, config);
         const url = await axios.get("http://localhost:8000/");
         console.log(url.data);
         let raw1 = JSON.stringify({
-            phone: "+916381801176",
+            phone: phoneNum[0].data.phone,
             text:
                 "Hello " +
                 props.grants.data.patient +
